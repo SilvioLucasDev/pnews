@@ -16,7 +16,7 @@ Futuras funcionalidades:
 
 * Descontos - Mediante uma análise dos dados de nossos usuários conseguiremos mapear a próxima troca de pneu dos mesmos, a partir dai criaremos um "grupo" com a inteção de captar a maior quantidade de usuários interessados em adquirir pneus, depois de fechado o grupo seguiremos com o pedido para um fornecedor negociando um preço de atacado. 
 
-# 🛠 Tecnologias a serem utilizadas 
+# 🛠 Tecnologias utilizadas 
 
 * HTML
 * CSS
