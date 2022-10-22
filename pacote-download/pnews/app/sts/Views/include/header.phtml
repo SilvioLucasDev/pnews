@@ -1,0 +1,57 @@
+<?php
+
+if (!defined('URL')) {
+    header("Location: /");
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- META TAGS -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- BOOTSTRAP CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo URLASSETS ?>css/style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo URLASSETS ?>css/modal.css">
+
+    <!-- TÍTULO DO SITE -->
+    <title>PNEWS</title>
+
+    <!-- ICONE DO SITE -->
+    <link rel="icon" href="<?php echo URLASSETS ?>img/logo/logo-titulo.png">
+
+    <!-- DEFINE AS URL PADRÃO PARA O JS -->
+    <script type="text/javascript">
+        var URL = "<?php echo URL ?>";
+        var URLASSETS = "<?php echo URLASSETS ?>";
+    </script>
+</head>
+
+<body>
+    <?php
+    if (isset($_SESSION['retorno']) && !empty($_SESSION['retorno'])) {
+    ?>
+        <div id="retornoMsg" class="col-12">
+            <div class="<?php echo  $_SESSION['retorno'] == "sucesso" ? "bg-success" :  "bg-danger"; ?> text-white d-flex justify-content-center">
+                <h2><?php echo $_SESSION["msg"];
+                    unset($_SESSION["msg"]); ?></h2>
+            </div>
+        </div>
+
+        <script>
+            setTimeout(function() {
+                $("#retornoMsg").hide('slow');
+            }, 3000);
+        </script>
+    <?php
+        unset($_SESSION['retorno']);
+        unset($_SESSION['msg']);
+    }
+    ?>

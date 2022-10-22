@@ -1,0 +1,40 @@
+<?php
+
+if (!defined('URL')) {
+    header("Location: /");
+    exit();
+}
+
+session_start();
+
+echo "Página erro default";
+// exit;
+
+if (isset($_SESSION['error'])) {
+    extract($_SESSION['error'])
+?>
+
+    <?php
+    echo "
+            <p>" . $msgError . "</p>
+
+            <a href='" . URL . "" . $redirect . "'>
+                " . $nameButton . " 
+            </a>
+        ";
+    ?>
+
+    <!-- <img src="<?php echo URLASSETS ?>img/" width="180" height="130" /> -->
+
+    <p><?php echo $action ?>!</p>
+
+<?php
+    if (strtolower($sessionDestroy) == 's') {
+        session_destroy();
+    }
+
+    unset($_SESSION['error']);
+} else {
+    header("location: " . URL . "error-conroller/error/404");
+}
+?>
