@@ -1,5 +1,8 @@
 <?php
-    require './vendor/autoload.php';
+session_start();
+ob_start();
 
-    $url = new Core\ConfigController;
-    $url->loadPage();
+require './vendor/autoload.php';
+
+$url = new Core\ConfigController;
+$url->loadPage();

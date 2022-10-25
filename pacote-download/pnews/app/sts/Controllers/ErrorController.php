@@ -15,12 +15,12 @@ class ErrorController
 
             case 404:
                 $loadView = new \Core\ConfigView("sts/Views/error/error-404");
-                $loadView->renderAll();
+                $loadView->render();
                 break;
 
             default:
                 $loadView = new \Core\ConfigView("sts/Views/error/error-default");
-                $loadView->renderAll();
+                $loadView->render();
                 break;
         }
     }

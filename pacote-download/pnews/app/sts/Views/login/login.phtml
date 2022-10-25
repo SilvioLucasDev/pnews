@@ -1,25 +1,7 @@
 <main>
     <div class="container">
         <div class="row vh-100">
-
-            <?php
-            if (isset($_SESSION['retorno']) && $_SESSION['retorno'] == 'sucesso') {
-                unset($_SESSION['retorno']);
-            ?>
-                <div id="succes" class="col-12">
-                    <div class="bg-success text-white d-flex justify-content-center">
-                        <h2><?php echo $_SESSION["msg"];
-                            unset($_SESSION["msg"]); ?></h2>
-                    </div>
-                </div>
-
-                <script>
-                    setTimeout(function() {
-                        $("#succes").hide('slow');
-                    }, 3000);
-                </script>
-            <?php } ?>
-
+            
             <!-- LOGO -->
             <div class="col-5 d-none d-lg-block align-self-center">
                 <div class="row justify-content-center">
@@ -38,28 +20,10 @@
                         <div class="col-10 col-sm-8 text-center align-self-center">
                             <h2 class="mb-5"><strong>Login</strong></h2>
 
-                            <form class="mb-5" action="login/entrar" method="POST">
+                            <form class="mb-5" action="<?php echo URL ?>login-controller/validate-login" method="POST">
                                 <input class="form-control borda" id="email" type="text" name="email" placeholder="E-mail">
                                 <br>
                                 <input class="form-control borda" id="senha" type="password" name="senha" placeholder="Senha">
-
-                                <?php
-                                if (isset($_SESSION['retorno']) && $_SESSION['retorno'] == 'erro') {
-                                    unset($_SESSION['retorno']);
-                                ?>
-                                    <div id="error" class="row mt-0 mt-1">
-                                        <div class="col">
-                                            <span class="text text-danger"><?php echo $_SESSION["msg"];
-                                                                            unset($_SESSION["msg"]); ?></span>
-                                        </div>
-                                    </div>
-
-                                    <script>
-                                        setTimeout(function() {
-                                            $("#error").hide('slow');
-                                        }, 3000);
-                                    </script>
-                                <?php } ?>
 
                                 <br>
                                 <a href="#" class="link-secondary"><u>Esqueceu a senha?</u></a>
@@ -77,7 +41,7 @@
                                 </div>
                                 -->
 
-                                <button id="btnLogin" class="btn btn-outline-danger btn-lg borda mt-4" type="submit" name="login">Continuar</button>
+                                <button id="btnLogin" class="btn btn-outline-danger btn-lg borda mt-4" type="submit">Continuar</button>
                             </form>
 
                             <a href="<?php echo URL ?>register-controller/index" class="link-secondary h5"> Cadastre-se grátis</a>

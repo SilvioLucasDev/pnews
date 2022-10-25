@@ -25,12 +25,12 @@ class StsRegister
             "SELECT email, cpf 
              FROM usuarios 
              WHERE cpf = :cpf OR email = :email",
-            "cpf={{$this->data['cpf']}email={$this->data['email']}"
+            "cpf={$this->data['cpf']}&email={$this->data['email']}"
         );
 
-        $result = $pdoSelect->getResult()[0];
+        $this->data['result'] = $pdoSelect->getResult();
 
-        if (count($result) == 0) {
+        if (count($this->data['result']) == 0) {
 
             $this->data['insert'] = [
                 "nome" => $this->data['nome'],
@@ -38,7 +38,7 @@ class StsRegister
                 "dt_nascimento" => $this->data['dt_nascimento'],
                 "telefone" => $this->data['telefone'],
                 "email" => $this->data['email'], //TRATAR E-MAIL COM A UTILS
-                "senha" => $this->data['senha'],
+                "senha" => password_hash($this->data['senha'], PASSWORD_DEFAULT),
                 "rua" => $this->data['rua'],
                 "numero" => $this->data['numero'],
                 "bairro" => $this->data['bairro'],
@@ -53,7 +53,7 @@ class StsRegister
             $pdoCreate = new \Helper\Create();
             $pdoCreate->exeCreate("usuarios", $this->data['insert']);
 
-            if (isset($pdoCreate->getResult())) {
+            if ($pdoCreate->getResult() != NULL) {
                 $_SESSION["retorno"] =  "sucesso";
                 $_SESSION["msg"] = "Cadastro realizado com sucesso!";
                 return true;
@@ -63,6 +63,7 @@ class StsRegister
                 return false;
             }
         } else {
+
             $_SESSION["retorno"] =  "erro";
             $_SESSION["msg"] = "E-mail e/ou CPF já cadastrado no sistema!";
             return false;

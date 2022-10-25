@@ -1,24 +1,7 @@
 <main>
     <div class="container">
         <div class="row vh-100">
-
-            <?php if (isset($_SESSION['retorno']) && $_SESSION['retorno'] == 'erro') {
-                unset($_SESSION['retorno']);
-            ?>
-                <div id="succes" class="col-12">
-                    <div class="bg-danger text-white d-flex justify-content-center">
-                        <h2><?php echo $_SESSION["msg"];
-                            unset($_SESSION["msg"]); ?></h2>
-                    </div>
-                </div>
-
-                <script>
-                    setTimeout(function() {
-                        $("#succes").hide('slow');
-                    }, 3000);
-                </script>
-            <?php } ?>
-
+            
             <!-- LOGO -->
             <div class="col-5 d-none d-lg-block align-self-center">
                 <div class="row justify-content-center">
@@ -41,7 +24,7 @@
                     <div class="row justify-content-center">
                         <div class="col-10 col-sm-8 text-center align-self-center">
 
-                            <form class="mb-5" action="../controller/userController.php" method="POST">
+                            <form class="mb-5" action="<?php echo URL ?>register-controller/register-user" method="POST">
                                 <input class="form-control my-2 borda" type="text" id="nome" name="nome" placeholder="Nome" maxlength="100">
 
                                 <div class="row my-2">
@@ -108,7 +91,7 @@
 
                                 <!-- <input class="form-control my-2 borda" type="text" id="tp_medio_troca" name="tp_medio_troca" placeholder="Tempo médio de troca" > -->
 
-                                <button id="btnResgistro" class="btn btn-outline-danger btn-lg mt-4 borda" type="submit" name="cadastro">Continuar</button>
+                                <button id="btnResgistro" class="btn btn-outline-danger btn-lg mt-4 borda" type="submit">Continuar</button>
                             </form>
                         </div>
                     </div>

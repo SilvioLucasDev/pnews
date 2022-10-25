@@ -32,7 +32,7 @@ class Read extends Conn
 
     // SELECT ALL (*)
     // EX: pdoSelect->exeRead("usuario", "WHERE id=:id LIMIT:limit", "id=1&limit=1");
-    public function exeRead($table, $terms = null, $parseString = null)
+    public function exeRead($table, $terms = NULL, $parseString = NULL)
     {
         if (!empty($parseString)) {
             parse_str($parseString, $this->values);
@@ -45,7 +45,7 @@ class Read extends Conn
 
     // SELECT ESPECÍFICO, CONSIGO DEFINIR OS CAMPOS
     // EX: pdoSelect->exeRead("SELECT id, nome FROM usuario WHERE id=:id LIMIT:limit", "id=1&limit=1");
-    public function fullRead($query, $parseString = null)
+    public function fullRead($query, $parseString = NULL)
     {
         $this->query = (string) $query;
 
@@ -76,7 +76,7 @@ class Read extends Conn
                 $response["message"] = $affected_rows . " row(s) updated into database. No row updated";
             }
         } catch (PDOException  $err) {
-            $this->result = null;
+            $this->result = NULL;
 
             $response["status"] = "error";
             $response["message"] = "Update table failed: " . $err->getMessage();
@@ -96,7 +96,7 @@ class Read extends Conn
     // PARSE STRING (BIND VALUE) PARA EVITAR SQL INJECTION
     private function exeParameter()
     {
-        if ($this->values) {
+        if (isset($this->values)) {
             foreach ($this->values as $key => $value) {
                 if ($key == 'limit' || $key == 'offset' || $key == 'id') {
                     $value = (int) $value;

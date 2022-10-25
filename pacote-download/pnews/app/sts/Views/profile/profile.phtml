@@ -2,7 +2,7 @@
     <div class="container h-100 px-0">
 
         <?php
-        extract($_SESSION["usuario"]);
+        extract($this->data['profile']);
         ?>
 
         <div class="row m-0 py-3 border-bottom ">
@@ -64,7 +64,7 @@
 
                     <div class="row justify-content-and">
                         <div class="col-12 text-center align-self-center">
-                            <form id="alteraSenha" style="margin: 10px 20px 10px 20px;" action="../controller/userController.php" method="POST">
+                            <form id="alteraSenha" style="margin: 10px 20px 10px 20px;" action="<?php echo URL ?>password-controller/index" method="POST">
 
                                 <input class="form-control my-2 borda" type="password" name="senha" id="senha" placeholder="Senha Atual" required>
 

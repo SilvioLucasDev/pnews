@@ -13,7 +13,19 @@ class MapsController
 
     public function index()
     {
-        $loadView = new \Core\ConfigView("sts/Views/maps/maps");
+        $sendApp = new \Sts\Models\StsMaps();
+        $this->data['maps'] = $sendApp->getBorracharias();
+
+        $loadView = new \Core\ConfigView("sts/Views/maps/maps", $this->data);
         $loadView->renderAll();
+    }
+
+    public function resgisterBorracharia()
+    {
+        $this->data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        $sendApp = new \Sts\Models\StsMaps($this->data);
+        $this->data['maps'] = $sendApp->resgisterBorracharia();
+
+        $this->index();
     }
 }

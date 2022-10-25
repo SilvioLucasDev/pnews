@@ -28,15 +28,27 @@ class StsLogin
             "email={$this->data['email']}"
         );
 
-        extract($pdoSelect->getResult()[0]);
+        $this->data['result'] = $pdoSelect->getResult();
 
-        if(password_verify($this->data['senha'], $senha)){
-            $_SESSION['id_usuario'] = $id;
-            return true;
+        if (isset($this->data['result']) and !empty($this->data['result'])) {
+
+            extract($pdoSelect->getResult()[0]);
+
+            if (password_verify($this->data['senha'], $senha)) {
+
+                $_SESSION['id_usuario'] = $id;
+                return true;
+
+            } else {
+                $_SESSION["retorno"] =  "erro";
+                $_SESSION["msg"] = "E-mail e/ou Senha inválido";
+                return false;
+            }
         } else {
+
             $_SESSION["retorno"] =  "erro";
-            $_SESSION["msg"] = "*E-mail e/ou senha inválido(s)"; 
+            $_SESSION["msg"] = "E-mail e/ou Senha inválido";
             return false;
-        } 
+        }
     }
 }

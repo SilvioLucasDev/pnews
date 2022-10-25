@@ -29,4 +29,12 @@ class LoginController
             $this->index();
         }
     }
+
+    public function logout()
+    {
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
+        $this->index();
+    }
 }
