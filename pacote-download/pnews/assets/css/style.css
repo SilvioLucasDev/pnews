@@ -86,6 +86,15 @@ body {
 	color: #db4a39;
 }
 
+/*Customização para as etapas do formulário de cadastro*/
+#stage-1 {
+	display: block;
+}
+
+#stage-2 {
+	display: none;
+}
+
 
 
 /*****************************************************************************************************

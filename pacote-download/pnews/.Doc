@@ -154,3 +154,10 @@ private function log($logData)
     var_dump($log->createLog());
 } 
 -->
+
+
+
+
+<!-- ANOTAÇÕES:
+
+alterar o campo de mes_ultima_troca_pneu -> ultima_troca_pneu -->

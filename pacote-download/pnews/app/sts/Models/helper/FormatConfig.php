@@ -9,6 +9,7 @@ if (!defined('URL')) {
 
 class FormatConfig
 {
+    // REMOVE CARACTERES ESPECIAIS E ACENTOS DA URL
     protected function clearUrl($url)
     {
         $url = strip_tags($url); // REMOVE TAGS HTML EX: <a></a>
@@ -20,6 +21,7 @@ class FormatConfig
         return $url = strtr(utf8_decode($url), utf8_decode($search[0]), $replace[0]);
     }
 
+    // FORMATA CONTROLLER
     protected function formatController($controller)
     {                                                            //"error-controler";
         $controller = str_replace("-", " ", $controller);        //"error controler"
@@ -27,6 +29,7 @@ class FormatConfig
         return $controller = str_replace(" ", "", $controller);  //"ErrorController"
     }
 
+    // FORMATA MÉTODO
     protected function formatMethod($method)
     {                                             //"error-controler";
         $method = str_replace("-", " ", $method); //"error controler"
@@ -35,15 +38,24 @@ class FormatConfig
         return $method = lcfirst($method);        //"errorController"
     }
 
-    public function formatView($url)
-    {                                                   // "sts/Views/error/error-404"
-        $url = explode("/", $url);                      // [0] => sts [1] => Views [2] => error [3] => error-404
-        $lastValue = str_replace("-", " ", end($url));  // error 404
-        $lastKey = key($url);                           // 3
-        $lastValue = ucwords($lastValue);               // Error 404
-        $lastValue = str_replace(" ", "", $lastValue);  // Error404
-        $lastValue = lcfirst($lastValue);               // error404
-        $url[$lastKey] = $lastValue;                    // [0] => sts [1] => Views [2] => error [3] => error404               
-        return $url = implode("/", $url);               // "sts/Views/error/error404"
+    // FORMATA PASTA E ARQUIVO DA VIEW
+    protected function formatView($url)
+    {                                                       // "sts/Views/cad-file/cad-user"
+        $url = explode("/", $url);                          // [0] => sts [1] => Views [2] => cad-file [3] => cad-user
+        $lastValue = str_replace("-", " ", end($url));      // cad user
+        $lastKey = key($url);                               // 3
+        $lastValue = ucwords($lastValue);                   // Cad User
+        $lastValue = str_replace(" ", "", $lastValue);      // CadUser
+        $lastValue = lcfirst($lastValue);                   // cadUser
+        $url[$lastKey] = $lastValue;                        // [0] => sts [1] => Views [2] => cad-file [3] => cadUser 
+
+        $penultValue = str_replace("-", " ", prev($url));   // cad file
+        $penultKey = key($url);                             // 2
+        $penultValue = ucwords($penultValue);               // Cad File
+        $penultValue = str_replace(" ", "", $penultValue);  // CadFile
+        $penultValue = lcfirst($penultValue);               // cadFile
+        $url[$penultKey] = $penultValue;                    // [0] => sts [1] => Views [2] => cadFile [3] => cadUser 
+
+        return $url = implode("/", $url);                   // "sts/Views/cadFile/cadUser"
     }
 }
