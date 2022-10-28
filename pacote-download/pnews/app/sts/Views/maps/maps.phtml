@@ -35,7 +35,7 @@
 
                     <div class="row justify-content-and">
                         <div class="col-12 text-center align-self-center">
-                            <form id="cadBorracharia" style="margin: 10px 20px 10px 20px;" action="<?php echo URL ?>maps-controller/resgister-borracharia" method="POST">
+                            <form id="cadBorracharia" style="margin: 10px 20px 10px 20px;" action="<?php //echo URL ?>maps-controller/resgister-borracharia" method="POST">
 
                                 <input class="form-control my-2 borda" type="text" name="nome" id="nome" placeholder="Nome da borracharia" required>
 
@@ -64,11 +64,44 @@
 <!-- FIM MODAL -->
 
 <script>
-    // LOCALIZAÇÃO PADRÃO SE CASO O USUÁRIO NÃO PERMITIR USAR SUAS COORDENADAS
-    var lat = -23.551260514373695
-    var lng = -46.63441780394384
+    window.onload = () => {
+        getBorracharia();
+    }
 
-    function initMap(position = null) {
+    async function getBorracharia() {
+        const response = await fetch('<?php echo URL ?>maps-controller/get-borracharias', {
+            method: 'POST',
+            Headers: {
+                'Content-type': 'application/json: charset-utf-8',
+            }
+        });
+
+        json = await response.json();
+
+        if (json.cod === 0) {
+            
+            borracharia = json.res;
+            initMap(borracharia);
+
+        } else {
+            const retornoMsg = document.querySelector('.retornoMsg');
+            retornoMsg.classList.add('retornoError');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+            }, 5000);
+
+            initMap(borracharia);
+        }
+    }
+    
+    // LOCALIZAÇÃO PADRÃO SE CASO O USUÁRIO NÃO PERMITIR USAR SUAS COORDENADAS
+    var lat = -23.551260514373695;
+    var lng = -46.63441780394384;
+
+    function initMap() {
 
         // DEFINE CUSTOMIZAÇÕES INICIAIS E INSTÃNCIA O MAPA
         const map = new google.maps.Map(document.getElementById("map"), {
@@ -95,26 +128,26 @@
         });
 
         // PEGA AS COORDENADAS DO USUÁRIO
-        navigator.geolocation.watchPosition(success, error)
+        navigator.geolocation.watchPosition(success, error);
 
         // EXIBE OS ERROS CASO A API NÃO CONSEGUIR PEGAR AS COORDENADAS DO USUÁRIO
         function error(error) {
 
             switch (error.code) {
                 case error.PERMISSION_DENIED:
-                    console.log("Usuário rejeitou a solicitação de Geolocalização.")
+                    console.log("Usuário rejeitou a solicitação de Geolocalização.");
                     break;
 
                 case error.POSITION_UNAVAILABLE:
-                    console.log("Localização indisponível.")
+                    console.log("Localização indisponível.");
                     break;
 
                 case error.TIMEOUT:
-                    console.log("O tempo da requisição expirou.")
+                    console.log("O tempo da requisição expirou.");
                     break;
 
                 case error.UNKNOWN_ERROR:
-                    console.log("Algum erro desconhecido aconteceu.")
+                    console.log("Algum erro desconhecido aconteceu.");
                     break;
             }
         }
@@ -124,53 +157,48 @@
             marker.setPosition({
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
-            })
+            });
 
             map.setCenter({
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
-            })
+            });
         }
 
-        // ABRE MODAL PARA ADICIONAR NOVA BORRACHARIA
-        google.maps.event.addListener(map, 'click',
-            function(event) {
-                const inputCoords = document.getElementById("inputCoords");
-                inputCoords.value = event.latLng;
-                document.getElementById("showModal").click();
-            })
+        console.log(borracharia)
 
         // CRIA MARCADORES ALEATÓRIOS DE FORMA DINÂMICA (REMOVER ESSE LOOP PHP E FAZER EM JS)
-        <?php foreach ($this->data['maps'] as $index) {
-            extract($index);
+        <?php // foreach ($this->data['maps'] as $index) {
+            //extract($index);
         ?>
-            var markers = [{
-                coords: <?php echo $coordenadas ?>,
-                content: '<div dir="ltr" style="" jstcache="0">' +
-                    '<div jstcache="34" class="poi-info-window gm-style">' +
+        //     var markers = [{
+        //         coords: <?php //echo $coordenadas ?>,
+        //         content: '<div dir="ltr" style="" jstcache="0">' +
+        //             '<div jstcache="34" class="poi-info-window gm-style">' +
 
-                    '<div jstcache="2">' +
-                    '<div jstcache="3" class="title full-width" jsan="7.title,7.full-width">' + '<?php echo $nome ?>' + '</div>' +
+        //             '<div jstcache="2">' +
+        //             '<div jstcache="3" class="title full-width" jsan="7.title,7.full-width">' + '<?php //echo $nome ?>' + '</div>' +
 
-                    '<div class="address">' +
-                    '<div jstcache="4" jsinstance="0" class="address-line full-width" jsan="7.address-line,7.full-width">' + '<?php echo 'R: ' . $rua . ', ' . $numero . ' - ' . $complemento . ' ' . $bairro ?>' + '</div>' +
-                    '<div jstcache="4" jsinstance="1" class="address-line full-width" jsan="7.address-line,7.full-width">' + '<?php echo $cidade . ' - ' . $estado ?>' + '</div>' +
-                    '<div jstcache="4" jsinstance="2" class="address-line full-width" jsan="7.address-line,7.full-width">' + '<?php echo $cep ?>' + '</div>' +
-                    '</div>' +
-                    '</div>' +
+        //             '<div class="address">' +
+        //             '<div jstcache="4" jsinstance="0" class="address-line full-width" jsan="7.address-line,7.full-width">' + '<?php //echo 'R: ' . $rua . ', ' . $numero . ' - ' . $complemento . ' ' . $bairro ?>' + '</div>' +
+        //             '<div jstcache="4" jsinstance="1" class="address-line full-width" jsan="7.address-line,7.full-width">' + '<?php //echo $cidade . ' - ' . $estado ?>' + '</div>' +
+        //             '<div jstcache="4" jsinstance="2" class="address-line full-width" jsan="7.address-line,7.full-width">' + '<?php //echo $cep ?>' + '</div>' +
+        //             '</div>' +
+        //             '</div>' +
 
-                    '<div jstcache="5" style="display:none"></div>' +
+        //             '<div jstcache="5" style="display:none"></div>' +
 
-                    '<div>' +
-                    '<a jstcache="6" href="tel:+55' + '<?php echo $telefone ?>' + '" tabindex="0"><span>Ligar para: +55' + '<?php echo $telefone ?>' + '</span></a>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
-            }, ];
+        //             '<div>' +
+        //             '<a jstcache="6" href="tel:+55' + '<?php //echo $telefone ?>' + '" tabindex="0"><span>Ligar para: +55' + '<?php //echo $telefone ?>' + '</span></a>' +
+        //             '</div>' +
+        //             '</div>' +
+        //             '</div>'
+        //     }, ];
 
-            addMarker(markers[0]);
-        <?php } ?>
+        //     addMarker(markers[0]);
+        // <?php // } ?>
 
+        // CRIA OS MARCADORES NO MAPA
         function addMarker(data) {
             var markerBd = new google.maps.Marker({
                 position: data.coords,
@@ -188,7 +216,14 @@
                 });
             }
         }
+
+        // ABRE MODAL PARA ADICIONAR NOVA BORRACHARIA
+        google.maps.event.addListener(map, 'click', function(event) {
+            const inputCoords = document.getElementById("inputCoords");
+            inputCoords.value = event.latLng;
+            document.getElementById("showModal").click();
+        });
     }
 </script>
 
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9IWlEU_CZQqtyGqSr-lvN25n43fW6f2g&callback=initMap"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9IWlEU_CZQqtyGqSr-lvN25n43fW6f2g"></script>

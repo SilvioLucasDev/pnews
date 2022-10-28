@@ -41,23 +41,4 @@ if (!defined('URL')) {
 </head>
 
 <body>
-    <?php
-    if (isset($_SESSION['retorno']) && !empty($_SESSION['retorno'])) {
-    ?>
-        <div id="retornoMsg" class="col-12">
-            <div class="<?php echo  $_SESSION['retorno'] == "sucesso" ? "bg-success" :  "bg-danger"; ?> text-white d-flex justify-content-center">
-                <h2><?php echo $_SESSION["msg"];
-                    unset($_SESSION["msg"]); ?></h2>
-            </div>
-        </div>
-
-        <script>
-            setTimeout(function() {
-                $("#retornoMsg").hide('slow');
-            }, 3000);
-        </script>
-    <?php
-        unset($_SESSION['retorno']);
-        unset($_SESSION['msg']);
-    }
-    ?>
+<div class="retornoMsg"></div>

@@ -15,8 +15,6 @@ class PasswordController
     {
         $this->data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         $sendApp = new \Sts\Models\StsPassword($this->data);
-        $this->data['password'] = $sendApp->alterPassword();
-
-        header("location: " . URL . "profile-controller/index");
+        $sendApp->alterPassword();
     }
 }

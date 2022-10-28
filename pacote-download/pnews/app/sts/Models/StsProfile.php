@@ -17,26 +17,44 @@ class StsProfile
     }
 
     // *********************************************************************************
-    // ***** FUNÇÃO PARA SELECIONAR DADOS DO USUÁRIO *****
-    public function listProfile()
+    // ***** SELECT TODOS DADOS DO USUÁRIO *****
+    public function getProfile()
     {
         $pdoSelect = new \Helper\Read();
         $pdoSelect->fullRead(
-            "SELECT nome, cpf, dt_nascimento, telefone, email, senha, rua, numero, bairro, cidade, estado, modelo_moto, pneu_utilizado, modelo_pneu, tp_medio_troca
-             FROM usuarios 
-             WHERE id = :id",
+            "SELECT usuario.nome, usuario.sobrenome, usuario.cpf, usuario.dt_nascimento, usuario.email,
+                    telefone.telefone,
+                    endereco.cep, endereco.cidade, endereco.estado, endereco.bairro, endereco.rua, endereco.numero, endereco.complemento,
+                    veiculo.apelido_veiculo, veiculo.fabricante_veiculo, veiculo.modelo_veiculo, veiculo.ano_veiculo, veiculo.fabricante_pneu,
+                    veiculo.modelo_pneu, veiculo.ultima_troca_pneu, veiculo.tempo_medio_troca_pneu
+             FROM sts_usuario AS usuario 
+             LEFT JOIN sts_telefone_usuario AS telefone ON telefone.fk_telefone_usuario = usuario.id_usuario 
+             LEFT JOIN sts_endereco_usuario AS endereco ON endereco.fk_endereco_usuario = usuario.id_usuario 
+             LEFT JOIN sts_veiculo_usuario AS veiculo ON veiculo.fk_veiculo_usuario = usuario.id_usuario 
+             WHERE usuario.id_usuario = :id",
             "id={$_SESSION['id_usuario']}"
         );
 
         $this->data['result'] = $pdoSelect->getResult();
 
-        if (isset($this->data['result']) AND !empty($this->data['result'])) {
-            return $this->data['result'][0];
-            
+        if (isset($this->data['result']) and !empty($this->data['result'])) {
+
+            $return = array(
+                "cod" => 0,
+                "msg" => 'Pesquisa realizada com sucesso!',
+                "res" => $this->data['result'][0]
+            );
+
+            echo json_encode($return, JSON_UNESCAPED_UNICODE);
+            exit;
         } else {
-            $_SESSION["retorno"] =  "erro";
-            $_SESSION["msg"] = "Ocorreu um erro inesperado, se o erro persistir entre em contato com nosso atendimento.";
-            return false;
+            $return = array(
+                "cod" => 300,
+                "msg" => 'Erro S300: Falha ao carregar dados. Se o erro persistir entre em contato com nosso atendimento.',
+            );
+
+            echo json_encode($return, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 }

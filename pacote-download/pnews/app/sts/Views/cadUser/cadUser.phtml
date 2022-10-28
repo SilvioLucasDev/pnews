@@ -37,7 +37,7 @@
                                             <input class="form-control borda input-mask-cpf" type="text" id="cpf" name="cpf" placeholder="CPF" maxlength="14" minlength="14">
                                         </div>
 
-                                        <div class="mt-2 mt-md-0 col-md-4 col-lg-5 col-xl-4">
+                                        <div class="mt-2 mt-md-0 col-md-4 col-lg-5 col-xl-4 dt_nascimento">
                                             <input class="form-control borda input-mask-date" type="text" id="dt_nascimento" name="dt_nascimento" placeholder="Nascimento" maxlength="10" minlength="10">
                                         </div>
                                     </div>
@@ -50,25 +50,29 @@
 
                                     <input class="form-control my-2 borda input-mask-cep" type="text" id="cep" name="cep" placeholder="CEP" onblur="pesquisacep(this.value);" maxlength="9" minlength="9">
 
+                                    <input class="form-control my-2 borda" type="text" id="rua" name="rua" placeholder="Rua">
+
+                                    <div class="row my-2">
+                                        <div class="col-md-6">
+                                            <input class="form-control borda" type="text" id="bairro" name="bairro" placeholder="Bairro">
+                                        </div>
+
+                                        <div class="mt-2 mt-md-0 col-md-3 numero">
+                                            <input class="form-control borda" type="text" id="numero" name="numero" placeholder="Nº">
+                                        </div>
+
+                                        <div class="mt-2 mt-md-0 col-md-3 complemento">
+                                            <input class="form-control borda" type="text" id="complemento" name="complemento" placeholder="Comp.">
+                                        </div>
+                                    </div>
+
                                     <div class="row my-2">
                                         <div class="col-md-7">
                                             <input class="form-control borda" type="text" id="cidade" name="cidade" placeholder="Cidade">
                                         </div>
 
-                                        <div class="mt-2 mt-md-0 col-md-5">
+                                        <div class="mt-2 mt-md-0 col-md-5 estado">
                                             <input class="form-control borda" type="text" id="estado" name="estado" placeholder="Estado">
-                                        </div>
-                                    </div>
-
-                                    <input class="form-control my-2 borda" type="text" id="bairro" name="bairro" placeholder="Bairro">
-
-                                    <div class="row my-2">
-                                        <div class="col-md-9">
-                                            <input class="form-control borda" type="text" id="rua" name="rua" placeholder="Rua">
-                                        </div>
-
-                                        <div class="mt-2 mt-md-0 col-md-3">
-                                            <input class="form-control borda" type="text" id="numero" name="numero" placeholder="Nº">
                                         </div>
                                     </div>
 
@@ -112,7 +116,7 @@
 
                                     <button id="btn-prev" class="btn btn-outline-danger btn-lg mt-4 borda" type="button">Voltar</button>
 
-                                    <button id="btn-send" class="btn btn-outline-danger btn-lg mt-4 borda" type="submit">Cadastrar</button>
+                                    <button id="btn-send-cad" class="btn btn-outline-danger btn-lg mt-4 borda" type="submit">Cadastrar</button>
                                 </div>
                                 <!-- FIM ETAPA 2 -->
 
@@ -131,39 +135,24 @@
     const stage2 = document.getElementById('stage-2');
 
     // FUNCTION PARA PASSSAR PARA A PRÓXIMA ETAPA
-    document.getElementById('btn-next').onclick = function(event) {
+    document.getElementById('btn-next').onclick = function(e) {
         document.querySelector('.stage-text').innerHTML = "Insira os dados do seu veículo para finalizar o cadastro";
         stage1.style.display = "none"; // ESCONDER ETAPA 1
         stage2.style.display = "block"; // MOSTRAR ETAPA 2
-
-        valFirstStage()
     };
 
-    function valFirstStage(){
-        // validar se os campos foram preenchidos
-        // se foram preenchidos corretamente
-    }
-
-
     // FUNCTION PARA RETORNAR A ETAPA ANTERIOR
-    document.getElementById('btn-prev').onclick = function(event) {
+    document.getElementById('btn-prev').onclick = function(e) {
         document.querySelector('.stage-text').innerHTML = "Insira os seus dados para continuar o cadastro";
         stage1.style.display = "block"; // ESCONDER ETAPA 2
         stage2.style.display = "none"; // MOSTRAR ETAPA 1
     };
 
-    function valSecondStage(){
-        // validar se os campos foram preenchidos
-        // se foram preenchidos corretamente
-    }
-
     // FUNCTION PARA ENVIAR O FORMULÁRIO
-    document.getElementById('btn-send').onclick = function(event) {
-        event.preventDefault();
-        valSecondStage();
+    document.getElementById('btn-send-cad').onclick = function(e) {
+        e.preventDefault();
         cadUser();
     };
-
     async function cadUser() {
         const form = new FormData(document.getElementById('form-cad-user'));
 
@@ -177,20 +166,29 @@
 
         json = await response.json();
 
-        console.log(json);
+        if (json.cod === 0) {
+            const retornoMsg = document.querySelector('.retornoMsg');
+            retornoMsg.classList.add('retornoSuccess');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
 
-        // if (json.error === 0) {
-        //     const dados = response.msg;
-        //     createTableChamados(dados);
-        // }
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+                retornoMsg.classList.remove('retornoSuccess');
+                window.location.assign(URL + "home-Controller/index");
+            }, 2000);
 
-        // if (response.data.error === 100) {
-        //     createTableChamados([]);
-        // }
+        } else {
+            const retornoMsg = document.querySelector('.retornoMsg');
+            retornoMsg.classList.add('retornoError');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
 
-        // VALIDAR ERRO DE CPF, EMAIL, SENHA, CAMPOS PREENCHIDOS
-        // ERRO DE SISTEMA (TENTAR NOVAMENTE)
-        // COLOCAR API VIA CEP
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+                retornoMsg.classList.remove('retornoError');
+            }, 3000);
+        }
     }
 
     // INÍCIO FUNCTION VIA CEP

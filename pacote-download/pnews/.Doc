@@ -158,6 +158,65 @@ private function log($logData)
 
 
 
-<!-- ANOTAÇÕES:
+ANOTAÇÕES:
 
-alterar o campo de mes_ultima_troca_pneu -> ultima_troca_pneu -->
+BANDO DE DADOS:
+alterar o campo de mes_ultima_troca_pneu -> ultima_troca_pneu
+
+Views cadUser:
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS CORRETAMENTE
+
+Model StsCadUser:
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS CORRETAMENTE
+
+
+Views login:
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS CORRETAMENTE
+
+Model StsLogin:
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS CORRETAMENTE
+
+MAPS
+CORRIGIR RETORNO DA Geolocalização
+
+
+
+
+
+
+DOCUMENTAÇÃO DE ERROS:
+
+(configView.php)
+Erro C200: Falha ao carregar a Página
+
+(Conn.php)
+Erro C100: Por favor tente novamente. Caso o problema persista entre em contato com o nosso atendimento.
+
+
+(StsCadUser.php)
+Erro S100: E-mail e ou CPF já cadastrado no sistema.
+Erro S110: Problemas com insert na tabela sts_usuario.
+Erro S120: Problemas com insert na tabela sts_telefone_usuario.
+Erro S130: Problemas com insert na tabela sts_endereco_usuario.
+Erro S140: Problemas com insert na tabela sts_veiculo_usuario.
+
+(StsLogin.php)
+Erro S200: Senha inválida.
+Erro S210: E-mail inválido.
+
+(StsProfile.php)
+Erro S300: Erro ao carregar dados do perfil do usuário.
+
+(StsPassword.php)
+Erro S400: Problemas com update na tabela sts_usuario.
+Erro S410: Senha digitada não confere com a senha atual.
+Erro S420: Senha atual digitada está incorreta
+Erro S430: A nova senha e a confirmação não confere
+Erro S440: Problemas com select na tabela sts_usuario.
+
+(StsMaps.php)
+Erro S500: Problemas com select na tabela sts_borracharia.

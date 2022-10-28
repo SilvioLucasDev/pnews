@@ -22,33 +22,47 @@ class StsLogin
     {
         $pdoSelect = new \Helper\Read();
         $pdoSelect->fullRead(
-            "SELECT id, senha 
-             FROM usuarios 
+            "SELECT id_usuario, senha 
+             FROM sts_usuario 
              WHERE email = :email",
             "email={$this->data['email']}"
         );
 
         $this->data['result'] = $pdoSelect->getResult();
 
-        if (isset($this->data['result']) and !empty($this->data['result'])) {
+        if (isset($this->data['result'][0]) and !empty($this->data['result'][0])) {
 
             extract($pdoSelect->getResult()[0]);
 
             if (password_verify($this->data['senha'], $senha)) {
+                $_SESSION['id_usuario'] = $id_usuario;
 
-                $_SESSION['id_usuario'] = $id;
-                return true;
+                $return = array(
+                    "cod" => 0,
+                    "msg" => 'Login realizado com sucesso!',
+                );
+    
+                echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                exit;
 
             } else {
-                $_SESSION["retorno"] =  "erro";
-                $_SESSION["msg"] = "E-mail e/ou Senha inválido";
-                return false;
+                $return = array(
+                    "cod" => 200,
+                    "msg" => 'Erro S300: E-mail e ou Senha inválido!',
+                );
+    
+                echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                exit;
             }
-        } else {
 
-            $_SESSION["retorno"] =  "erro";
-            $_SESSION["msg"] = "E-mail e/ou Senha inválido";
-            return false;
+        } else {
+            $return = array(
+                "cod" => 210,
+                "msg" => 'Erro S210: E-mail e ou Senha inválido!',
+            );
+
+            echo json_encode($return, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 }

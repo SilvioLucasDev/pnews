@@ -22,26 +22,42 @@ class StsMaps
     {
         $pdoSelect = new \Helper\Read();
         $pdoSelect->fullRead(
-            "SELECT nome, cnpj, telefone, email, coordenadas, cep, rua, numero, bairro, cidade, estado, complemento 
-             FROM borracharias 
-             WHERE statusAprov = :statusAprov",
-            "statusAprov=2"
+            "SELECT borracharia.nome, borracharia.cnpj, borracharia.email,
+                    telefone.telefone,
+                    endereco.coordenadas, endereco.cep, endereco.cidade, endereco.estado, endereco.bairro, endereco.rua, endereco.numero, endereco.complemento
+            FROM sts_borracharia AS borracharia 
+            LEFT JOIN sts_telefone_borracharia AS telefone ON telefone.fk_telefone_borracharia = borracharia.id_borracharia 
+            LEFT JOIN sts_endereco_borracharia AS endereco ON endereco.fk_endereco_borracharia = borracharia.id_borracharia
+            WHERE fk_borracharia_status = :status",
+            "status=2"
         );
 
         $this->data['result'] = $pdoSelect->getResult();
 
         if (isset($this->data['result']) and !empty($this->data['result'])) {
-            return $this->data['result'];
+
+            $return = array(
+                "cod" => 0,
+                "msg" => 'Pesquisa realizada com sucesso!',
+                "res" => $this->data['result']
+            );
+
+            echo json_encode($return, JSON_UNESCAPED_UNICODE);
+            exit;
         } else {
-            $_SESSION["retorno"] =  "erro";
-            $_SESSION["msg"] = "Ocorreu um erro inesperado, se o erro persistir entre em contato com nosso atendimento.";
-            return false;
+            $return = array(
+                "cod" => 500,
+                "msg" => 'Erro S500: Falha ao carregar borracharias. Se o erro persistir entre em contato com nosso atendimento.',
+            );
+
+            echo json_encode($return, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 
     // *********************************************************************************
     // ***** FUNÇÃO PARA CADASTRAR BORRACHARIA *****
-    public function resgisterBorracharia()
+    public function cadBorracharia()
     {
         $this->data['insert'] = [
             "nome" => $this->data['nome'],

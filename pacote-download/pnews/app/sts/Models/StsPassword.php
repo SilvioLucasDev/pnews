@@ -23,57 +23,89 @@ class StsPassword
         $pdoSelect = new \Helper\Read();
         $pdoSelect->fullRead(
             "SELECT senha
-             FROM usuarios 
-             WHERE id = :id",
+             FROM sts_usuario 
+             WHERE id_usuario = :id",
             "id={$_SESSION['id_usuario']}"
         );
 
         $this->data['result'] = $pdoSelect->getResult();
 
         if (isset($this->data['result']) and !empty($this->data['result'])) {
+            extract($pdoSelect->getResult()[0]);
 
             if ($this->data['senha2'] == $this->data['senha3']) {
-                extract($pdoSelect->getResult()[0]);
 
                 if (password_verify($this->data['senha'], $senha)) {
-                    $this->data['update'] = [
-                        "senha" => password_hash($this->data['senha2'], PASSWORD_DEFAULT),
-                    ];
 
-                    $pdoUpdate = new \Helper\Update();
-                    $pdoUpdate->exeUpdate(
-                        "usuarios",
-                        $this->data['update'],
-                        "WHERE id=:id",
-                        "id={$_SESSION['id_usuario']}"
-                    );
+                    if (!password_verify($this->data['senha'], $this->data['senha2'])) {
+                        $this->data['update'] = [
+                            "senha" => password_hash($this->data['senha2'], PASSWORD_DEFAULT),
+                        ];
 
-                    $this->data['result'] = $pdoUpdate->getResult();
+                        $pdoUpdate = new \Helper\Update();
+                        $pdoUpdate->exeUpdate(
+                            "sts_usuario",
+                            $this->data['update'],
+                            "WHERE id_usuario = :id",
+                            "id={$_SESSION['id_usuario']}"
+                        );
 
-                    if ($this->data['result']) {
-                        $_SESSION["retorno"] =  "sucesso";
-                        $_SESSION["msg"] = "Senha alterada com sucesso!";
-                        return true;
+                        $this->data['result'] = $pdoUpdate->getResult();
+
+                        if ($this->data['result']) {
+
+                            $return = array(
+                                "cod" => 0,
+                                "msg" => 'Senha alterada com sucesso!'
+                            );
+
+                            echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                            exit;
+                        } else {
+
+                            $return = array(
+                                "cod" => 400,
+                                "msg" => 'Erro S400: Falha ao alterar a senha. Se o erro persistir entre em contato com nosso atendimento.',
+                            );
+
+                            echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                            exit;
+                        }
                     } else {
-                        $_SESSION["retorno"] =  "erro";
-                        $_SESSION["msg"] = "Erro ao alterar a senha!";
-                        return false;
+                        $return = array(
+                            "cod" => 410,
+                            "msg" => 'Erro S410: Digite uma senha diferente da atual para prosseguir.',
+                        );
+
+                        echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                        exit;
                     }
                 } else {
-                    $_SESSION["retorno"] =  "erro";
-                    $_SESSION["msg"] = "A senha atual digitada está incorreta!";
-                    return false;
+                    $return = array(
+                        "cod" => 420,
+                        "msg" => 'Erro S420: A senha atual digitada está incorreta!',
+                    );
+
+                    echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                    exit;
                 }
             } else {
-                $_SESSION["retorno"] =  "erro";
-                $_SESSION["msg"] = "As senhas digitadas não conferem!";
-                return false;
+                $return = array(
+                    "cod" => 430,
+                    "msg" => 'Erro S430: As senhas digitadas não conferem!',
+                );
+
+                echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                exit;
             }
         } else {
+            $return = array(
+                "cod" => 440,
+                "msg" => 'Erro S440: Falha ao alterar a senha. Se o erro persistir entre em contato com nosso atendimento.',
+            );
 
-            $_SESSION["retorno"] =  "erro";
-            $_SESSION["msg"] = "Erro ao alterar a senha!";
-            return false;
+            echo json_encode($return, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 }
