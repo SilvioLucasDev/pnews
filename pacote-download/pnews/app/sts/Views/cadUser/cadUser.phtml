@@ -37,7 +37,7 @@
                                             <input class="form-control borda input-mask-cpf" type="text" id="cpf" name="cpf" placeholder="CPF" maxlength="14" minlength="14">
                                         </div>
 
-                                        <div class="mt-2 mt-md-0 col-md-4 col-lg-5 col-xl-4 dt_nascimento">
+                                        <div class="mt-2 mt-md-0 col-md-4 col-lg-5 col-xl-4 dt-nascimento">
                                             <input class="form-control borda input-mask-date" type="text" id="dt_nascimento" name="dt_nascimento" placeholder="Nascimento" maxlength="10" minlength="10">
                                         </div>
                                     </div>
@@ -96,7 +96,7 @@
 
                                     <input class="form-control my-2 borda" type="text" id="ultima_troca_pneu" name="ultima_troca_pneu" placeholder="Ultima troca do pneu" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')">
 
-                                    <select class="form-control my-2 borda colorInputForm" id="tempo_medio_troca_pneu" name="tempo_medio_troca_pneu">
+                                    <select class="form-control my-2 borda color-input-form" id="tempo_medio_troca_pneu" name="tempo_medio_troca_pneu">
                                         <option selected value="">Tempo médio de troca</option>
                                         <option value="1 Mês">1 Mês</option>
                                         <option value="2 Meses">2 Meses</option>
@@ -167,26 +167,26 @@
         json = await response.json();
 
         if (json.cod === 0) {
-            const retornoMsg = document.querySelector('.retornoMsg');
-            retornoMsg.classList.add('retornoSuccess');
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-success');
             retornoMsg.style.display = "block";
             retornoMsg.innerHTML = json.msg;
 
             setTimeout(function() {
                 retornoMsg.style.display = "none";
-                retornoMsg.classList.remove('retornoSuccess');
+                retornoMsg.classList.remove('retorno-success');
                 window.location.assign(URL + "home-Controller/index");
             }, 2000);
 
         } else {
-            const retornoMsg = document.querySelector('.retornoMsg');
-            retornoMsg.classList.add('retornoError');
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-error');
             retornoMsg.style.display = "block";
             retornoMsg.innerHTML = json.msg;
 
             setTimeout(function() {
                 retornoMsg.style.display = "none";
-                retornoMsg.classList.remove('retornoError');
+                retornoMsg.classList.remove('retorno-error');
             }, 3000);
         }
     }

@@ -8,7 +8,7 @@
                     <div>E-mail: <label class="get-email">#</label></div>
                 </div>
 
-                <div class="col-4 text-end px-0 mx-0">
+                <div class="col-12 col-md-6 text-md-end px-md-0 mx-0">
                     <a class="text-black px-0" data-toggle="modal" data-target="#modalAlterarSenha" href="#">
                         <strong>Redefinir senha</strong>
                     </a>
@@ -157,14 +157,14 @@
             getTempoMedioPneu.innerHTML = json.res.tempo_medio_troca_pneu
 
         } else {
-            const retornoMsg = document.querySelector('.retornoMsg');
-            retornoMsg.classList.add('retornoError');
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-error');
             retornoMsg.style.display = "block";
             retornoMsg.innerHTML = json.msg;
 
             setTimeout(function() {
                 retornoMsg.style.display = "none";
-                retornoMsg.classList.remove('retornoError');
+                retornoMsg.classList.remove('retorno-error');
             }, 5000);
         }
     }
@@ -189,27 +189,27 @@
 
         if (json.cod === 0) {
 
-            const retornoMsg = document.querySelector('.retornoMsg');
+            const retornoMsg = document.querySelector('.retorno-msg');
 
-            retornoMsg.classList.add('retornoSuccess');
+            retornoMsg.classList.add('retorno-success');
             retornoMsg.style.display = "block";
             retornoMsg.innerHTML = json.msg;
 
             setTimeout(function() {
                 retornoMsg.style.display = "none";
-                retornoMsg.classList.remove('retornoSuccess');
+                retornoMsg.classList.remove('retorno-success');
             }, 5000);
 
         } else {
-            const retornoMsg = document.querySelector('.retornoMsg');
+            const retornoMsg = document.querySelector('.retorno-msg');
             
-            retornoMsg.classList.add('retornoError');
+            retornoMsg.classList.add('retorno-error');
             retornoMsg.style.display = "block";
             retornoMsg.innerHTML = json.msg;
 
             setTimeout(function() {
                 retornoMsg.style.display = "none";
-                retornoMsg.classList.remove('retornoError');
+                retornoMsg.classList.remove('retorno-error');
             }, 5000);
         }
     }

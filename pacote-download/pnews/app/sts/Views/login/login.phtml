@@ -78,14 +78,14 @@
             window.location.assign(URL + "home-Controller/index");
 
         } else {
-            const retornoMsg = document.querySelector('.retornoMsg');
-            retornoMsg.classList.add('retornoError');
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-error');
             retornoMsg.style.display = "block";
             retornoMsg.innerHTML = json.msg;
 
             setTimeout(function() {
                 retornoMsg.style.display = "none";
-                retornoMsg.classList.remove('retornoError');
+                retornoMsg.classList.remove('retorno-error');
             }, 3000);
         }
     }

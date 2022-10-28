@@ -18,7 +18,7 @@
     // CREDENCIAIS BANCO
     define('DB', 'mysql');          // TIPO DE BANCO
     define('HOST', 'localhost');    // HOST DB
-    define('DBPORT', 3306);         // PORTA DB
+    define('DBPORT', 3307);         // PORTA DB
     define('DBNAME', 'sts_pnews');  // NOME DB
     define('USER', 'root');         // USUÁRIO DB
     define('PASS', '');             // SENHA DB

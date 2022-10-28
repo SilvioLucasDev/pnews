@@ -39,7 +39,7 @@ body {
 }
 
 /* Divisor de LI utilizado nas barra de nav | */
-.divisor-nav{
+.divisor-nav {
 	height: 20px;
 	border-right: 1px solid #000;
  }
@@ -50,7 +50,7 @@ body {
 }
 
 /*Customização da cor do texto dos inputs dos formulários*/
-.colorInputForm{
+.color-input-form {
 	color: #00000099;
 }
 
@@ -71,15 +71,15 @@ body {
 	margin: 0.5rem;
 } */
 
-.retornoSuccess {
+.retorno-success {
 	color: #008000;
 }
 
-.retornoError {
+.retorno-error {
 	color: #ff0000;
 }
 
-.retornoMsg {
+.retorno-msg {
 	display: none;
 	position: absolute;
 	z-index: 100;
@@ -116,7 +116,7 @@ body {
 
 /* Small Screen Phones */
 @media (min-width: 768px) {
-    .dt_nascimento,
+    .dt-nascimento,
 	.estado,
 	.numero,
 	.complemento {
@@ -145,7 +145,7 @@ body {
 		Customizações Maps
 *****************************************************************************************************/
 
-.mainCustom {
+.main-custom {
 	height: 83vh;
 }
 
