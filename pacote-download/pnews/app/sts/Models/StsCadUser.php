@@ -30,9 +30,16 @@ class StsCadUser
 
         $this->data['result'] = $pdoSelect->getResult();
 
+        // echo "<pre>";
+        // print_r($this->data['result']);
+        // echo "<pre>";
+        // exit;
+
         // VALIDAR AQUI SE OS DADOS ESTÃO PREENCHIDOS CORRETAMENTE E FORMATAR
         // SE ESTIVER ERRADO DEVOLVER UM ERRO AO USUÁRIO
-        if (!isset($this->data['result'][0]) AND !empty($this->data['result'][0])) {
+        if (!isset($this->data['result'][0]) OR !empty($this->data['result'][0])) {
+            
+
             $this->setUser();
         } else {
             $return = array(
@@ -163,7 +170,8 @@ class StsCadUser
         $pdoCreate->exeCreate("sts_veiculo_usuario", $this->data['insert_automobile']);
 
         if ($pdoCreate->getResult() != NULL) {
-
+            $_SESSION['id_usuario'] = $this->data['id'];
+            
             $return = array(
                 "cod" => 0,
                 "msg" => 'Cadastro realizado com sucesso!',

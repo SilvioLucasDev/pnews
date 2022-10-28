@@ -93,7 +93,7 @@
                 retornoMsg.style.display = "none";
             }, 5000);
 
-            initMap(borracharia);
+            initMap();
         }
     }
     
@@ -203,7 +203,7 @@
             var markerBd = new google.maps.Marker({
                 position: data.coords,
                 map: map,
-                icon: URLASSETS + 'img/maps/icon_maps.png'
+                icon: URL_ASSETS + 'img/maps/icon_maps.png'
             })
 
             if (data.content) {
@@ -226,4 +226,4 @@
     }
 </script>
 
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9IWlEU_CZQqtyGqSr-lvN25n43fW6f2g"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo KEY_MAPS ?>"></script>

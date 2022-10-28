@@ -90,6 +90,7 @@ class StsMaps
         $string = str_replace($search, $replace, $string);
 
         $coords = explode(" ", $string);
-        return "{lat: " . $coords[0] . "lng: " . $coords[1] . "}";
+        echo "{lat: " . $coords[0] . "lng: " . $coords[1] . "}";
+        exit;
     }
 }

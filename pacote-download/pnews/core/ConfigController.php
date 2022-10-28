@@ -28,8 +28,8 @@ class ConfigController extends FormatConfig
                 $this->urlParameter = isset($this->urlArray[2]) ? $this->urlArray[2] : "";
 
             } else {
-                $this->urlController = $this->formatController(ERRORCONTROLLER);
-                $this->urlMethod = $this->formatMethod(ERRORMETHOD);
+                $this->urlController = $this->formatController(ERROR_CONTROLLER);
+                $this->urlMethod = $this->formatMethod(ERROR_METHOD);
                 $this->urlParameter = "";
             }
 
@@ -53,8 +53,8 @@ class ConfigController extends FormatConfig
         if (class_exists($this->class)) {
             $this->loadMethod();
         } else {
-            $this->urlController = $this->formatController(ERRORCONTROLLER);
-            $this->urlMethod = $this->formatMethod(ERRORMETHOD);
+            $this->urlController = $this->formatController(ERROR_CONTROLLER);
+            $this->urlMethod = $this->formatMethod(ERROR_METHOD);
             $this->loadPage();
         }
     }
@@ -72,8 +72,8 @@ class ConfigController extends FormatConfig
                 $loadClass->{$this->urlMethod}();
             }
         } else {
-            $this->urlController = $this->formatController(ERRORCONTROLLER);
-            $this->urlMethod = $this->formatMethod(ERRORMETHOD);
+            $this->urlController = $this->formatController(ERROR_CONTROLLER);
+            $this->urlMethod = $this->formatMethod(ERROR_METHOD);
             $this->loadPage();
         }
     }

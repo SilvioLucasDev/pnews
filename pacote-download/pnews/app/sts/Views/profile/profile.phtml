@@ -188,7 +188,9 @@
         json = await response.json();
 
         if (json.cod === 0) {
+
             const retornoMsg = document.querySelector('.retornoMsg');
+
             retornoMsg.classList.add('retornoSuccess');
             retornoMsg.style.display = "block";
             retornoMsg.innerHTML = json.msg;
@@ -200,6 +202,7 @@
 
         } else {
             const retornoMsg = document.querySelector('.retornoMsg');
+            
             retornoMsg.classList.add('retornoError');
             retornoMsg.style.display = "block";
             retornoMsg.innerHTML = json.msg;

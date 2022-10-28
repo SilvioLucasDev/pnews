@@ -186,9 +186,12 @@ CORRIGIR RETORNO DA Geolocalização
 
 
 
-
-
 DOCUMENTAÇÃO DE ERROS:
+
+// DESCRIÇÃO DE ABREVIATURA PARA CÓDIGOS DE ERRO
+// "C" - Erros de configuração padrão -> Conexão DB, ConfigView etc...
+// "S" - Erros de páginas dinâmicas -> Formulário = Campo errado, formato errado etc..
+
 
 (configView.php)
 Erro C200: Falha ao carregar a Página
