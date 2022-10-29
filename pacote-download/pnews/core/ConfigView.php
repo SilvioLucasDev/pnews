@@ -18,12 +18,12 @@ class ConfigView extends FormatConfig
     // RENDERIZA TODOS OS INCLUDES
     public function renderAll()
     {
-        if (file_exists('app/' . $this->name . '.phtml')) {
+        if (file_exists('app/' . $this->name . '.html')) {
 
-            include 'app/sts/Views/include/header.phtml';
-            include 'app/sts/Views/include/navbar.phtml';
-            include 'app/' . $this->name . '.phtml';
-            include 'app/sts/Views/include/footer.phtml';
+            include 'app/sts/Views/include/header.html';
+            include 'app/sts/Views/include/navbar.html';
+            include 'app/' . $this->name . '.html';
+            include 'app/sts/Views/include/footer.html';
         } else {
             $this->locationError();
         }
@@ -32,11 +32,11 @@ class ConfigView extends FormatConfig
     // NÃO RENDERIZA TODOS OS INCLUDES
     public function render()
     {
-        if (file_exists('app/' . $this->name . '.phtml')) {
+        if (file_exists('app/' . $this->name . '.html')) {
 
-            include 'app/sts/Views/include/header.phtml';
-            include 'app/' . $this->name . '.phtml';
-            include 'app/sts/Views/include/footer.phtml';
+            include 'app/sts/Views/include/header.html';
+            include 'app/' . $this->name . '.html';
+            include 'app/sts/Views/include/footer.html';
         } else {
             $this->locationError();
         }

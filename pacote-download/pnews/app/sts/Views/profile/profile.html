@@ -1,0 +1,216 @@
+<main id="main-perfil">
+    <div class="container h-100 px-0">
+        <div class="row m-0 py-3 border-bottom ">
+            <h2><strong>Bem - vindo, <label class="get-nome">#</label> <label class="get-sobrenome">#</label></strong></h2>
+
+            <div class="row justify-content-between">
+                <div class="col">
+                    <div>E-mail: <label class="get-email">#</label></div>
+                </div>
+
+                <div class="col-12 col-md-6 text-md-end px-md-0 mx-0">
+                    <a class="text-black px-0" data-toggle="modal" data-target="#modalAlterarSenha" href="#">
+                        <strong>Redefinir senha</strong>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row m-0 py-3 border-bottom">
+            <h2><strong>Meus dados</strong></h2>
+            <div>CPF: <label class="get-cpf">#</label></div>
+            <div>Data nascimento: <label class="get-nascimento">#</label></div>
+            <div>Telefone: <label class="get-telefone">#</label></div>
+        </div>
+
+        <div class="row m-0 py-3 border-bottom">
+            <h2><strong>Endereço</strong></h2>
+            <div>CEP: <label class="get-cep">#</label></div>
+            <div>Rua <label class="get-rua">#</label></div>
+            <div><label class="get-bairro">#</label> <label class="get-numero">#</label> <label class="get-complemento">#</label></div>
+            <div><label class="get-cidade">Cidade</label> - <label class="get-estado">Estado</label></div>
+        </div>
+
+        <div class="row justify-content-center m-0 py-3 border-bottom">
+            <h2><strong>Informações do veículo</strong></h2>
+
+            <div class="col-md-6">
+                <div>Apelido: <label class="get-apelido-veic">#</label></div>
+                <div>Fabricante: <label class="get-fabricante-veic">#</label></div>
+                <div>Modelo <label class="get-modelo-veic">#</label></div>
+                <div>Ano: <label class="get-ano-veic">#</label></div>
+            </div>
+
+            <div class="col-md-6">
+                <div>Fabricante do pneu <label class="get-fabricante-pneu">#</label></div>
+                <div>Modelo do pneu: <label class="get-modelo-pneu">#</label></div>
+                <div>ültima troma do pneu <label class="get-troca-pneu">#</label></div>
+                <div>Tempo médio de troca: <label class="get-tp-troca-pneu">#</label></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- MODAL ALTERAÇÃO DE SENHA -->
+<div class="modal fade t-modal" id="modalAlterarSenha" tabindex="-1" role="dialog" aria-labelledby="modalAlterarSenha" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+                <h5 class="modal-title">Alteração de Senha</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="row justify-content-and">
+                        <div class="col-12 text-center align-self-center">
+
+                            <form id="form-send-password" style="margin: 10px 20px 10px 20px;">
+                                <input class="form-control my-2 borda" type="password" name="senha" id="senha" placeholder="Senha Atual" required>
+
+                                <input class="form-control my-2 borda" type="password" name="senha2" id="senha2" minlength="6" placeholder="Nova senha" required>
+
+                                <input class="form-control my-2 borda" type="password" name="senha3" id="senha3" minlength="6" placeholder="Confirme a nova senha" required>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col text-center borda-form p-0">
+                            <button id="btn-send-password" form="alteraSenha" type="submit" class="btn btn-secondary btn-block rounded-0 m-0" style="border-bottom-left-radius: 0.2rem !important; border-bottom-right-radius: 0.2rem !important;"> Enviar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = () => {
+        getProfile();
+    }
+
+    // FUNCTION PARA CARREGAR OS DADOS DO USUÁRIO
+    async function getProfile() {
+        const response = await fetch('<?php echo URL ?>profile-controller/get-profile', {
+            method: 'POST',
+            Headers: {
+                'Content-type': 'application/json: charset-utf-8',
+            }
+        });
+
+        json = await response.json();
+
+        if (json.cod === 0) {
+            const getNome = document.querySelector('.get-nome');
+            const getSobrenome = document.querySelector('.get-sobrenome');
+            const getCpf = document.querySelector('.get-cpf');
+            const getNascimento = document.querySelector('.get-nascimento');
+            const getEmail = document.querySelector('.get-email');
+            const getTelefone = document.querySelector('.get-telefone');
+            const getCep = document.querySelector('.get-cep');
+            const getCidade = document.querySelector('.get-cidade');
+            const getEstado = document.querySelector('.get-estado');
+            const getBairro = document.querySelector('.get-bairro');
+            const getRua = document.querySelector('.get-rua');
+            const getNumero = document.querySelector('.get-numero');
+            const getComplemento = document.querySelector('.get-complemento');
+            const getApelidoVeic = document.querySelector('.get-apelido-veic');
+            const getFabricanteVeic = document.querySelector('.get-fabricante-veic');
+            const getModeloVeic = document.querySelector('.get-modelo-veic');
+            const getAnoVeic = document.querySelector('.get-ano-veic');
+            const getFabricantePneu = document.querySelector('.get-fabricante-pneu');
+            const getModeloPneu = document.querySelector('.get-modelo-pneu');
+            const getTrocaPneu = document.querySelector('.get-troca-pneu');
+            const getTempoMedioPneu = document.querySelector('.get-tp-troca-pneu');
+
+            getNome.innerHTML = json.res.nome
+            getSobrenome.innerHTML = json.res.sobrenome
+            getCpf.innerHTML = json.res.cpf
+            getNascimento.innerHTML = json.res.dt_nascimento
+            getEmail.innerHTML = json.res.email
+            getTelefone.innerHTML = json.res.telefone
+            getCep.innerHTML = json.res.cep
+            getCidade.innerHTML = json.res.cidade
+            getEstado.innerHTML = json.res.estado
+            getBairro.innerHTML = json.res.bairro
+            getRua.innerHTML = json.res.rua
+            getNumero.innerHTML = json.res.numero
+            getComplemento.innerHTML = json.res.complemento
+            getApelidoVeic.innerHTML = json.res.apelido_veiculo
+            getFabricanteVeic.innerHTML = json.res.fabricante_veiculo
+            getModeloVeic.innerHTML = json.res.modelo_veiculo
+            getAnoVeic.innerHTML = json.res.ano_veiculo
+            getFabricantePneu.innerHTML = json.res.fabricante_pneu
+            getModeloPneu.innerHTML = json.res.modelo_pneu
+            getTrocaPneu.innerHTML = json.res.ultima_troca_pneu
+            getTempoMedioPneu.innerHTML = json.res.tempo_medio_troca_pneu
+
+        } else {
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-error');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+                retornoMsg.classList.remove('retorno-error');
+            }, 5000);
+        }
+    }
+
+    // FUNCTION PARA ALTERAR SENHA
+    document.getElementById('btn-send-password').onclick = function(e) {
+        e.preventDefault();
+        sendPassword();
+    };
+    async function sendPassword() {
+        const form = new FormData(document.getElementById('form-send-password'));
+
+        const response = await fetch('<?php echo URL ?>password-controller/index', {
+            method: 'POST',
+            Headers: {
+                'Content-type': 'application/json: charset-utf-8',
+            },
+            body: form
+        });
+
+        json = await response.json();
+
+        if (json.cod === 0) {
+
+            const retornoMsg = document.querySelector('.retorno-msg');
+
+            retornoMsg.classList.add('retorno-success');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+                retornoMsg.classList.remove('retorno-success');
+            }, 5000);
+
+        } else {
+            const retornoMsg = document.querySelector('.retorno-msg');
+            
+            retornoMsg.classList.add('retorno-error');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+                retornoMsg.classList.remove('retorno-error');
+            }, 5000);
+        }
+    }
+</script>

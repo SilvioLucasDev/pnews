@@ -38,4 +38,15 @@ class Utils
             return false;
         }
     }
+
+    /********************************************************************/
+    // FUNÇÃO PARA FORMATAR COORDENADAS 
+    public function formatCoords($string)
+    {                                       // (-23.647848381080646, -46.45407951552733)
+        $search = array("(", ")", " ");  
+        $replace = array("");            
+        $string = str_replace($search, $replace, $string); // -23.647848381080646,-46.45407951552733
+
+        return explode(",", $string);   // [0] => -23.647848381080646 [1] => -46.45407951552733
+    }
 }

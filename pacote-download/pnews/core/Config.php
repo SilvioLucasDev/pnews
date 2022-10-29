@@ -23,7 +23,8 @@
     define('USER', 'root');         // USUÁRIO DB
     define('PASS', '');             // SENHA DB
 
-    // EXIBIR ERROS PHP
-    // ini_set("display_errors", 1);
-    // ini_set("display_startup_erros", 1);
-    // error_reporting(E_ALL);
+    // pr_  -> print_r($)
+    // pr_t -> print_r($this->[''])
+    // br_  -> echo "<br>";
+    // err_ -> comando para exibir erros
+    // cl_  -> console.log()

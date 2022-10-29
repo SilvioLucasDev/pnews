@@ -20,7 +20,7 @@ class MapsController
     public function getBorracharias()
     {
         $sendApp = new \Sts\Models\StsMaps();
-        $this->data['maps'] = $sendApp->getBorracharias();
+        $sendApp->getBorracharias();
     }
 
     public function cadBorracharia()

@@ -156,12 +156,45 @@ private function log($logData)
 -->
 
 
+** ANOTAÇÕES **
+
+AJUSTES E ORGANIZAÇÃO DE CÓDIGO:
+
+MELHORAR INCLUDE DE PÁGINAS JS E CSS
+
+REMOVER STYLES IN LINE
+
+REVISAR/PADRONIZAR COMENTARIOS
 
 
-ANOTAÇÕES:
 
-BANDO DE DADOS:
-alterar o campo de mes_ultima_troca_pneu -> ultima_troca_pneu
+AJUSTES NO BANCO DE DADOS:
+ALL:
+ALTERAR TAMANHO DE INTS (2)
+
+DIMINUIR CAMPOS DE ACORDO COM A NECESSIDADE PQ VÃO SER ARMAZENADOS SEM ACENTO
+
+TABELA sts_veiculo_usuario:
+ALTERAR O CAMPO DE mes_ultima_troca_pneu -> ultima_troca_pneu
+
+TABELA sts_endereco_borracharia:
+ALTERAR FORMAS DE ARMAZENAMENTO DE COORDENADAS E TAMANHO PARA 255
+AJUSTAS NOME DA COLUNA DE fk_endedereco_status -> fk_endereco_status
+
+TABELA sts_usuario:
+ALTERAR SENHA PARA 255
+
+
+
+IMPLEMENTAÇÕES OBRIGATÓRIAS:
+
+AJUSTAR TIMEOUT DE FUNCTIONS JS
+
+AJUSTAR FUNCTIONS PARA FORMATAR CAMPOOS QUIE SERÃO EXIBIDOS PARA O USUÁRIO (CPF, DATA...)
+
+VALIDAÇÃO DE SESSION
+
+ADICIONAR DISABLE BUTTONS EM FORMULÁRIOS (LOGIN, CADASTRO...)
 
 Views cadUser:
 VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS
@@ -171,7 +204,6 @@ Model StsCadUser:
 VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS
 VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS CORRETAMENTE
 
-
 Views login:
 VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS
 VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS CORRETAMENTE
@@ -180,25 +212,54 @@ Model StsLogin:
 VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS
 VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS CORRETAMENTE
 
-MAPS
-CORRIGIR RETORNO DA Geolocalização
+Views maps:
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS CORRETAMENTE
+
+Model StsMaps:
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS
+VALIDAR SE OS CAMPOS ESTÃO PREENCHIDOS CORRETAMENTE
+
+
+
+REGRAS DE NEGÓCIO / CORREÇÕES FUTURA:
+USUÁRIOS OU BORRACHARIAS COM STATUS NULL SÃO CADASTROS QUE N FORAM ATIVADOS POR E-MAIL, ATIVOU POR E-MAIL VIRA 2
+
+ALTERAR A MENSAGEM EXIBIDA NO CADASTRO DO USUÁRIO E DA BORRACHARIA QUANDO IMPLEMENTAR PHPMAILER (ENVIAMOS UM E-MIAL PARA O ####, POR FAVOR, VALIDE SEU E-MAIL).
+
+ARRUMAR LÓGICA PARA CADASTRO DE BORRACHARIA, SE O E-MAIL OU TELEFONE JÁ EXISTIR, PERGUNTAR SE A NOVA COORDENADA PERTENCE A BORRACHARIA X (CADA BORRACHARIA VAI TER UMA HASH, PEDIR A HASH MANDAR ELA POR E-MAIL PARA O USUÁRIO VALIDAR).
+
+AJUSTAR A QUERY DE BUSCAR USUÁRIO (getProfile) E BORRACHAIRA (getBorracharias), VALIDAR STATUS DO TELEFONE E ENDEREÇO COLOCANDO MAIS WHERE.
+
+
+
+IMPLEMENTAÇÕES FUTURAS NÃO OBRIGATÓRIAS:
+
+OWASP 10
+JWT
+OAUTH2
+REDIRECT DE HTTP PARA HTTPS
 
 
 
 
-DOCUMENTAÇÃO DE ERROS:
+** DOCUMENTAÇÃO DE ERROS **
 
 // DESCRIÇÃO DE ABREVIATURA PARA CÓDIGOS DE ERRO
 // "C" - Erros de configuração padrão -> Conexão DB, ConfigView etc...
 // "S" - Erros de páginas dinâmicas -> Formulário = Campo errado, formato errado etc..
 
+(Conn.php)
+Erro C100: Erro na conexão com o banco de dados
 
 (configView.php)
-Erro C200: Falha ao carregar a Página
+Erro C200: Falha ao carregar a Página seleciona pelo usuário
 
-(Conn.php)
-Erro C100: Por favor tente novamente. Caso o problema persista entre em contato com o nosso atendimento.
-
+(maps.html)
+Erro C300: Usuário rejeitou a permisão de localização.
+Erro C310: Localização do usuário indisponível.
+Erro C320: Tempo de requisição expirou.
+Erro C330: LocalizaçÃo indisponível por erro desconhecido.
 
 (StsCadUser.php)
 Erro S100: E-mail e ou CPF já cadastrado no sistema.
@@ -223,3 +284,9 @@ Erro S440: Problemas com select na tabela sts_usuario.
 
 (StsMaps.php)
 Erro S500: Problemas com select na tabela sts_borracharia.
+Erro S510: E-mail já cadastrado no sistema.
+Erro S520: Telefone já cadastrado no sistema.
+Erro S530: Coordenadas já cadastrada no sistema.
+Erro S540: Problemas com insert na tabela sts_borracharia.
+Erro S550: Problemas com insert na tabela sts_telefone_borracharia.
+Erro S560: Problemas com insert na tabela sts_endereco_borracharia.

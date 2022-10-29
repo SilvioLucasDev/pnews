@@ -1,0 +1,44 @@
+<?php
+
+if (!defined('URL')) {
+    header("Location: /");
+    exit();
+}
+
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- META TAGS -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- BOOTSTRAP CSS 5.1.0 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <!-- BOOTSTRAP CSS 4.0.0 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- FONT AWESOME -->
+    <script src="https://kit.fontawesome.com/df04815b4a.js" crossorigin="anonymous"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo URL_ASSETS ?>css/style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo URL_ASSETS ?>css/modal.css">
+
+    <!-- TÍTULO DO SITE -->
+    <title>PNEWS</title>
+
+    <!-- ICONE DO SITE -->
+    <link rel="icon" href="<?php echo URL_ASSETS ?>img/logo/logo-titulo.png">
+
+    <!-- DEFINE AS URL PADRÃO PARA O JS -->
+    <script type="text/javascript">
+        var URL = "<?php echo URL ?>";
+        var URL_ASSETS = "<?php echo URL_ASSETS ?>";
+    </script>
+</head>
+
+<body>
+<div class="retorno-msg"></div>

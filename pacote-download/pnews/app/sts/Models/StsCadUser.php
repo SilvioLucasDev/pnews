@@ -70,8 +70,6 @@ class StsCadUser
         $pdoCreate = new \Helper\Create();
         $pdoCreate->exeCreate("sts_usuario", $this->data['insert_user']);
 
-        $this->data['id'] = $pdoCreate->getResult();
-
         if ($pdoCreate->getResult() != NULL) {
             $this->data['id'] = $pdoCreate->getResult();
             $this->setPhone();

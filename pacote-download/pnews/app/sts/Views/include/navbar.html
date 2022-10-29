@@ -1,0 +1,46 @@
+ <!-- INÍCIO CABEÇALHO -->
+<header>
+    <nav class="navbar navbar-expand-md navbar-light cor-fundo border-bottom py-0">
+        <div class="container">
+
+            <!-- LOGO -->
+            <a href="<?php echo URL ?>home-controller/index" class="navbar-brand py-0">
+                <img src="<?php echo URL_ASSETS ?>img/logo/logo-pnews-home.svg" alt="Logo Pnews">
+            </a>
+
+            <!-- MENU HAMBURGUER -->
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#nav-target">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- NAVEGAÇÃO -->
+            <div class="collapse navbar-collapse justify-content-end" id="nav-target">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+                        <a href="<?php echo URL ?>home-controller/index" class="nav-link text-black">
+                            <strong>Home</strong>
+                        </a>
+                    </li>
+
+                    <li class="divisor-nav align-self-center collapse navbar-collapse"></li>
+
+                    <li class="nav-item">
+                        <a href="<?php echo URL ?>profile-controller/index" class="nav-link text-black">
+                            <strong>Perfil</strong>
+                        </a>
+                    </li>
+
+                    <li class="divisor-nav align-self-center collapse navbar-collapse"></li>
+
+                    <li class="nav-item">
+                        <a href="<?php echo URL ?>login-controller/logout" class="nav-link text-black">
+                            <strong>Sair</strong>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</header><!-- FIM CABEÇALHO -->
