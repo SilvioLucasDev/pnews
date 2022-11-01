@@ -1,8 +1,6 @@
 /* CUSTOMIZAÇÃO DE MODAIS
 
 /* --------------- ALTERAÇÕES GERAIS ------------------------------ */
-
-/* BORDA */
 .borda-form { 
     border-top: 1px solid #d7d7d7;
 }
@@ -41,7 +39,6 @@
 }
 
 
-
 /* --------------- ALTERAÇÕES BODY ------------------------------ */
 .t-modal .modal-content .modal-body {
     padding:0px;
@@ -55,4 +52,12 @@
 
 .t-modal .modal-content .modal-footer .btn {
     margin: auto;
+
 }
+
+/* --------------- ALTERAÇÕES BUTTON ------------------------------ */
+.t-modal .modal-content .btn-custom {
+    border-bottom-left-radius: 0.2rem !important;
+    border-bottom-right-radius: 0.2rem !important;
+}
+

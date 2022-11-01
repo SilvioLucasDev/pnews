@@ -16,8 +16,8 @@ class StsPassword
         $this->data = $data;
     }
 
-    // *********************************************************************************
-    // ***** FUNÇÃO PARA ALTERAR A SENHA DO USUÁRIO *****
+    // ********************************************************************
+    // FUNÇÃO PARA ALTERAR A SENHA DO USUÁRIO
     public function alterPassword()
     {
         $pdoSelect = new \Helper\Read();
@@ -30,7 +30,7 @@ class StsPassword
 
         $this->data['result'] = $pdoSelect->getResult();
 
-        if (isset($this->data['result']) and !empty($this->data['result'])) {
+        if (isset($this->data['result']) or !empty($this->data['result'])) {
             extract($pdoSelect->getResult()[0]);
 
             if ($this->data['senha2'] == $this->data['senha3']) {

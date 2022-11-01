@@ -1,7 +1,4 @@
-/*****************************************************************************************************
-		Estrutura padrão do site
-*****************************************************************************************************/
-
+/* --------------- ALTERAÇÕES DA ESTRUTURA DO SITE ------------------------------ */
 * {
 	margin: 0px;
 	padding: 0px;
@@ -25,51 +22,42 @@ body {
 
 
 
-/*****************************************************************************************************
-		Classes globais
-*****************************************************************************************************/
+/* --------------- ALTERAÇÕES BOOTSTRAP ------------------------------ */
+.close {
+	background-color: transparent;
+    border: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    opacity: .5;
+}
 
+.btn-block {
+	display: block;
+    width: 100%;
+}
+
+
+
+/* --------------- ALTERAÇÕES GLOBAL ------------------------------ */
 .full-height {
 	height: 86%;
 }
 
-/* Cor cinza background */
+/* COR CINZA BACKGROUND */
 .cor-fundo {
 	background-color: #F3F3F3 !important;
 }
 
-/* Divisor de LI utilizado nas barra de nav | */
-.divisor-nav {
-	height: 20px;
-	border-right: 1px solid #000;
- }
-
- /* Arredondamento para forms*/
+/* ARREDONDAMENTO PARA FORMS */
  .borda {
 	border-radius: 15px;
 }
 
-/*Customização da cor do texto dos inputs dos formulários*/
+/* CUSTOMIZAÇÃO DA COR DO TEXTO DOS INPUTS DOS FORMULÁRIOS */
 .color-input-form {
 	color: #00000099;
 }
-
-/* Customização de erro dos formulários*/
-/* .erroInput {
-	color: #ff0000;
-	font-size: 10px;
-	text-align: initial;
-	padding-left: 10px;
-	margin-bottom: 0px;
-} */
-
-/* Customização de sucesso dos formulários */
-/* .retornoMsg {
-	color: #008000;
-	font-size: 15px;
-	text-align: center;
-	margin: 0.5rem;
-} */
 
 .retorno-success {
 	color: #008000;
@@ -79,6 +67,7 @@ body {
 	color: #ff0000;
 }
 
+/* CUSTOM MENSAGEM DE RETORNO DOS FORMULÁRIOS*/
 .retorno-msg {
 	display: none;
 	position: absolute;
@@ -90,13 +79,60 @@ body {
     background: #FFF;
 }
 
+/* CUSTOMIZAÇÃO DE ERROS PARA INPUTS */
+.error-input-text {
+	color: #ff0000;
+	font-size: 0.7rem;
+	text-align: initial;
+	padding-left: 10px;
+	margin-bottom: 0px;
+}
+
+.error-input-border {
+	border: 2px solid #ff0000;
+}
+
+/* CUSTOMIZAÇÃO INPUT DE SENHA SHOW/HIDDEN */
+.password-wrap {
+	position: relative;
+}
+
+#show-password {
+	position: absolute;
+	top: 30%;
+	right: 1rem;
+	cursor: pointer;
+}
 
 
-/*****************************************************************************************************
-		Customizações Login
-*****************************************************************************************************/
 
-/* Font Aewsome */
+/* --------------- ALTERAÇÕES DA NAVBAR ------------------------------ */
+
+/* DIVBISOR DA BARRA DE NAVEGAÇÃO "|" */
+.divisor-nav {
+	height: 20px;
+	border-right: 1px solid #000;
+ }
+
+
+
+/* --------------- ALTERAÇÕES DO RODAPÉ ------------------------------ */
+.footer {
+	background-color: #00000080;
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+}
+
+.footer p {
+	margin: 0px;
+}
+
+
+
+/* --------------- ALTERAÇÕES DE LOGIN ------------------------------ */
+/* FONT AEWSOME */
 .fa-facebook-square {
 	color: #3b5998;
 }
@@ -105,7 +141,9 @@ body {
 	color: #db4a39;
 }
 
-/*Customização para as etapas do formulário de cadastro*/
+
+
+/* --------------- ALTERAÇÕES DE CADASTRO ------------------------------ */
 #stage-1 {
 	display: block;
 }
@@ -114,7 +152,6 @@ body {
 	display: none;
 }
 
-/* Small Screen Phones */
 @media (min-width: 768px) {
     .dt-nascimento,
 	.estado,
@@ -126,14 +163,10 @@ body {
 
 
 
-/*****************************************************************************************************
-		Customizações Home
-*****************************************************************************************************/
-
+/* --------------- ALTERAÇÕES DA HOME ------------------------------ */
 .cor-teste {
 	background-color: #7e0000 !important;
 }
-
 
 .botao {
 	margin-top: 15%;
@@ -141,10 +174,7 @@ body {
 
 
 
-/*****************************************************************************************************
-		Customizações Maps
-*****************************************************************************************************/
-
+/* --------------- ALTERAÇÕES DO MAPS ------------------------------ */
 .main-custom {
 	height: 83vh;
 }
@@ -152,22 +182,4 @@ body {
 #map {
 	height: 100%;
 	width: 100%;
-}
-
-
-
-/*****************************************************************************************************
-		Customizações Rodapé
-*****************************************************************************************************/
-
-.footer {
-	background-color: #00000080;
-	width: 100%;
-	text-align: center;
-	position: fixed;
-	bottom: 0;
-}
-
-.footer p {
-	margin: 0px;
 }

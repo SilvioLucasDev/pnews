@@ -16,8 +16,8 @@ class StsLogin
         $this->data = $data;
     }
 
-    // *********************************************************************************
-    // ***** FUNÇÃO PARA VALIDAR LOGIN DE USUÁRIO *****
+    // ********************************************************************
+    // FUNÇÃO PARA VALIDAR LOGIN DE USUÁRIO
     public function validateLogin()
     {
         $pdoSelect = new \Helper\Read();
@@ -30,7 +30,7 @@ class StsLogin
 
         $this->data['result'] = $pdoSelect->getResult();
 
-        if (isset($this->data['result'][0]) and !empty($this->data['result'][0])) {
+        if (isset($this->data['result'][0]) or !empty($this->data['result'][0])) {
 
             extract($pdoSelect->getResult()[0]);
 

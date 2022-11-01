@@ -16,8 +16,8 @@ class StsProfile
         $this->data = $data;
     }
 
-    // *********************************************************************************
-    // ***** SELECT TODOS DADOS DO USUÁRIO *****
+    // ********************************************************************
+    // SELECT TODOS DADOS DO USUÁRIO
     public function getProfile()
     {
         $pdoSelect = new \Helper\Read();
@@ -25,8 +25,8 @@ class StsProfile
             "SELECT usuario.nome, usuario.sobrenome, usuario.cpf, usuario.dt_nascimento, usuario.email,
                     telefone.telefone,
                     endereco.cep, endereco.cidade, endereco.estado, endereco.bairro, endereco.rua, endereco.numero, endereco.complemento,
-                    veiculo.apelido_veiculo, veiculo.fabricante_veiculo, veiculo.modelo_veiculo, veiculo.ano_veiculo, veiculo.fabricante_pneu,
-                    veiculo.modelo_pneu, veiculo.ultima_troca_pneu, veiculo.tempo_medio_troca_pneu
+                    veiculo.apelido_veiculo, veiculo.fabricante_veiculo, veiculo.modelo_veiculo, veiculo.ano_veiculo, veiculo.modelo_pneu_dianteiro,
+                    veiculo.modelo_pneu_traseiro, veiculo.fabricante_pneu, veiculo.ultima_troca_pneu, veiculo.tempo_medio_troca_pneu
              FROM sts_usuario AS usuario 
              LEFT JOIN sts_telefone_usuario AS telefone ON telefone.fk_telefone_usuario = usuario.id_usuario 
              LEFT JOIN sts_endereco_usuario AS endereco ON endereco.fk_endereco_usuario = usuario.id_usuario 
@@ -37,7 +37,7 @@ class StsProfile
 
         $this->data['result'] = $pdoSelect->getResult();
 
-        if (isset($this->data['result']) and !empty($this->data['result'])) {
+        if (isset($this->data['result']) or !empty($this->data['result'])) {
 
             $return = array(
                 "cod" => 0,

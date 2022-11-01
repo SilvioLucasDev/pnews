@@ -32,20 +32,24 @@
             <div><label class="get-cidade">Cidade</label> - <label class="get-estado">Estado</label></div>
         </div>
 
-        <div class="row justify-content-center m-0 py-3 border-bottom">
-            <h2><strong>Informações do veículo</strong></h2>
+        <div class="row justify-content-center m-0">
 
-            <div class="col-md-6">
+            <div class="col-md-6 py-3 border-bottom">
+                <h2><strong>Informações do veículo</strong></h2>
+
                 <div>Apelido: <label class="get-apelido-veic">#</label></div>
                 <div>Fabricante: <label class="get-fabricante-veic">#</label></div>
-                <div>Modelo <label class="get-modelo-veic">#</label></div>
-                <div>Ano: <label class="get-ano-veic">#</label></div>
+                <div>Modelo: <label class="get-modelo-veic">#</label></div>
+                <div>Ano fabricação: <label class="get-ano-veic">#</label></div>
             </div>
 
-            <div class="col-md-6">
-                <div>Fabricante do pneu <label class="get-fabricante-pneu">#</label></div>
-                <div>Modelo do pneu: <label class="get-modelo-pneu">#</label></div>
-                <div>ültima troma do pneu <label class="get-troca-pneu">#</label></div>
+            <div class="col-md-6 py-4 py-sm-3 border-bottom">
+                <h2><strong>Informações do pneu</strong></h2>
+
+                <div>Fabricante: <label class="get-fabricante-pneu">#</label></div>
+                <div>Modelo dianteiro: <label class="get-modelo-pneu-dianteiro">#</label></div>
+                <div>Modelo traseiro: <label class="get-modelo-pneu-traseiro">#</label></div>
+                <div>Última troca: <label class="get-troca-pneu">#</label></div>
                 <div>Tempo médio de troca: <label class="get-tp-troca-pneu">#</label></div>
             </div>
         </div>
@@ -72,11 +76,11 @@
                         <div class="col-12 text-center align-self-center">
 
                             <form id="form-send-password" style="margin: 10px 20px 10px 20px;">
-                                <input class="form-control my-2 borda" type="password" name="senha" id="senha" placeholder="Senha Atual" required>
+                                <input class="form-control mt-2 borda" type="password" name="senha" id="senha" placeholder="Senha Atual" required>
 
-                                <input class="form-control my-2 borda" type="password" name="senha2" id="senha2" minlength="6" placeholder="Nova senha" required>
+                                <input class="form-control mt-2 borda" type="password" name="senha2" id="senha2" minlength="6" placeholder="Nova senha" required>
 
-                                <input class="form-control my-2 borda" type="password" name="senha3" id="senha3" minlength="6" placeholder="Confirme a nova senha" required>
+                                <input class="form-control mt-2 borda" type="password" name="senha3" id="senha3" minlength="6" placeholder="Confirme a nova senha" required>
                             </form>
 
                         </div>
@@ -84,7 +88,7 @@
 
                     <div class="row">
                         <div class="col text-center borda-form p-0">
-                            <button id="btn-send-password" form="alteraSenha" type="submit" class="btn btn-secondary btn-block rounded-0 m-0" style="border-bottom-left-radius: 0.2rem !important; border-bottom-right-radius: 0.2rem !important;"> Enviar</button>
+                            <button id="btn-send-password" class="btn btn-secondary btn-block rounded-0 m-0 btn-custom"> Enviar</button>
                         </div>
                     </div>
 
@@ -102,13 +106,7 @@
 
     // FUNCTION PARA CARREGAR OS DADOS DO USUÁRIO
     async function getProfile() {
-        const response = await fetch('<?php echo URL ?>profile-controller/get-profile', {
-            method: 'POST',
-            Headers: {
-                'Content-type': 'application/json: charset-utf-8',
-            }
-        });
-
+        const response = await fetch(URL + 'profile-controller/get-profile');
         json = await response.json();
 
         if (json.cod === 0) {
@@ -129,8 +127,9 @@
             const getFabricanteVeic = document.querySelector('.get-fabricante-veic');
             const getModeloVeic = document.querySelector('.get-modelo-veic');
             const getAnoVeic = document.querySelector('.get-ano-veic');
+            const getModeloPneuDianteiro = document.querySelector('.get-modelo-pneu-dianteiro');
+            const getModeloPneuTraseiro = document.querySelector('.get-modelo-pneu-traseiro');
             const getFabricantePneu = document.querySelector('.get-fabricante-pneu');
-            const getModeloPneu = document.querySelector('.get-modelo-pneu');
             const getTrocaPneu = document.querySelector('.get-troca-pneu');
             const getTempoMedioPneu = document.querySelector('.get-tp-troca-pneu');
 
@@ -151,10 +150,10 @@
             getFabricanteVeic.innerHTML = json.res.fabricante_veiculo
             getModeloVeic.innerHTML = json.res.modelo_veiculo
             getAnoVeic.innerHTML = json.res.ano_veiculo
+            getModeloPneuDianteiro.innerHTML = json.res.modelo_pneu_dianteiro
+            getModeloPneuTraseiro.innerHTML = json.res.modelo_pneu_traseiro
             getFabricantePneu.innerHTML = json.res.fabricante_pneu
-            getModeloPneu.innerHTML = json.res.modelo_pneu
-            getTrocaPneu.innerHTML = json.res.ultima_troca_pneu
-            getTempoMedioPneu.innerHTML = json.res.tempo_medio_troca_pneu
+            getTrocaPneu.innerHTML = json.res.ultima_troca_pneu 
 
         } else {
             const retornoMsg = document.querySelector('.retorno-msg');
@@ -171,13 +170,21 @@
 
     // FUNCTION PARA ALTERAR SENHA
     document.getElementById('btn-send-password').onclick = function(e) {
+        document.getElementById('btn-send-password').disabled = true;
         e.preventDefault();
-        sendPassword();
+        
+        validate = validateAlterPass();
+
+        if(validate){
+            sendPassword();
+        } else {
+            document.getElementById('btn-send-password').disabled = false;
+        }
     };
     async function sendPassword() {
         const form = new FormData(document.getElementById('form-send-password'));
 
-        const response = await fetch('<?php echo URL ?>password-controller/index', {
+        const response = await fetch(URL + 'password-controller/index', {
             method: 'POST',
             Headers: {
                 'Content-type': 'application/json: charset-utf-8',
@@ -198,7 +205,8 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-success');
-            }, 5000);
+                document.getElementById('btn-send-password').disabled = false;
+            }, 3000);
 
         } else {
             const retornoMsg = document.querySelector('.retorno-msg');
@@ -210,7 +218,8 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-error');
-            }, 5000);
+                document.getElementById('btn-send-password').disabled = false;
+            }, 3000);
         }
     }
 </script>

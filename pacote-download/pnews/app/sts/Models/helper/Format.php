@@ -9,6 +9,7 @@ if (!defined('URL')) {
 
 class Format
 {
+    // ********************************************************************
     // ENCODE STRING EVITANDO INJECTION
     public function encodeString($string)
     {
@@ -20,7 +21,7 @@ class Format
         return $string = str_replace($search, $replace, $string);
     }
 
-    /********************************************************************/
+    // ********************************************************************
     // DECODE STRING EVITANDO INJECTION
     public function decodeString($string)
     {
@@ -30,7 +31,7 @@ class Format
         return $string = str_replace($search, $replace, $string);
     }
 
-    /********************************************************************/
+    // ********************************************************************
     // REMOVE SOMENTE ACENTOS POUCOS USADOS PT-BR
     public function removeAccents($string)
     {
@@ -40,7 +41,7 @@ class Format
         return str_replace($search, $remover, $string);
     }
 
-    /********************************************************************/
+    // ********************************************************************
     // REMOVE TODOS ACENTOS DA STRING
     public function removeAllAccents($string)
     {
@@ -50,7 +51,7 @@ class Format
         return str_replace($search, $replace, $string);
     }
 
-    /********************************************************************/
+    // ********************************************************************
     // REMOVE CARACTERES ESPECIAIS DA STRING
     public function removeSpecialChar($string)
     {
@@ -59,21 +60,34 @@ class Format
         return str_replace($search, $replace, $string);
     }
 
-    /********************************************************************/
+    // ********************************************************************
+    // FUNÇÃO PARA FORMATAR COORDENADAS 
+    public function formatCoords($string)
+    {                                                      // (-23.647848381080646, -46.45407951552733)
+        $search = array("(", ")", " ");
+        $replace = array("");
+        $string = str_replace($search, $replace, $string); // -23.647848381080646,-46.45407951552733
+
+        return explode(",", $string);                       // [0] => -23.647848381080646 [1] => -46.45407951552733
+    }
+
+    // ********************************************************************
     // FORMATA A DATA PARA O PADRÃO BR
-    function formatDate($date)
+    function formatDateBr($date)
     {
         return date('d/m/Y', strtotime($date));
     }
 
-    /********************************************************************/
+    // ********************************************************************
     // FORMATA DATA PARA O PADRÃO US
-    function formatDateDb($date)
+    function formatDateUs($date)
     {
-        return date('Y-m-d', strtotime($date));
+        return implode('-', array_reverse(explode('/', $date)));
+
+        // return date('Y-m-d', strtotime($date));
     }
 
-    /********************************************************************/
+    // ********************************************************************
     // MÁSCARA DE DADOS
 
     // $cnpj = '11222333000199';
@@ -113,7 +127,7 @@ class Format
         return $maskared;
     }
 
-    /********************************************************************/
+    // ********************************************************************
     // MÁSCARA PARA OCULTAR DOCUMENTOS RG E CPF
     public function docMask($string, $type = 'cpf')
     {
@@ -128,14 +142,14 @@ class Format
         }
     }
 
-    /********************************************************************/
+    // ********************************************************************
     // PERMITE SOMENTE NÚMEROS NA STRING
     public function onlyNumbers($string)
     {
         return preg_replace("/\D+/", "", $string);
     }
 
-    /********************************************************************/
+    // ********************************************************************
     // FORMATA O NÚMERO PARA DÓLAR OU REAL
     public function formatCoin($string, $type = "real", $symbol = false)
     {

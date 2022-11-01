@@ -11,7 +11,7 @@
     </div>
 </main>
 
-<div style="display: none">
+<div class="d-none">
     <button type="hidden" class="btn btn-primary" name="showModal" id="showModal" data-toggle="modal" data-target="#modalIncludeMaps">
         modal
     </button>
@@ -39,7 +39,7 @@
                             <form id="form-cad-borracharia" style="margin: 10px 20px 10px 20px;">
                                 <input class="form-control my-2 borda" type="text" name="nome" id="nome" placeholder="Nome da borracharia">
 
-                                <input class="form-control my-2 borda" type="text" name="telefone" id="telefone" placeholder="Telefone borracharia">
+                                <input class="form-control my-2 borda telefone" type="text" name="telefone" id="telefone" placeholder="Telefone borracharia">
 
                                 <input class="form-control my-2 borda" type="text" name="email" id="email" placeholder="E-mail borracharia">
 
@@ -51,7 +51,7 @@
 
                     <div class="row">
                         <div class="col text-center borda-form p-0">
-                            <button id="btn-cad-borracharia" class="btn btn-secondary btn-block rounded-0 m-0" style="border-bottom-left-radius: 0.2rem !important; border-bottom-right-radius: 0.2rem !important;"> Enviar</button>
+                            <button id="btn-cad-borracharia" class="btn btn-secondary btn-block rounded-0 m-0 btn-custom"> Enviar</button>
                         </div>
                     </div>
 
@@ -70,7 +70,7 @@
 
     // FUNCTION PARA PEGAR BORRACHARIAS CADASTRADAS
     async function getBorracharia() {
-        const response = await fetch('<?php echo URL ?>maps-controller/get-borracharias', {
+        const response = await fetch(URL + 'maps-controller/get-borracharias', {
             method: 'POST',
             Headers: {
                 'Content-type': 'application/json: charset-utf-8',
@@ -108,7 +108,7 @@
     async function cadBorracharia() {
         const form = new FormData(document.getElementById('form-cad-borracharia'));
 
-        const response = await fetch('<?php echo URL ?>maps-controller/cad-borracharia', {
+        const response = await fetch(URL + 'maps-controller/cad-borracharia', {
             method: 'POST',
             Headers: {
                 'Content-type': 'application/json: charset-utf-8',
@@ -231,7 +231,7 @@
                     lat: parseFloat(borracharia.coords_lat),
                     lng: parseFloat(borracharia.coords_lng)
                 },
-                content: `<div dir="ltr" style="" jstcache="0">` +
+                content: `<div dir="ltr" jstcache="0">` +
                     `<div jstcache="34" class="poi-info-window gm-style">` +
 
                     `<div jstcache="2">` +

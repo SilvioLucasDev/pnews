@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="row justify-content-center">
-                    <img src="<?php echo URL_ASSETS ?>img/logo/mascote.svg" width="509" height="475" alt="Mascote Pnews">
+                    <img src="<?php echo URL_ASSETS ?>img/logo/mascote.svg" alt="Mascote Pnews">
                 </div>
             </div>
 
@@ -21,14 +21,21 @@
                             <h2 class="mb-5"><strong>Login</strong></h2>
 
                             <form id="form-send-login" class="mb-5">
-                                <input class="form-control borda" id="email" type="text" name="email" placeholder="E-mail">
-                                <br>
-                                <input class="form-control borda" id="senha" type="password" name="senha" placeholder="Senha">
+                                <input class="form-control mt-2 borda" id="email" type="text" name="email" placeholder="E-mail">
 
-                                <br>
-                                <a href="#" class="link-secondary"><u>Esqueceu a senha?</u></a>
-                                <br>
+                                <div class="password-wrap">
 
+                                    <input class="form-control mt-4 borda" id="senha" type="password" name="senha" placeholder="Senha">
+
+                                    <i class="fa-solid fa-eye" id="show-password"></i>
+
+                                    <!-- <i class="fa-solid fa-eye-slash hidden-password"></i> -->
+                                </div>
+
+                                <div class="row my-2">
+                                    <a href="#" class="link-secondary"><u>Esqueceu a senha?</u></a>
+                                </div>
+                                
                                 <!-- Futuramente implementar login com APIS 
                                 <div class="m-5">
                                     <a href="#" class="btn">
@@ -38,10 +45,9 @@
                                     <a href="#" class="btn">
                                         <i class="fab fa-google-plus-square fa-3x"></i>
                                     </a>
-                                </div>
-                                -->
-
-                                <button id="btn-send-login" class="btn btn-outline-danger btn-lg borda mt-4" type="submit">Continuar</button>
+                                </div> -->
+                               
+                                <button id="btn-send-login" class="my-2 btn btn-outline-danger btn-lg borda mt-4" type="submit">Continuar</button>
                             </form>
 
                             <a href="<?php echo URL ?>cad-user-controller/index" class="link-secondary h5"> Cadastre-se grátis</a>
@@ -55,16 +61,36 @@
 </main>
 
 <script>
+    // const showPassword = document.getElementById('show-password');
+    // const senha = document.getElementById('senha');
+
+    // showPassword.addEventListener("click", function(){
+    //     this.classList.toggle("fa-eye-slash");
+
+    //     const type = senha.getAttribute("type") === "password" ? "text" : "passwrod";
+
+    //     console.log(type)
+    //     senha.setAttribute("type", type);
+    // })
+
     // FUNCTION PARA ENVIAR O FORMULÁRIO
     document.getElementById('btn-send-login').onclick = function(e) {
+        document.getElementById('btn-send-login').disabled = true;
         e.preventDefault();
-        sendLogin();
+
+        validate = validateLogin();
+
+        if(validate){
+            sendLogin();
+        } else {
+            document.getElementById('btn-send-login').disabled = false;
+        }
     };
 
     async function sendLogin() {
         const form = new FormData(document.getElementById('form-send-login'));
     
-        const response = await fetch('<?php echo URL ?>login-controller/validate-login', {
+        const response = await fetch(URL + 'login-controller/validate-login', {
             method: 'POST',
             Headers: {
                 'Content-type': 'application/json: charset-utf-8',
@@ -75,6 +101,7 @@
         json = await response.json();
 
         if (json.cod === 0) {
+            document.getElementById('btn-send-login').disabled = false;
             window.location.assign(URL + "home-Controller/index");
 
         } else {
@@ -86,6 +113,7 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-error');
+                document.getElementById('btn-send-login').disabled = false;
             }, 3000);
         }
     }

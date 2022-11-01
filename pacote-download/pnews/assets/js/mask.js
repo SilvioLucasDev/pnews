@@ -1,25 +1,36 @@
 $(window).on("load", function(){
+    // ********************************************************************
+    // MÁSCARA PARA INPUTS 
 
-    /***************************************/
-    //  MÁSCARA PARA INPUTS 
+    $('.cpf').mask('000.000.000-00');
+    $('.cnpj').mask('00.000.000/0000-00');
+    $('.val').mask("#.##0,00", { reverse: true });
+    $('.porcent').mask('#0%', { reverse: true });
+    $('.cep').mask('00.000-000');
+    $('.date').mask('00/00/0000');
+    $('.hour').mask('00:00');
 
-        $('.input-mask-cep').mask('00000-000');
-        $('.input-mask-cpf').mask('000.000.000-00');
-        $('.input-mask-rg').mask('00.000.000-0');
-        $('.input-mask-cv').mask('00/0000');
-        $('.input-mask-date').mask('00/00/0000');
-        $('.input-mask-horario').mask('00:00');
-        $('.input-mask-money').mask('#.##0,00#.##0,00', { reverse: true });
-        $('.input-mask-porcent').mask('##0%', { reverse: true });
+    $('.rg').mask('999.999.999-W', {
+        translation: {
+            'W': {
+                pattern: /[xX0-9]/
+            }
+        }, 
+        reverse: true
+    });
 
-        var SPMaskBehavior = function (val) {
-            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
-        },
-            spOptions = {
-                onKeyPress: function (val, e, field, options) {
-                    field.mask(SPMaskBehavior.apply({}, arguments), options);
-                }
-            };
+    // TELEFONE
+    var phoneMaskBehavior = function (val) {
+        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+    },
+    phoneOptions = {
+        onKeyPress: function (val, e, field, options) {
+            field.mask(phoneMaskBehavior.apply({}, arguments), options);
+        }
+    };
 
-        $('.input-mask-tel').mask(SPMaskBehavior, spOptions);
+    $('.telefone').mask(phoneMaskBehavior, phoneOptions);
+
+    // MODELO PNEU
+    $('.pneu').mask('000/00-00'), {reverse: true};
  });

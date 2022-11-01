@@ -9,6 +9,7 @@ if (!defined('URL')) {
 
 class FormatConfig
 {
+    // ********************************************************************
     // REMOVE CARACTERES ESPECIAIS E ACENTOS DA URL
     protected function clearUrl($url)
     {
@@ -21,6 +22,7 @@ class FormatConfig
         return $url = strtr(utf8_decode($url), utf8_decode($search[0]), $replace[0]);
     }
 
+    // ********************************************************************
     // FORMATA CONTROLLER
     protected function formatController($controller)
     {                                                            //"error-controler";
@@ -29,6 +31,7 @@ class FormatConfig
         return $controller = str_replace(" ", "", $controller);  //"ErrorController"
     }
 
+    // ********************************************************************
     // FORMATA MÉTODO
     protected function formatMethod($method)
     {                                             //"error-controler";
@@ -38,6 +41,7 @@ class FormatConfig
         return $method = lcfirst($method);        //"errorController"
     }
 
+    // ********************************************************************
     // FORMATA PASTA E ARQUIVO DA VIEW
     protected function formatView($url)
     {                                                       // "sts/Views/cad-file/cad-user"

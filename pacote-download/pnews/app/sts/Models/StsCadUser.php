@@ -16,10 +16,20 @@ class StsCadUser
         $this->data = $data;
     }
 
-    // *********************************************************************************
-    // ***** VALIDA SE O E-MAIL OU CPF JÁ EXISTE NA BASE *****
+    // ********************************************************************
+    // VALIDA SE O E-MAIL OU CPF JÁ EXISTE NA BASE
     public function cadUser()
     {
+        $f = new \Helper\Format;
+        $this->data['cpf'] = $f->onlyNumbers($this->data['cpf']);
+        $this->data['dt_nascimento'] = $f->formatDateUs($this->data['dt_nascimento']);
+        $this->data['telefone'] = $f->onlyNumbers($this->data['telefone']);
+        $this->data['cep'] = $f->onlyNumbers($this->data['cep']);
+        $this->data['numero'] = $f->onlyNumbers($this->data['numero']);
+        $this->data['ano_veiculo'] = $f->onlyNumbers($this->data['ano_veiculo']);
+        $this->data['modelo_pneu_dianteiro'] = $f->onlyNumbers($this->data['modelo_pneu_dianteiro']);
+        $this->data['modelo_pneu_traseiro'] = $f->onlyNumbers($this->data['modelo_pneu_traseiro']);
+
         $pdoSelect = new \Helper\Read();
         $pdoSelect->fullRead(
             "SELECT email, cpf 
@@ -30,18 +40,12 @@ class StsCadUser
 
         $this->data['result'] = $pdoSelect->getResult();
 
-        // echo "<pre>";
-        // print_r($this->data['result']);
-        // echo "<pre>";
-        // exit;
-
         // VALIDAR AQUI SE OS DADOS ESTÃO PREENCHIDOS CORRETAMENTE E FORMATAR
         // SE ESTIVER ERRADO DEVOLVER UM ERRO AO USUÁRIO
-        if (!isset($this->data['result'][0]) OR !empty($this->data['result'][0])) {
-            
-
+        if (!isset($this->data['result'][0]) or empty($this->data['result'][0])) {
             $this->setUser();
         } else {
+
             $return = array(
                 "cod" => 100,
                 "msg" => 'Erro S100: E-mail e ou CPF já cadastrado no sistema!',
@@ -52,8 +56,8 @@ class StsCadUser
         }
     }
 
-    // *********************************************************************************
-    // ***** INSERT DADOS USUÁRIO *****
+    // ********************************************************************
+    // INSERT DADOS USUÁRIO
     public function setUser()
     {
         $this->data['insert_user'] = [
@@ -84,8 +88,8 @@ class StsCadUser
         }
     }
 
-    // *********************************************************************************
-    // ***** INSERT DADOS TELEFONE  *****
+    // ********************************************************************
+    // INSERT DADOS TELEFONE 
     public function setPhone()
     {
         $this->data['insert_phone'] = [
@@ -112,8 +116,8 @@ class StsCadUser
         }
     }
 
-    // *********************************************************************************
-    // ***** INSERT DADOS ENDERECO *****
+    // ********************************************************************
+    // INSERT DADOS ENDERECO
     public function setAdress()
     {
         $this->data['insert_adress'] = [
@@ -146,8 +150,8 @@ class StsCadUser
         }
     }
 
-    // *********************************************************************************
-    // ***** INSERT DADOS VEÍCULO *****
+    // ********************************************************************
+    // INSERT DADOS VEÍCULO
     public function setAutomobile()
     {
         $this->data['insert_automobile'] = [
@@ -155,8 +159,9 @@ class StsCadUser
             "fabricante_veiculo" => $this->data['fabricante_veiculo'],
             "modelo_veiculo" => $this->data['modelo_veiculo'],
             "ano_veiculo" => $this->data['ano_veiculo'],
+            "modelo_pneu_dianteiro" => $this->data['modelo_pneu_dianteiro'],
+            "modelo_pneu_traseiro" => $this->data['modelo_pneu_traseiro'],
             "fabricante_pneu" => $this->data['fabricante_pneu'],
-            "modelo_pneu" => $this->data['modelo_pneu'],
             "ultima_troca_pneu" => $this->data['ultima_troca_pneu'],
             "tempo_medio_troca_pneu" => $this->data['tempo_medio_troca_pneu'],
             "fk_veiculo_usuario" => $this->data['id'],
@@ -169,7 +174,7 @@ class StsCadUser
 
         if ($pdoCreate->getResult() != NULL) {
             $_SESSION['id_usuario'] = $this->data['id'];
-            
+
             $return = array(
                 "cod" => 0,
                 "msg" => 'Cadastro realizado com sucesso!',

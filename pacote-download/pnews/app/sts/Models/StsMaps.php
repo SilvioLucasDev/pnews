@@ -16,8 +16,8 @@ class StsMaps
         $this->data = $data;
     }
 
-    // *********************************************************************************
-    // ***** FUNÇÃO PARA PEGAR BORRACHARIAS CADASTRADAS *****
+    // ********************************************************************
+    // FUNÇÃO PARA PEGAR BORRACHARIAS CADASTRADAS
     public function getBorracharias()
     {
         $pdoSelect = new \Helper\Read();
@@ -55,16 +55,17 @@ class StsMaps
         }
     }
 
-    // *********************************************************************************
-    // ***** VALIDA SE O E-MAIL, TELEFONE OU COORDENADAS JÁ EXISTE NA BASE *****
+    // ********************************************************************
+    // VALIDA SE O E-MAIL, TELEFONE OU COORDENADAS JÁ EXISTE NA BASE
     public function cadBorracharia()
     {
         // VALIDAR AQUI SE OS DADOS ESTÃO PREENCHIDOS CORRETAMENTE E FORMATAR
         // SE ESTIVER ERRADO DEVOLVER UM ERRO AO USUÁRIO
-        // email minusculo
+        // e-mail minusculo. validar e-mail
 
-        $u = new \Helper\Utils;
-        $this->data['coords'] = $u->formatCoords($this->data['coords']);
+        $f = new \Helper\Format;
+        $this->data['telefone'] = $f->onlyNumbers($this->data['telefone']);
+        $this->data['coords'] = $f->formatCoords($this->data['coords']);
 
         $pdoSelect = new \Helper\Read();
         $pdoSelect->fullRead(
@@ -128,8 +129,8 @@ class StsMaps
         }
     }
 
-    // *********************************************************************************
-    // ***** INSERT DADOS USUÁRIO *****
+    // ********************************************************************
+    // INSERT DADOS USUÁRIO
     public function setBorracharia()
     {
         $this->data['insert_borracharia'] = [
@@ -156,8 +157,8 @@ class StsMaps
         }
     }
 
-    // *********************************************************************************
-    // ***** INSERT DADOS TELEFONE  *****
+    // ********************************************************************
+    // INSERT DADOS TELEFONE
     public function setPhone()
     {
         $this->data['insert_phone'] = [
@@ -184,15 +185,15 @@ class StsMaps
         }
     }
 
-    // *********************************************************************************
-    // ***** INSERT DADOS ENDERECO *****
+    // ********************************************************************
+    // INSERT DADOS ENDERECO
     public function setAdress()
     {
         $this->data['insert_adress'] = [
             "coords_lat" => $this->data['coords'][0],
             "coords_lng" => $this->data['coords'][1],
             "fk_endereco_borracharia" => $this->data['id'],
-            "fk_endereco_status fk_endedereco_status " => 2,
+            "fk_endereco_status" => 2,
             "dt_created" => date("Y-m-d H:i:s")
         ];
 
@@ -202,7 +203,7 @@ class StsMaps
         if ($pdoCreate->getResult() != NULL) {
             $return = array(
                 "cod" => 0,
-                "msg" => 'Cadastro realizado com sucesso! A borracharia cadastrada passará por um processo de aprovação que irá durar até 72horas úteis.',
+                "msg" => 'Cadastro realizado com sucesso! A borracharia cadastrada passará por um processo de aprovação que irá durar até 72h úteis.',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
