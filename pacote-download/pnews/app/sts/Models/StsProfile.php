@@ -39,6 +39,15 @@ class StsProfile
 
         if (isset($this->data['result']) or !empty($this->data['result'])) {
 
+            $f = new \Helper\Format;
+            $this->data['result'][0]['cpf'] = $f->maskAllData($this->data['result'][0]['cpf'], 'cpf');
+            $this->data['result'][0]['dt_nascimento'] = $f->formatDateBr($this->data['result'][0]['dt_nascimento']);
+            $this->data['result'][0]['telefone'] = $f->maskAllData($this->data['result'][0]['telefone'], 'tel');
+            $this->data['result'][0]['cep'] = $f->maskAllData($this->data['result'][0]['cep'], 'cep');
+            $this->data['result'][0]['modelo_pneu_dianteiro'] = $f->maskAllData($this->data['result'][0]['modelo_pneu_dianteiro'], 'pneu');
+            $this->data['result'][0]['modelo_pneu_traseiro'] = $f->maskAllData($this->data['result'][0]['modelo_pneu_traseiro'], 'pneu');
+            $this->data['result'][0]['ultima_troca_pneu'] = $f->formatDateBr($this->data['result'][0]['ultima_troca_pneu']);
+
             $return = array(
                 "cod" => 0,
                 "msg" => 'Pesquisa realizada com sucesso!',

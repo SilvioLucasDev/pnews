@@ -93,15 +93,18 @@ body {
 }
 
 /* CUSTOMIZAÇÃO INPUT DE SENHA SHOW/HIDDEN */
-.password-wrap {
+.container-password {
 	position: relative;
 }
 
-#show-password {
+#icon-password,
+#icon-password2,
+#icon-password3 {
 	position: absolute;
 	top: 30%;
 	right: 1rem;
 	cursor: pointer;
+	color: #00000060;
 }
 
 

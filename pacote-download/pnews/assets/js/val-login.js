@@ -1,5 +1,5 @@
 // ********************************************************************
-// VALIDA FORM PÁGINA DE LOGIN 
+// VALIDA FORM DE LOGIN 
 
 function validateLogin() {
     var email = $('#email').val();

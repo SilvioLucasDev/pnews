@@ -1,5 +1,5 @@
 // ********************************************************************
-// VALIDA FORM PÁGINA DE ALTERAÇÃO DE SENHA
+// VALIDA FORM DE ALTERAÇÃO DE SENHA
 
 function validateAlterPass() {
     var senha = $('#senha').val();

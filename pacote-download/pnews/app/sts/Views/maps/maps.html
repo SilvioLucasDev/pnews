@@ -37,11 +37,11 @@
                         <div class="col-12 text-center align-self-center">
 
                             <form id="form-cad-borracharia" style="margin: 10px 20px 10px 20px;">
-                                <input class="form-control my-2 borda" type="text" name="nome" id="nome" placeholder="Nome da borracharia">
+                                <input class="form-control mt-2 borda" type="text" name="nome" id="nome" placeholder="Nome da borracharia">
 
-                                <input class="form-control my-2 borda telefone" type="text" name="telefone" id="telefone" placeholder="Telefone borracharia">
+                                <input class="form-control mt-2 borda telefone" type="text" name="telefone" id="telefone" placeholder="Telefone borracharia">
 
-                                <input class="form-control my-2 borda" type="text" name="email" id="email" placeholder="E-mail borracharia">
+                                <input class="form-control mt-2 borda" type="text" name="email" id="email" placeholder="E-mail borracharia">
 
                                 <input type="text" name="coords" id="coords" hidden>
                             </form>
@@ -99,14 +99,21 @@
     }
 
     // FUNCTION PARA ENVIAR O FORMULÁRIO 
-    document.getElementById('btn-cad-borracharia').onclick = function(e) {
-        document.getElementById('btn-cad-borracharia').disabled = true;
+    document.querySelector('#btn-cad-borracharia').onclick = function(e) {
+        document.querySelector('#btn-cad-borracharia').disabled = true;
         e.preventDefault();
-        cadBorracharia();
+
+        validate = validateCadBorracharia();
+
+        if(validate){
+            cadBorracharia();
+        } else {
+            document.querySelector('#btn-cad-borracharia').disabled = false;
+        }
     };
 
     async function cadBorracharia() {
-        const form = new FormData(document.getElementById('form-cad-borracharia'));
+        const form = new FormData(document.querySelector('#form-cad-borracharia'));
 
         const response = await fetch(URL + 'maps-controller/cad-borracharia', {
             method: 'POST',
@@ -127,7 +134,7 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-success');
-                document.getElementById('btn-cad-borracharia').disabled = false;
+                document.querySelector('#btn-cad-borracharia').disabled = false;
             }, 10000);
 
         } else {
@@ -139,7 +146,7 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-error');
-                document.getElementById('btn-cad-borracharia').disabled = false;
+                document.querySelector('#btn-cad-borracharia').disabled = false;
             }, 10000);
         }
     }
@@ -151,7 +158,7 @@
     function initMap() {
 
         // DEFINE CUSTOMIZAÇÕES INICIAIS E INSTÃNCIA O MAPA
-        const map = new google.maps.Map(document.getElementById("map"), {
+        const map = new google.maps.Map(document.querySelector("#map"), {
             zoom: 13,
             center: {
                 lat: lat,
@@ -206,7 +213,7 @@
                 setTimeout(function() {
                     retornoMsg.style.display = "none";
                     retornoMsg.classList.remove('retorno-error');
-                    document.getElementById('btn-cad-borracharia').disabled = false;
+                    document.querySelector('#btn-cad-borracharia').disabled = false;
                 }, 5000);
             }
         }
@@ -279,9 +286,9 @@
 
         // ABRE MODAL PARA ADICIONAR NOVA BORRACHARIA
         google.maps.event.addListener(map, 'click', function(event) {
-            const inputCoords = document.getElementById("coords");
+            const inputCoords = document.querySelector("#coords");
             inputCoords.value = event.latLng;
-            document.getElementById("showModal").click();
+            document.querySelector("#showModal").click();
         });
     }
 </script>

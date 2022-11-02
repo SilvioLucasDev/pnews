@@ -17,38 +17,81 @@ class StsCadUser
     }
 
     // ********************************************************************
-    // VALIDA SE O E-MAIL OU CPF JÁ EXISTE NA BASE
+    // VALIDA SE OS CAMPOS ESTÃO CERTO E SE O E-MAIL OU CPF JÁ EXISTE
     public function cadUser()
     {
-        $f = new \Helper\Format;
-        $this->data['cpf'] = $f->onlyNumbers($this->data['cpf']);
-        $this->data['dt_nascimento'] = $f->formatDateUs($this->data['dt_nascimento']);
-        $this->data['telefone'] = $f->onlyNumbers($this->data['telefone']);
-        $this->data['cep'] = $f->onlyNumbers($this->data['cep']);
-        $this->data['numero'] = $f->onlyNumbers($this->data['numero']);
-        $this->data['ano_veiculo'] = $f->onlyNumbers($this->data['ano_veiculo']);
-        $this->data['modelo_pneu_dianteiro'] = $f->onlyNumbers($this->data['modelo_pneu_dianteiro']);
-        $this->data['modelo_pneu_traseiro'] = $f->onlyNumbers($this->data['modelo_pneu_traseiro']);
+        $u = new \Helper\Utils;
+        if ($u->valString($this->data['nome'], 30) and $u->valString($this->data['sobrenome'], 50) and $u->valNumber($this->data['cpf'], 14) and $u->valNumberTwo($this->data['dt_nascimento'], 10) and $u->valPhone($this->data['telefone']) and $u->valEmail($this->data['email']) and $u->valPassword($this->data['senha'])) {
 
-        $pdoSelect = new \Helper\Read();
-        $pdoSelect->fullRead(
-            "SELECT email, cpf 
-             FROM sts_usuario 
-             WHERE cpf = :cpf OR email = :email",
-            "cpf={$this->data['cpf']}&email={$this->data['email']}"
-        );
+            if ($u->valNumber($this->data['cep'], 10) and $u->valString($this->data['rua'], 70) and $u->valString($this->data['bairro'], 70) and $u->valNumber($this->data['numero'], 10, '<=') and $u->valMinChar($this->data['complemento']) and $u->valString($this->data['cidade'], 50) and $u->valEmpty($this->data['estado'])) {
 
-        $this->data['result'] = $pdoSelect->getResult();
+                if ($u->vaEmptyMinChar($this->data['apelido_veiculo']) and $u->valString($this->data['fabricante_veiculo'], 30) and $u->vaEmptyMinChar($this->data['modelo_veiculo']) and $u->valNumber($this->data['ano_veiculo'], 4)) {
 
-        // VALIDAR AQUI SE OS DADOS ESTÃO PREENCHIDOS CORRETAMENTE E FORMATAR
-        // SE ESTIVER ERRADO DEVOLVER UM ERRO AO USUÁRIO
-        if (!isset($this->data['result'][0]) or empty($this->data['result'][0])) {
-            $this->setUser();
+                    if ($u->valNumberTwo($this->data['modelo_pneu_dianteiro'], 9) and $u->valNumberTwo($this->data['modelo_pneu_traseiro'], 9) and $u->valString($this->data['fabricante_pneu'], 30) and $u->valEmpty($this->data['ultima_troca_pneu']) and $u->valEmpty($this->data['tempo_medio_troca_pneu'])) {
+
+                        $f = new \Helper\Format;
+                        $this->data['cpf'] = $f->onlyNumbers($this->data['cpf']);
+                        $this->data['dt_nascimento'] = $f->formatDateUs($this->data['dt_nascimento']);
+                        $this->data['telefone'] = $f->onlyNumbers($this->data['telefone']);
+                        $this->data['cep'] = $f->onlyNumbers($this->data['cep']);
+                        $this->data['numero'] = $f->onlyNumbers($this->data['numero']);
+                        $this->data['ano_veiculo'] = $f->onlyNumbers($this->data['ano_veiculo']);
+                        $this->data['modelo_pneu_dianteiro'] = $f->onlyNumbers($this->data['modelo_pneu_dianteiro']);
+                        $this->data['modelo_pneu_traseiro'] = $f->onlyNumbers($this->data['modelo_pneu_traseiro']);
+
+                        $pdoSelect = new \Helper\Read();
+                        $pdoSelect->fullRead(
+                            "SELECT email, cpf 
+                             FROM sts_usuario 
+                             WHERE cpf = :cpf OR email = :email",
+                            "cpf={$this->data['cpf']}&email={$this->data['email']}"
+                        );
+
+                        $this->data['result'] = $pdoSelect->getResult();
+
+                        if (!isset($this->data['result'][0]) or empty($this->data['result'][0])) {
+                            $this->setUser();
+                        } else {
+
+                            $return = array(
+                                "cod" => 100,
+                                "msg" => 'Erro S100: E-mail e ou CPF já cadastrado no sistema!',
+                            );
+
+                            echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                            exit;
+                        }
+                    } else {
+                        $return = array(
+                            "cod" => 110,
+                            "msg" => 'Erro S110: Dados do pneu inválidos, verifique novamente.',
+                        );
+
+                        echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                        exit;
+                    }
+                } else {
+                    $return = array(
+                        "cod" => 120,
+                        "msg" => 'Erro S120: Dados do veículo inválidos, verifique novamente.',
+                    );
+
+                    echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                    exit;
+                }
+            } else {
+                $return = array(
+                    "cod" => 130,
+                    "msg" => 'Erro S130: Dados de endereço inválidos, verifique novamente.',
+                );
+
+                echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                exit;
+            }
         } else {
-
             $return = array(
-                "cod" => 100,
-                "msg" => 'Erro S100: E-mail e ou CPF já cadastrado no sistema!',
+                "cod" => 140,
+                "msg" => 'Erro S140: Dados pessoais inválidos, verifique novamente.',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -79,8 +122,8 @@ class StsCadUser
             $this->setPhone();
         } else {
             $return = array(
-                "cod" => 110,
-                "msg" => 'Erro S110: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
+                "cod" => 150,
+                "msg" => 'Erro S150: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -107,8 +150,8 @@ class StsCadUser
             $this->setAdress();
         } else {
             $return = array(
-                "cod" => 120,
-                "msg" => 'Erro S120: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
+                "cod" => 160,
+                "msg" => 'Erro S160: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -141,8 +184,8 @@ class StsCadUser
         } else {
 
             $return = array(
-                "cod" => 130,
-                "msg" => 'Erro S130: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
+                "cod" => 170,
+                "msg" => 'Erro S170: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -185,8 +228,8 @@ class StsCadUser
         } else {
 
             $return = array(
-                "cod" => 140,
-                "msg" => 'Erro S140: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
+                "cod" => 180,
+                "msg" => 'Erro S180: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);

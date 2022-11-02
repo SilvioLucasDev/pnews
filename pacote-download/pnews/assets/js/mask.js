@@ -1,4 +1,5 @@
-$(window).on("load", function(){
+$(window).on("load", function () {
+    
     // ********************************************************************
     // MÁSCARA PARA INPUTS 
 
@@ -15,7 +16,7 @@ $(window).on("load", function(){
             'W': {
                 pattern: /[xX0-9]/
             }
-        }, 
+        },
         reverse: true
     });
 
@@ -23,14 +24,14 @@ $(window).on("load", function(){
     var phoneMaskBehavior = function (val) {
         return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
     },
-    phoneOptions = {
-        onKeyPress: function (val, e, field, options) {
-            field.mask(phoneMaskBehavior.apply({}, arguments), options);
-        }
-    };
+        phoneOptions = {
+            onKeyPress: function (val, e, field, options) {
+                field.mask(phoneMaskBehavior.apply({}, arguments), options);
+            }
+        };
 
     $('.telefone').mask(phoneMaskBehavior, phoneOptions);
 
     // MODELO PNEU
-    $('.pneu').mask('000/00-00'), {reverse: true};
- });
+    $('.pneu').mask('000/00-00'), { reverse: true };
+});

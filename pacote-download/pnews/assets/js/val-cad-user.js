@@ -1,5 +1,5 @@
 // ********************************************************************
-// VALIDA FORM PÁGINA DE LOGIN 
+// VALIDA FORM PARA CADASTRAR USUÁRIO
 
 function validateCadUser() {
     const nome = $('#nome').val();
@@ -27,12 +27,13 @@ function validateCadUser() {
     const ultima_troca_pneu = $('#ultima_troca_pneu').val();
     const tempo_medio_troca_pneu = $('#tempo_medio_troca_pneu').val();
 
-    const stage1 = document.getElementById('stage-1');
-    const stage2 = document.getElementById('stage-2');
+    const stage1 = document.querySelector('#stage-1');
+    const stage2 = document.querySelector('#stage-2');
 
     function resInputError(id, tipo, qtd) {
 
         if (id === "nome" || id === "sobrenome" || id === "cpf" || id === "dt_nascimento" || id === "telefone" || id === "email" || id === "senha" || id === "cep" || id === "rua" || id === "bairro" || id === "numero" || id === "complemento" || id === "cidade" || id === "estado") {
+            document.querySelector('.stage-text').innerHTML = "Insira os dados do seu veículo para finalizar o cadastro";
             stage1.style.display = "block"; // ESCONDER ETAPA 2
             stage2.style.display = "none"; // MOSTRAR ETAPA 1
         }
@@ -81,6 +82,10 @@ function validateCadUser() {
     } else if (!nome.match(/^[a-zA-Zà-úÀ-Ú\s]*$/)) {
         resInputError("nome", "somenteLetras");
         return false;
+
+    } else if (nome.length > 30) {
+        resInputError("nome", "tamanhoMaior", "30");
+        return false;
     }
 
     // SOBRENOME
@@ -90,6 +95,10 @@ function validateCadUser() {
 
     } else if (!sobrenome.match(/^[a-zA-Zà-úÀ-Ú\s]*$/)) {
         resInputError("sobrenome", "somenteLetras");
+        return false;
+
+    } else if (sobrenome.length > 50) {
+        resInputError("sobrenome", "tamanhoMaior", "50");
         return false;
     }
 
@@ -104,6 +113,10 @@ function validateCadUser() {
 
     } else if (cpf.length < 14) {
         resInputError("cpf", "tamanhoMenor", "14");
+        return false;
+
+    } else if (cpf.length > 14) {
+        resInputError("cpf", "tamanhoMaior", "14");
         return false;
     }
 
@@ -133,6 +146,10 @@ function validateCadUser() {
     } else if (telefone.length < 14) {
         resInputError("telefone", "tamanhoMenor", "14");
         return false;
+
+    } else if (telefone.length > 15) {
+        resInputError("telefone", "tamanhoMaior", "15");
+        return false;
     }
 
     // E-MAIL
@@ -142,6 +159,10 @@ function validateCadUser() {
 
     } else if (!email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
         resInputError("email", "emailInvalido");
+        return false;
+
+    } else if (senha.length > 70) {
+        resInputError("senha", "tamanhoMaior", "70");
         return false;
     }
 
@@ -158,8 +179,9 @@ function validateCadUser() {
         resInputError("senha", "tamanhoMenor", "8");
         return false;
 
-    } else if (senha.length > 64) {
-        resInputError("senha", "tamanhoMaior", "64");
+    } else if (senha.length > 70) {
+        resInputError("senha", "tamanhoMaior", "70");
+        return false;
     }
 
     // CEP
@@ -173,6 +195,10 @@ function validateCadUser() {
 
     } else if (cep.length < 10) {
         resInputError("cep", "tamanhoMenor", "10");
+        return false;
+
+    } else if (cep.length > 10) {
+        resInputError("cep", "tamanhoMaior", "10");
         return false;
     }
 

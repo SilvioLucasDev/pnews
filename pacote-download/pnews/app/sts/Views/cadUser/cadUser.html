@@ -46,7 +46,12 @@
 
                                     <input class="form-control mt-2 borda" type="text" id="email" name="email" placeholder="E-mail">
 
-                                    <input class="form-control mt-2 borda" type="password" id="senha" name="senha" placeholder="Senha">
+                                    
+                                    <div class="container-password">
+                                        <input class="form-control mt-2 borda" type="password" id="senha" name="senha" placeholder="Senha">
+
+                                        <i class="fa-solid fa-eye" id="icon-password"></i>
+                                    </div>
 
                                     <input class="form-control mt-2 borda cep" type="text" id="cep" name="cep" placeholder="CEP" onblur="pesquisacep(this.value);">
 
@@ -152,29 +157,29 @@
         });
 
         html += `<option selected value=''>Estado</option>`
-        document.getElementById('estado').innerHTML = html;
+        document.querySelector('#estado').innerHTML = html;
     }
 
-    const stage1 = document.getElementById('stage-1');
-    const stage2 = document.getElementById('stage-2');
+    const stage1 = document.querySelector('#stage-1');
+    const stage2 = document.querySelector('#stage-2');
 
     // FUNCTION PARA PASSSAR PARA A PRÓXIMA ETAPA
-    document.getElementById('btn-next').onclick = function(e) {
+    document.querySelector('#btn-next').onclick = function(e) {
         document.querySelector('.stage-text').innerHTML = "Insira os dados do seu veículo para finalizar o cadastro";
         stage1.style.display = "none"; // ESCONDER ETAPA 1
         stage2.style.display = "block"; // MOSTRAR ETAPA 2
     };
 
     // FUNCTION PARA RETORNAR A ETAPA ANTERIOR
-    document.getElementById('btn-prev').onclick = function(e) {
+    document.querySelector('#btn-prev').onclick = function(e) {
         document.querySelector('.stage-text').innerHTML = "Insira os seus dados para continuar o cadastro";
         stage1.style.display = "block"; // ESCONDER ETAPA 2
         stage2.style.display = "none"; // MOSTRAR ETAPA 1
     };
 
     // FUNCTION PARA ENVIAR O FORMULÁRIO
-    document.getElementById('btn-send-cad').onclick = function(e) {
-        document.getElementById('btn-send-cad').disabled = true;
+    document.querySelector('#btn-send-cad').onclick = function(e) {
+        document.querySelector('#btn-send-cad').disabled = true;
         e.preventDefault();
 
         validate = validateCadUser();
@@ -182,12 +187,12 @@
         if(validate){
             cadUser();
         } else {
-            document.getElementById('btn-send-cad').disabled = false;
+            document.querySelector('#btn-send-cad').disabled = false;
         }
         
     };
     async function cadUser() {
-        const form = new FormData(document.getElementById('form-cad-user'));
+        const form = new FormData(document.querySelector('#form-cad-user'));
 
         const response = await fetch(URL + 'cad-user-controller/cad-user', {
             method: 'POST',
@@ -208,11 +213,124 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-success');
-                document.getElementById('btn-send-cad').disabled = false;
+                document.querySelector('#btn-send-cad').disabled = false;
                 window.location.assign(URL + "home-Controller/index");
             }, 2000);
 
         } else {
+
+            console.log(json)
+            // DADOS PESSOAS
+            if (json.cod === 140) {
+                document.querySelector('.stage-text').innerHTML = "Insira os dados do seu veículo para finalizar o cadastro";
+                stage1.style.display = "block"; // ESCONDER ETAPA 2
+                stage2.style.display = "none"; // MOSTRAR ETAPA 1
+
+                const nome = document.querySelector('#nome');
+                const sobrenome = document.querySelector('#sobrenome');
+                const cpf = document.querySelector('#cpf');
+                const dt_nascimento = document.querySelector('#dt_nascimento');
+                const telefone = document.querySelector('#telefone');
+                const email = document.querySelector('#email');
+                const senha = document.querySelector('#senha');
+
+                nome.classList.add('error-input-border');
+                sobrenome.classList.add('error-input-border');
+                cpf.classList.add('error-input-border');
+                dt_nascimento.classList.add('error-input-border');
+                telefone.classList.add('error-input-border');
+                email.classList.add('error-input-border');
+                senha.classList.add('error-input-border');
+
+                setTimeout(function() {
+                    nome.classList.remove('error-input-border');
+                    sobrenome.classList.remove('error-input-border');
+                    cpf.classList.remove('error-input-border');
+                    dt_nascimento.classList.remove('error-input-border');
+                    telefone.classList.remove('error-input-border');
+                    email.classList.remove('error-input-border');
+                    senha.classList.remove('error-input-border');
+                }, 5000);
+
+            // DADOS ENDEREÇO
+            } else if (json.cod === 130) {
+                document.querySelector('.stage-text').innerHTML = "Insira os dados do seu veículo para finalizar o cadastro";
+                stage1.style.display = "block"; // ESCONDER ETAPA 2
+                stage2.style.display = "none"; // MOSTRAR ETAPA 1
+
+                const cep = document.querySelector('#cep');
+                const rua = document.querySelector('#rua');
+                const bairro = document.querySelector('#bairro');
+                const numero = document.querySelector('#numero');
+                const complemento = document.querySelector('#complemento');
+                const cidade = document.querySelector('#cidade');
+                const estado = document.querySelector('#estado');
+
+                cep.classList.add('error-input-border');
+                rua.classList.add('error-input-border');
+                bairro.classList.add('error-input-border');
+                numero.classList.add('error-input-border');
+                complemento.classList.add('error-input-border');
+                cidade.classList.add('error-input-border');
+                estado.classList.add('error-input-border');
+
+                setTimeout(function() {
+                    cep.classList.remove('error-input-border');
+                    rua.classList.remove('error-input-border');
+                    bairro.classList.remove('error-input-border');
+                    numero.classList.remove('error-input-border');
+                    complemento.classList.remove('error-input-border');
+                    cidade.classList.remove('error-input-border');
+                    estado.classList.remove('error-input-border');
+                }, 5000);
+
+            // DADOS VEÍCULO
+            } else if (json.cod === 120) {
+
+                const apelido_veiculo = document.querySelector('#apelido_veiculo');
+                const fabricante_veiculo = document.querySelector('#fabricante_veiculo');
+                const modelo_veiculo = document.querySelector('#modelo_veiculo');
+                const ano_veiculo = document.querySelector('#ano_veiculo');
+
+
+                apelido_veiculo.classList.add('error-input-border');
+                fabricante_veiculo.classList.add('error-input-border');
+                modelo_veiculo.classList.add('error-input-border');
+                ano_veiculo.classList.add('error-input-border');
+
+
+                setTimeout(function() {
+                    apelido_veiculo.classList.remove('error-input-border');
+                    fabricante_veiculo.classList.remove('error-input-border');
+                    modelo_veiculo.classList.remove('error-input-border');
+                    ano_veiculo.classList.remove('error-input-border');
+                }, 5000);
+
+            // DADOS PNEU
+            } else if (json.cod === 110) {
+
+                const modelo_pneu_dianteiro = document.querySelector('#modelo_pneu_dianteiro');
+                const modelo_pneu_traseiro = document.querySelector('#modelo_pneu_traseiro');
+                const fabricante_pneu = document.querySelector('#fabricante_pneu');
+                const ultima_troca_pneu = document.querySelector('#ultima_troca_pneu');
+                const tempo_medio_troca_pneu = document.querySelector('#tempo_medio_troca_pneu');
+
+                modelo_pneu_dianteiro.classList.add('error-input-border');
+                modelo_pneu_traseiro.classList.add('error-input-border');
+                fabricante_pneu.classList.add('error-input-border');
+                ultima_troca_pneu.classList.add('error-input-border');
+                tempo_medio_troca_pneu.classList.add('error-input-border');
+
+                
+                setTimeout(function() {
+                    modelo_pneu_dianteiro.classList.remove('error-input-border');
+                    modelo_pneu_traseiro.classList.remove('error-input-border');
+                    fabricante_pneu.classList.remove('error-input-border');
+                    ultima_troca_pneu.classList.remove('error-input-border');
+                    tempo_medio_troca_pneu.classList.remove('error-input-border');
+                }, 5000);
+            } 
+        
             const retornoMsg = document.querySelector('.retorno-msg');
             retornoMsg.classList.add('retorno-error');
             retornoMsg.style.display = "block";
@@ -221,7 +339,7 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-error');
-                document.getElementById('btn-send-cad').disabled = false;
+                document.querySelector('#btn-send-cad').disabled = false;
             }, 5000);
         }
     }
@@ -229,19 +347,19 @@
     // INÍCIO FUNCTION VIA CEP
     function limpa_formulário_cep() {
         // LIMPA VALORES DO FORMULÁRIO DE CEP.
-        document.getElementById('rua').value = ("");
-        document.getElementById('bairro').value = ("");
-        document.getElementById('cidade').value = ("");
-        document.getElementById('estado').value = ("");
+        document.querySelector('#rua').value = ("");
+        document.querySelector('#bairro').value = ("");
+        document.querySelector('#cidade').value = ("");
+        document.querySelector('#estado').value = ("");
     }
 
     function meu_callback(conteudo) {
         if (!("erro" in conteudo)) {
             // ATUALIZA OS CAMPOS COM OS VALORES.
-            document.getElementById('rua').value = (conteudo.logradouro);
-            document.getElementById('bairro').value = (conteudo.bairro);
-            document.getElementById('cidade').value = (conteudo.localidade);
-            document.getElementById('estado').value = (conteudo.uf);
+            document.querySelector('#rua').value = (conteudo.logradouro);
+            document.querySelector('#bairro').value = (conteudo.bairro);
+            document.querySelector('#cidade').value = (conteudo.localidade);
+            document.querySelector('#estado').value = (conteudo.uf);
         } else {
             // CEP NÃO ENCONTRADO.
             limpa_formulário_cep();
@@ -264,10 +382,10 @@
             if (validacep.test(cep)) {
 
                 // PREENCHE OS CAMPOS COM "..." ENQUANTO CONSULTA WEBSERVICE.
-                document.getElementById('rua').value = "...";
-                document.getElementById('bairro').value = "...";
-                document.getElementById('cidade').value = "...";
-                document.getElementById('estado').value = "...";
+                document.querySelector('#rua').value = "...";
+                document.querySelector('#bairro').value = "...";
+                document.querySelector('#cidade').value = "...";
+                document.querySelector('#estado').value = "...";
 
                 // CRIA UM ELEMENTO JAVASCRIPT.
                 var script = document.createElement('script');

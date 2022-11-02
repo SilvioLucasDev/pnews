@@ -89,25 +89,32 @@ class Format
 
     // ********************************************************************
     // MÁSCARA DE DADOS
-
-    // $cnpj = '11222333000199';
-    // echo mask($cnpj, '##.###.###/####-##').'<br>';
-
-    // $cpf = '00100200300';
-    // echo mask($cpf, '###.###.###-##').'<br>';
-
-    // $cep = '08665110';
-    // echo mask($cep, '#####-###').'<br>';
-
-    // $data = '10102010';
-    // echo mask($data, '##/##/####').'<br>';
-
-    // $hora = '021050';
-    // echo mask($hora, 'Agora são ## horas ## minutos e ## segundos').'<br>';
-    // echo mask($hora, '##:##:##');
-
-    public function maskAllData($string, $mask)
+    public function maskAllData($string, $type)
     {
+        if ($type == 'cpf') {
+            $mask = '###.###.###-##';
+
+        } else if ($type == 'cnpj'){
+            $mask = '##.###.###/####-##';
+
+        } else if ($type == 'tel') {
+
+            if (strlen($string) == 11) {
+                $mask = '(##) #####-#####';
+            } else {
+                $mask = '(##) ####-#####';
+            }
+
+        } else if ($type == 'cep') {
+            $mask = '##.###-###';
+
+        } else if ($type == 'pneu') {
+            $mask = '###/##-##';
+
+        } else {
+            $mask = $type;
+        }
+
         $string =  strval($string);
         $maskared = '';
 

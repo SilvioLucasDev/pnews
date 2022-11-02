@@ -27,8 +27,8 @@
         <div class="row m-0 py-3 border-bottom">
             <h2><strong>Endereço</strong></h2>
             <div>CEP: <label class="get-cep">#</label></div>
-            <div>Rua <label class="get-rua">#</label></div>
-            <div><label class="get-bairro">#</label> <label class="get-numero">#</label> <label class="get-complemento">#</label></div>
+            <div><label class="get-rua">#</label></div>
+            <div><label class="get-bairro">#</label>, <label class="get-numero">#</label> - <label class="get-complemento">#</label></div>
             <div><label class="get-cidade">Cidade</label> - <label class="get-estado">Estado</label></div>
         </div>
 
@@ -76,11 +76,23 @@
                         <div class="col-12 text-center align-self-center">
 
                             <form id="form-send-password" style="margin: 10px 20px 10px 20px;">
-                                <input class="form-control mt-2 borda" type="password" name="senha" id="senha" placeholder="Senha Atual" required>
+                                <div class="container-password">
+                                    <input class="form-control mt-2 borda" type="password" name="senha" id="senha" placeholder="Senha Atual">
 
-                                <input class="form-control mt-2 borda" type="password" name="senha2" id="senha2" minlength="6" placeholder="Nova senha" required>
+                                    <i class="fa-solid fa-eye" id="icon-password"></i>
+                                </div>
 
-                                <input class="form-control mt-2 borda" type="password" name="senha3" id="senha3" minlength="6" placeholder="Confirme a nova senha" required>
+                                <div class="container-password">
+                                    <input class="form-control mt-2 borda" type="password" name="senha2" id="senha2" minlength="6" placeholder="Nova senha">
+
+                                    <i class="fa-solid fa-eye" id="icon-password2"></i>
+                                </div>
+
+                                <div class="container-password">
+                                    <input class="form-control mt-2 borda" type="password" name="senha3" id="senha3" minlength="6" placeholder="Confirme a nova senha">
+
+                                    <i class="fa-solid fa-eye" id="icon-password3"></i>
+                                </div>
                             </form>
 
                         </div>
@@ -154,7 +166,8 @@
             getModeloPneuTraseiro.innerHTML = json.res.modelo_pneu_traseiro
             getFabricantePneu.innerHTML = json.res.fabricante_pneu
             getTrocaPneu.innerHTML = json.res.ultima_troca_pneu 
-
+            getTempoMedioPneu.innerHTML = json.res.tempo_medio_troca_pneu
+            
         } else {
             const retornoMsg = document.querySelector('.retorno-msg');
             retornoMsg.classList.add('retorno-error');
@@ -169,8 +182,8 @@
     }
 
     // FUNCTION PARA ALTERAR SENHA
-    document.getElementById('btn-send-password').onclick = function(e) {
-        document.getElementById('btn-send-password').disabled = true;
+    document.querySelector('#btn-send-password').onclick = function(e) {
+        document.querySelector('#btn-send-password').disabled = true;
         e.preventDefault();
         
         validate = validateAlterPass();
@@ -178,11 +191,11 @@
         if(validate){
             sendPassword();
         } else {
-            document.getElementById('btn-send-password').disabled = false;
+            document.querySelector('#btn-send-password').disabled = false;
         }
     };
     async function sendPassword() {
-        const form = new FormData(document.getElementById('form-send-password'));
+        const form = new FormData(document.querySelector('#form-send-password'));
 
         const response = await fetch(URL + 'password-controller/index', {
             method: 'POST',
@@ -205,7 +218,7 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-success');
-                document.getElementById('btn-send-password').disabled = false;
+                document.querySelector('#btn-send-password').disabled = false;
             }, 3000);
 
         } else {
@@ -218,7 +231,7 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-error');
-                document.getElementById('btn-send-password').disabled = false;
+                document.querySelector('#btn-send-password').disabled = false;
             }, 3000);
         }
     }

@@ -36,6 +36,11 @@ class StsMaps
 
         if (isset($this->data['result']) or !empty($this->data['result'])) {
 
+            $f = new \Helper\Format;
+            $this->data['result'][0]['cnpj'] = $f->maskAllData($this->data['result'][0]['cnpj'], 'cnpj');
+            $this->data['result'][0]['telefone'] = $f->maskAllData($this->data['result'][0]['telefone'], 'tel');
+            $this->data['result'][0]['cep'] = $f->maskAllData($this->data['result'][0]['cep'], 'cep');
+
             $return = array(
                 "cod" => 0,
                 "msg" => 'Pesquisa realizada com sucesso!',
@@ -59,69 +64,89 @@ class StsMaps
     // VALIDA SE O E-MAIL, TELEFONE OU COORDENADAS JÁ EXISTE NA BASE
     public function cadBorracharia()
     {
-        // VALIDAR AQUI SE OS DADOS ESTÃO PREENCHIDOS CORRETAMENTE E FORMATAR
-        // SE ESTIVER ERRADO DEVOLVER UM ERRO AO USUÁRIO
-        // e-mail minusculo. validar e-mail
+        $u = new \Helper\Utils;
+        if ($u->valStringTwo($this->data['nome'], 60)) {
 
-        $f = new \Helper\Format;
-        $this->data['telefone'] = $f->onlyNumbers($this->data['telefone']);
-        $this->data['coords'] = $f->formatCoords($this->data['coords']);
+            if ($u->valPhone($this->data['telefone']) or $u->valEmail($this->data['email'])) {
 
-        $pdoSelect = new \Helper\Read();
-        $pdoSelect->fullRead(
-            "SELECT borracharia.email, borracharia.fk_borracharia_status,
-                    telefone.telefone,
-                    endereco.coords_lat, endereco.coords_lng
-             FROM sts_borracharia AS borracharia
-             LEFT JOIN sts_telefone_borracharia AS telefone ON telefone.fk_telefone_borracharia  = borracharia.id_borracharia
-             LEFT JOIN sts_endereco_borracharia AS endereco ON endereco.fk_endereco_borracharia = borracharia.id_borracharia
-             WHERE borracharia.email = :email 
-             OR telefone.telefone = :telefone 
-             OR endereco.coords_lat = :coords_lat 
-             OR endereco.coords_lng = :coords_lng",
-            "email={$this->data['email']}&telefone={$this->data['telefone']}&coords_lat={$this->data['coords'][0]}&coords_lng={$this->data['coords'][1]}"
-        );
+                $f = new \Helper\Format;
+                $this->data['telefone'] = $f->onlyNumbers($this->data['telefone']);
+                $this->data['email'] = strtolower($this->data['email']);
+                $this->data['coords'] = $f->formatCoords($this->data['coords']);
 
-        $this->data['result'] = $pdoSelect->getResult();
+                $pdoSelect = new \Helper\Read();
+                $pdoSelect->fullRead(
+                    "SELECT borracharia.email, borracharia.fk_borracharia_status,
+                            telefone.telefone,
+                            endereco.coords_lat, endereco.coords_lng
+                     FROM sts_borracharia AS borracharia
+                     LEFT JOIN sts_telefone_borracharia AS telefone ON telefone.fk_telefone_borracharia  = borracharia.id_borracharia
+                     LEFT JOIN sts_endereco_borracharia AS endereco ON endereco.fk_endereco_borracharia = borracharia.id_borracharia
+                     WHERE borracharia.email = :email 
+                     OR telefone.telefone = :telefone 
+                     OR endereco.coords_lat = :coords_lat 
+                     OR endereco.coords_lng = :coords_lng",
+                    "email={$this->data['email']}&telefone={$this->data['telefone']}&coords_lat={$this->data['coords'][0]}&coords_lng={$this->data['coords'][1]}"
+                );
 
-        if (!isset($this->data['result'][0]) or empty($this->data['result'][0])) {
-            $this->setBorracharia();
-        } else {
+                $this->data['result'] = $pdoSelect->getResult();
 
-            foreach ($this->data['result'] as $index) {
-                extract($index);
+                if (!isset($this->data['result'][0]) or empty($this->data['result'][0])) {
+                    $this->setBorracharia();
+                } else {
 
-                if ($this->data['email'] == $email) {
-                    $erro = 510;
-                    $msg = 'Erro S510: E-mail e ou telefone já cadastrado no sistema!';
-                } else if ($this->data['telefone'] == $telefone) {
-                    $erro = 520;
-                    $msg = 'Erro S520: E-mail e ou telefone já cadastrado no sistema!';
-                } else if ($this->data['coords'][0] = $coords_lat or $this->data['coords'][1] = $coords_lng) {
+                    foreach ($this->data['result'] as $index) {
+                        extract($index);
 
-                    if ($this->data['coords'][0] !== $coords_lat or $this->data['coords'][1] !== $coords_lng) {
-                        $this->setBorracharia();
-                        break;
+                        if ($this->data['email'] == $email) {
+                            $erro = 510;
+                            $msg = 'Erro S510: E-mail e ou telefone já cadastrado no sistema!';
+                        } else if ($this->data['telefone'] == $telefone) {
+                            $erro = 520;
+                            $msg = 'Erro S520: E-mail e ou telefone já cadastrado no sistema!';
+                        } else if ($this->data['coords'][0] = $coords_lat or $this->data['coords'][1] = $coords_lng) {
+
+                            if ($this->data['coords'][0] !== $coords_lat or $this->data['coords'][1] !== $coords_lng) {
+                                $this->setBorracharia();
+                                break;
+                            }
+
+                            $erro = 530;
+                            $msg = 'Erro S530: Coordenadas já cadastrada em nosso sistema!';
+                        }
+
+                        if (isset($msg) or !empty($msg)) {
+                            if (isset($fk_borracharia_status)) {
+                                $msg .= '<br>STATUS: Aguardando confirmação de e-mail.';
+                            } else if ($fk_borracharia_status == 1) {
+                                $msg .= '<br>STATUS: Em fase de aprovação.';
+                            }
+
+                            $msg .= ' Em caso de dúvidas entre em contato com nosso atendimento.';
+                        }
                     }
 
-                    $erro = 530;
-                    $msg = 'Erro S530: Coordenadas já cadastrada em nosso sistema!';
-                }
+                    $return = array(
+                        "cod" => $erro,
+                        "msg" => $msg,
+                    );
 
-                if (isset($msg) or !empty($msg)) {
-                    if (isset($fk_borracharia_status)) {
-                        $msg .= '<br>STATUS: Aguardando confirmação de e-mail.';
-                    } else if ($fk_borracharia_status == 1) {
-                        $msg .= '<br>STATUS: Em fase de aprovação.';
-                    }
-
-                    $msg .= ' Em caso de dúvidas entre em contato com nosso atendimento.';
+                    echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                    exit;
                 }
+            } else {
+                $return = array(
+                    "cod" => 540,
+                    "msg" => 'Erro S540: Preencha pelo menos um dos campos para contato de forma correta.',
+                );
+
+                echo json_encode($return, JSON_UNESCAPED_UNICODE);
+                exit;
             }
-
+        } else {
             $return = array(
-                "cod" => $erro,
-                "msg" => $msg,
+                "cod" => 550,
+                "msg" => 'Erro S550: Preencha o campo nome sem caracateres especiais e ate 60 dígitos.',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -135,7 +160,7 @@ class StsMaps
     {
         $this->data['insert_borracharia'] = [
             "nome" => $this->data['nome'],
-            "email" => $this->data['email'], //TRATAR E-MAIL COM A UTILS
+            "email" => $this->data['email'],
             "fk_borracharia_status" => 1,
             "dt_created" => date("Y-m-d H:i:s")
         ];
@@ -148,8 +173,8 @@ class StsMaps
             $this->setPhone();
         } else {
             $return = array(
-                "cod" => 540,
-                "msg" => 'Erro S540: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
+                "cod" => 560,
+                "msg" => 'Erro S560: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -176,8 +201,8 @@ class StsMaps
         } else {
 
             $return = array(
-                "cod" => 550,
-                "msg" => 'Erro S550: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
+                "cod" => 570,
+                "msg" => 'Erro S570: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -211,8 +236,8 @@ class StsMaps
         } else {
 
             $return = array(
-                "cod" => 560,
-                "msg" => 'Erro S560: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
+                "cod" => 580,
+                "msg" => 'Erro S580: Tente novamente. Se o erro persistir entre em contato com nosso atendimento',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
