@@ -11,11 +11,21 @@ class Utils
 {
     // ********************************************************************
     // REDIRECIONA PARA A PÁGINA DE ERRO DEFAULT
-    public function errorDefault($msgError, $action, $nameButton, $redirect, $sessionDestroy)
+    public function valSession()
+    {
+        if (!isset($_SESSION['id_usuario'])) {
+            header("location: " . URL . "error-controller/error/404");
+            exit;
+        }
+    }
+
+    // ********************************************************************
+    // REDIRECIONA PARA A PÁGINA DE ERRO DEFAULT
+    public function errorDefault($msgError, $status, $nameButton, $redirect, $sessionDestroy)
     {
         $_SESSION['error'] = [
             'msgError' => $msgError,             // 'Erro S400: Erro ao atualizar foto de perfil'
-            'action' => $action,                 // 'Sucesso', 'Erro'
+            'status' => $status,                 // 'Sucesso', 'Erro'
             'nameButton' => $nameButton,         // 'Voltar', 'Sair', 'Login'
             'redirect' => $redirect,             // 'login-controller/index' (CONTROLLER/MÉTODO/PARÂMETRO)
             'sessionDestroy' => $sessionDestroy, // 'S', 'N'

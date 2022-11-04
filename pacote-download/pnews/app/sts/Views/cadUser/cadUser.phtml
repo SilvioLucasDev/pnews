@@ -5,11 +5,11 @@
             <!-- LOGO -->
             <div class="col-5 d-none d-lg-block align-self-center">
                 <div class="row justify-content-center">
-                    <img src="<?php echo URL_ASSETS ?>img/logo/logo-pnews-login.svg" alt="Logo Pnews">
+                    <img class="size-img" src="<?php echo URL_ASSETS ?>img/logo/logo-pnews-text.svg" alt="Logo Pnews">
                 </div>
 
                 <div class="row justify-content-center">
-                    <img src="<?php echo URL_ASSETS ?>img/logo/mascote.svg" width="509" height="475" alt="Mascote Pnews">
+                    <img class="size-img" src="<?php echo URL_ASSETS ?>img/logo/mascote.svg" alt="Mascote Pnews">
                 </div>
             </div>
 
@@ -42,11 +42,11 @@
                                         </div>
                                     </div>
 
-                                    <input class="form-control mt-2 borda telefone" type="text" id="telefone" name="telefone" placeholder="Telefone">
+                                    <input class="form-control mt-2 borda phone" type="text" id="telefone" name="telefone" placeholder="Telefone">
 
                                     <input class="form-control mt-2 borda" type="text" id="email" name="email" placeholder="E-mail">
 
-                                    
+
                                     <div class="container-password">
                                         <input class="form-control mt-2 borda" type="password" id="senha" name="senha" placeholder="Senha">
 
@@ -78,7 +78,7 @@
 
                                         <div class="mt-2 mt-md-0 col-md-5 estado">
                                             <select class="form-control borda color-input-form" id="estado" name="estado">
-                                                
+
                                             </select>
                                         </div>
                                     </div>
@@ -147,7 +147,7 @@
     }
 
     // FUNCTION PEGAR ESTADOS BRASILEIROS
-    async function getStates(){
+    async function getStates() {
         const response = await fetch(URL_ASSETS + 'json/estados-brasileiro.json');
         json = await response.json();
 
@@ -184,12 +184,12 @@
 
         validate = validateCadUser();
 
-        if(validate){
+        if (validate) {
             cadUser();
         } else {
             document.querySelector('#btn-send-cad').disabled = false;
         }
-        
+
     };
     async function cadUser() {
         const form = new FormData(document.querySelector('#form-cad-user'));
@@ -252,7 +252,7 @@
                     senha.classList.remove('error-input-border');
                 }, 5000);
 
-            // DADOS ENDEREÇO
+                // DADOS ENDEREÇO
             } else if (json.cod === 130) {
                 document.querySelector('.stage-text').innerHTML = "Insira os dados do seu veículo para finalizar o cadastro";
                 stage1.style.display = "block"; // ESCONDER ETAPA 2
@@ -284,7 +284,7 @@
                     estado.classList.remove('error-input-border');
                 }, 5000);
 
-            // DADOS VEÍCULO
+                // DADOS VEÍCULO
             } else if (json.cod === 120) {
 
                 const apelido_veiculo = document.querySelector('#apelido_veiculo');
@@ -306,7 +306,7 @@
                     ano_veiculo.classList.remove('error-input-border');
                 }, 5000);
 
-            // DADOS PNEU
+                // DADOS PNEU
             } else if (json.cod === 110) {
 
                 const modelo_pneu_dianteiro = document.querySelector('#modelo_pneu_dianteiro');
@@ -321,7 +321,7 @@
                 ultima_troca_pneu.classList.add('error-input-border');
                 tempo_medio_troca_pneu.classList.add('error-input-border');
 
-                
+
                 setTimeout(function() {
                     modelo_pneu_dianteiro.classList.remove('error-input-border');
                     modelo_pneu_traseiro.classList.remove('error-input-border');
@@ -329,8 +329,8 @@
                     ultima_troca_pneu.classList.remove('error-input-border');
                     tempo_medio_troca_pneu.classList.remove('error-input-border');
                 }, 5000);
-            } 
-        
+            }
+
             const retornoMsg = document.querySelector('.retorno-msg');
             retornoMsg.classList.add('retorno-error');
             retornoMsg.style.display = "block";

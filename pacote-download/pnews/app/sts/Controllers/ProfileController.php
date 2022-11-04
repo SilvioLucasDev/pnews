@@ -9,6 +9,12 @@ if (!defined('URL')) {
 
 class ProfileController
 {
+    public function __construct()
+    {
+        $u = new \Helper\Utils;
+        $u->valSession();
+    }
+    
     public function index()
     {
         $loadView = new \Core\ConfigView("sts/Views/profile/profile");

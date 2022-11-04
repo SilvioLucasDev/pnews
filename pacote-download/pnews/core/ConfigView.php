@@ -18,12 +18,12 @@ class ConfigView extends FormatConfig
     // RENDERIZA TODOS OS INCLUDES
     public function renderAll()
     {
-        if (file_exists('app/' . $this->name . '.html')) {
+        if (file_exists('app/' . $this->name . '.phtml')) {
 
-            include 'app/sts/Views/include/header.html';
-            include 'app/sts/Views/include/navbar.html';
-            include 'app/' . $this->name . '.html';
-            include 'app/sts/Views/include/footer.html';
+            include 'app/sts/Views/include/header.phtml';
+            include 'app/sts/Views/include/navbar.phtml';
+            include 'app/' . $this->name . '.phtml';
+            include 'app/sts/Views/include/footer.phtml';
         } else {
             $this->locationError();
         }
@@ -32,11 +32,11 @@ class ConfigView extends FormatConfig
     // NÃO RENDERIZA TODOS OS INCLUDES
     public function render()
     {
-        if (file_exists('app/' . $this->name . '.html')) {
+        if (file_exists('app/' . $this->name . '.phtml')) {
 
-            include 'app/sts/Views/include/header.html';
-            include 'app/' . $this->name . '.html';
-            include 'app/sts/Views/include/footer.html';
+            include 'app/sts/Views/include/header.phtml';
+            include 'app/' . $this->name . '.phtml';
+            include 'app/sts/Views/include/footer.phtml';
         } else {
             $this->locationError();
         }
@@ -49,10 +49,10 @@ class ConfigView extends FormatConfig
 
         $u = new \Helper\Utils;
         $u->errorDefault(
-            'Erro C200: Falha ao carregar a Página: <br> <h1>' . end($name) . '</h1>',
+            'Erro C200: Falha ao carregar a Página: <strong>'. strtoupper(end($name)) .'</strong>',
             'Erro',
             'Voltar',
-            'login-controller/index',
+            'home-controller/index',
             'N'
         );
         exit;

@@ -9,7 +9,11 @@ if (!defined('URL')) {
 
 class HomeController
 {
-    private array $data;
+    public function __construct()
+    {
+        $u = new \Helper\Utils;
+        $u->valSession();
+    }
 
     public function index()
     {

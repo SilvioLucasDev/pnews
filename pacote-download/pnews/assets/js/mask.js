@@ -30,7 +30,7 @@ $(window).on("load", function () {
             }
         };
 
-    $('.telefone').mask(phoneMaskBehavior, phoneOptions);
+    $('.phone').mask(phoneMaskBehavior, phoneOptions);
 
     // MODELO PNEU
     $('.pneu').mask('000/00-00'), { reverse: true };

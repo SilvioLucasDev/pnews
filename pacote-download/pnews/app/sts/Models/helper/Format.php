@@ -83,14 +83,14 @@ class Format
     function formatDateUs($date)
     {
         return implode('-', array_reverse(explode('/', $date)));
-
-        // return date('Y-m-d', strtotime($date));
     }
 
     // ********************************************************************
     // MÁSCARA DE DADOS
     public function maskAllData($string, $type)
     {
+        $type = strtolower($type);
+        
         if ($type == 'cpf') {
             $mask = '###.###.###-##';
 
@@ -99,11 +99,7 @@ class Format
 
         } else if ($type == 'tel') {
 
-            if (strlen($string) == 11) {
-                $mask = '(##) #####-#####';
-            } else {
-                $mask = '(##) ####-#####';
-            }
+            strlen($string) == 11 ?  $mask = '(##) #####-#####' :  $mask = '(##) ####-#####';
 
         } else if ($type == 'cep') {
             $mask = '##.###-###';
@@ -162,7 +158,7 @@ class Format
     {
         $string = $this->onlyNumbers($string);
 
-        if ($type == "real" || $type == "REAL") {
+        if (strtolower($type) == "real") {
             return $string = ($symbol == TRUE ? 'R$ ' : '') . number_format($string, 2, ",", ".");
         } else {
             return $string = ($symbol == TRUE ? '$ ' : '') . number_format($string, 2, ".", ",");

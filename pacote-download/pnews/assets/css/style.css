@@ -54,6 +54,11 @@ body {
 	border-radius: 15px;
 }
 
+/* CUSTOMIZAÇÃO PARA IMGS */
+.size-img {
+	width: 90%;
+}
+
 /* CUSTOMIZAÇÃO DA COR DO TEXTO DOS INPUTS DOS FORMULÁRIOS */
 .color-input-form {
 	color: #00000099;
@@ -67,7 +72,7 @@ body {
 	color: #ff0000;
 }
 
-/* CUSTOM MENSAGEM DE RETORNO DOS FORMULÁRIOS*/
+/* CUSTOMIZAÇÃO DA MENSAGEM DE RETORNO DOS FORMULÁRIOS*/
 .retorno-msg {
 	display: none;
 	position: absolute;
@@ -186,3 +191,23 @@ body {
 	height: 100%;
 	width: 100%;
 }
+
+/* --------------- ALTERAÇÕES PÁGINAS DE ERRO ------------------------------ */
+.error-status {
+	font-size: 2rem;
+	line-height: 1;
+}
+
+.error-msg {
+	font-size: 1.5rem;
+}
+
+.error-404-text {
+	font-size: 5rem;
+	line-height: 1;
+}
+
+.error-default-text {
+	font-size: 5rem;
+}
+

@@ -11,10 +11,7 @@
             "Sts\\": "app/sts",
             "Core\\": "core",
             "Helper\\": "app/sts/Models/helper"
-        },
-        "files": [
-            "core/config.php"
-        ]
+        }
     },
     "require": {}
 }

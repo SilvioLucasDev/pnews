@@ -1,9 +1,11 @@
 <?php
     //ALTERAR INFORMAÇÕES "#" DE ACORDO COM SEU PROJETO
+    session_start();
+    ob_start();
 
     // DEFINE URL's
-    define('URL', 'http://localhost/pnews/');
-    define('URL_ASSETS', 'http://localhost/pnews/assets/');
+    define('URL', 'http://localhost/#/');
+    define('URL_ASSETS', 'http://localhost/#/assets/');
 
     define('CONTROLLER', 'LoginController');
     define('METHOD', 'index');
@@ -13,14 +15,14 @@
     define('ERROR_METHOD', 'error');
 
     // KEY GOOGLE MAPS
-    define('KEY_MAPS', 'AIzaSyB9IWlEU_CZQqtyGqSr-lvN25n43fW6f2g');
+    define('KEY_MAPS', '#');
 
     // CREDENCIAIS BANCO
-    define('DB', 'mysql');          // TIPO DE BANCO
-    define('HOST', 'localhost');    // HOST DB
-    define('DBPORT', 3307);         // PORTA DB
-    define('DBNAME', 'sts_pnews');  // NOME DB
-    define('USER', 'root');         // USUÁRIO DB
+    define('DB', '#');          // TIPO DE BANCO
+    define('HOST', '#');    // HOST DB
+    define('DBPORT', '#');         // PORTA DB
+    define('DBNAME', '#');  // NOME DB
+    define('USER', '3');         // USUÁRIO DB
     define('PASS', '');             // SENHA DB
 
     // pr_  -> print_r($)
