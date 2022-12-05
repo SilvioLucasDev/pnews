@@ -14,7 +14,7 @@ Dentro do aplicativo você encontrará as seguintes funcionalidades:
 
 * Alteração de dados - Dentro da plataforma o usuário pode alterar sua senha;
 
-* Serviço de localização - Dentro da plataforma você tera como procurar borracharias próximas a você com mais precisão;
+* Serviço de localização - Dentro da plataforma o usuário poderá procurar borracharias próximas com mais precisão;
 
 * Cadastro de borracharias - Dentro da plataforma o usuário consegue solicitar o cadastro de uma nova borracharia de forma simples.
 
