@@ -8,7 +8,15 @@ O pneu do seu veículo não tem hora para te deixar na mão, com o PNEWS você t
 
 Dentro do aplicativo você encontrará as seguintes funcionalidades:
 
-* Serviço de localização - Dentro da plataforma você tera como procurar borracharias próximas a você com mais precisão.
+* Criação de conta - Os usuários podem se cadastrar na plataforma;
+
+* Visualização de perfil - Dentro da plataforma o usuário pode consultar os dados cadastratos;
+
+* Alteração de dados - Dentro da plataforma o usuário pode alterar sua senha;
+
+* Serviço de localização - Dentro da plataforma você tera como procurar borracharias próximas a você com mais precisão;
+
+* Cadastro de borracharias - Dentro da plataforma o usuário consegue solicitar o cadastro de uma nova borracharia de forma simples.
 
 Futuras funcionalidades:
 
