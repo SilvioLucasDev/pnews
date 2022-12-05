@@ -10,7 +10,7 @@ if (!defined('URL')) {
 class Utils
 {
     // ********************************************************************
-    // REDIRECIONA PARA A PÁGINA DE ERRO DEFAULT
+    // VALIDA SE O USUÁRIO ESTÁ LOGADO
     public function valSession()
     {
         if (!isset($_SESSION['id_usuario'])) {
@@ -56,7 +56,7 @@ class Utils
     }
 
     // ********************************************************************
-    // VALISA SE ESTÁ VAZIO OU PASSOU O MÁXIMO DE CARACTERES PERMITIDOS
+    // VALIDA SE ESTÁ VAZIO OU PASSOU O MÁXIMO DE CARACTERES PERMITIDOS
     public function vaEmptyMinChar($string)
     {
         if (!empty($string)) {
