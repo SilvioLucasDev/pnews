@@ -19,7 +19,6 @@ class ConfigView extends FormatConfig
     public function renderAll()
     {
         if (file_exists('app/' . $this->name . '.phtml')) {
-
             include 'app/sts/Views/include/header.phtml';
             include 'app/sts/Views/include/navbar.phtml';
             include 'app/' . $this->name . '.phtml';
@@ -33,8 +32,33 @@ class ConfigView extends FormatConfig
     public function render()
     {
         if (file_exists('app/' . $this->name . '.phtml')) {
-
             include 'app/sts/Views/include/header.phtml';
+            include 'app/' . $this->name . '.phtml';
+            include 'app/sts/Views/include/footer.phtml';
+        } else {
+            $this->locationError();
+        }
+    }
+
+    // RENDERIZA A NAVBAR DO MAPA INICIAL 
+    public function renderStartMap()
+    {
+        if (file_exists('app/' . $this->name . '.phtml')) {
+            include 'app/sts/Views/include/header.phtml';
+            include 'app/sts/Views/include/startMap/navbar.phtml';
+            include 'app/' . $this->name . '.phtml';
+            include 'app/sts/Views/include/footer.phtml';
+        } else {
+            $this->locationError();
+        }
+    }
+
+    // RENDERIZA A NAVBAR DO ADM
+    public function admRenderAll()
+    {
+        if (file_exists('app/' . $this->name . '.phtml')) {
+            include 'app/sts/Views/include/header.phtml';
+            include 'app/sts/Views/include/adm/navbar.phtml';
             include 'app/' . $this->name . '.phtml';
             include 'app/sts/Views/include/footer.phtml';
         } else {

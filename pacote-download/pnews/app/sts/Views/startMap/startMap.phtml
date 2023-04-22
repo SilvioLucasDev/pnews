@@ -1,0 +1,183 @@
+<main class="main-custom">
+    <div class="container h-100 pt-md-3 pb-5">
+        <div class="row justify-content-center h-100">
+            <div class="col">
+
+                <!-- DIV QUE É EXIBIDO O MAPA -->
+                <div id="map"></div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    window.onload = () => {
+        getBorracharia();
+    }
+
+    // FUNCTION PARA PEGAR BORRACHARIAS CADASTRADAS
+    async function getBorracharia() {
+        const response = await fetch(URL + 'start-map-controller/get-borracharias', {
+            method: 'POST',
+            Headers: {
+                'Content-type': 'application/json: charset-utf-8',
+            }
+        });
+
+        json = await response.json();
+
+        if (json.cod === 0) {
+
+            borracharia = json.res;
+            initMap(borracharia);
+
+        } else {
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-error');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+            }, 5000);
+
+            initMap();
+        }
+    }
+
+    // LOCALIZAÇÃO PADRÃO SE CASO O USUÁRIO NÃO PERMITIR USAR SUAS COORDENADAS
+    var lat = -23.551260514373695;
+    var lng = -46.63441780394384;
+
+    function initMap() {
+
+        // DEFINE CUSTOMIZAÇÕES INICIAIS E INSTÃNCIA O MAPA
+        const map = new google.maps.Map(document.querySelector("#map"), {
+            zoom: 13,
+            center: {
+                lat: lat,
+                lng: lng
+            },
+            styles: [{
+                "featureType": "poi",
+                "stylers": [{
+                    "visibility": "off"
+                }]
+            }]
+        });
+
+        // MARCADOR DA LOCALIZÃO ATUAL DO USUÁRIO
+        const marker = new google.maps.Marker({
+            position: {
+                lat: lat,
+                lng: lng
+            },
+            map: map,
+        });
+
+        // PEGA AS COORDENADAS DO USUÁRIO
+        navigator.geolocation.watchPosition(success, error);
+
+        // EXIBE OS ERROS CASO A API NÃO CONSEGUIR PEGAR AS COORDENADAS DO USUÁRIO
+        function error(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    showMsg("Erro C300: Você rejeitou a permissão de localização.")
+                    break;
+
+                case error.POSITION_UNAVAILABLE:
+                    showMsg("Erro C310: Sua localização está indisponível. Se o erro persistir entre em contato com nosso atendimento")
+                    break;
+
+                case error.TIMEOUT:
+                    showMsg("Erro C320: O tempo da requisição da sua localização expirou.")
+                    break;
+
+                case error.UNKNOWN_ERROR:
+                    showMsg("Erro C330: Sua localização está indisponível. Se o erro persistir entre em contato com nosso atendimento")
+                    break;
+            }
+
+            function showMsg(msgError){
+                const retornoMsg = document.querySelector('.retorno-msg');
+                retornoMsg.classList.add('retorno-error');
+                retornoMsg.style.display = "block";
+                retornoMsg.innerHTML = msgError;
+
+                setTimeout(function() {
+                    retornoMsg.style.display = "none";
+                    retornoMsg.classList.remove('retorno-error');
+                }, 5000);
+            }
+        }
+
+        // SETA AS COORDENADAS DO USUÁRIO
+        function success(position) {
+            marker.setPosition({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            });
+
+            map.setCenter({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            });
+        }
+
+        // CRIA MARCADORES ALEATÓRIOS DE FORMA DINÂMICA
+        borracharia.map((borracharia) => {
+            var markers = [{
+                coords: {
+                    lat: parseFloat(borracharia.coords_lat),
+                    lng: parseFloat(borracharia.coords_lng)
+                },
+                content: `<div dir="ltr" jstcache="0">` +
+                    `<div jstcache="34" class="poi-info-window gm-style">` +
+
+                    `<div jstcache="2">` +
+                    `<div jstcache="3" class="title full-width" jsan="7.title,7.full-width">${borracharia.nome}</div>` +
+
+                    `<div class="address">` +
+                    `<div jstcache="4" jsinstance="0" class="address-line full-width" jsan="7.address-line,7.full-width"> R: ${borracharia.rua} , ${borracharia.numero} - ${borracharia.complemento} ${borracharia.bairro} </div>` +
+                    `<div jstcache="4" jsinstance="1" class="address-line full-width" jsan="7.address-line,7.full-width"> ${borracharia.cidade}  - ${borracharia.estado} </div>` +
+                    `<div jstcache="4" jsinstance="2" class="address-line full-width" jsan="7.address-line,7.full-width"> ${borracharia.nome} </div>` +
+                    `</div>` +
+                    `</div>` +
+
+                    `<div jstcache="5" style="display:none"></div>` +
+
+                    `<div>` +
+                    `<a jstcache="6" href="tel:+55 ${borracharia.telefone}" tabindex="0"><span>Ligar para: +55 ${borracharia.telefone} </span></a>` +
+                    `</div>` +
+
+                    `</div>` +
+                    `</div>`
+            }];
+
+
+            addMarker(markers[0]);
+        });
+
+        // CRIA OS MARCADORES NO MAPA
+        function addMarker(data) {
+            var markerBd = new google.maps.Marker({
+                position: data.coords,
+                map: map,
+                icon: URL_ASSETS + 'img/maps/icon_maps.png'
+            })
+
+            if (data.content) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: data.content
+                });
+
+                markerBd.addListener('click', function() {
+                    infoWindow.open(map, markerBd);
+                });
+            }
+        }
+    }
+</script>
+
+<script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo KEY_MAPS ?>"></script>

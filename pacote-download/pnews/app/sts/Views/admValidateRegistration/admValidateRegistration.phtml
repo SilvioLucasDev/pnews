@@ -1,0 +1,163 @@
+<main class="main-custom">
+    <div class="container h-100 pt-md-3 pb-5">
+        <div class="row justify-content-center h-100">
+            <div class="col">
+
+                <table id="table-registers" class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Estabelecimento</th>
+                            <th>Rua</th>
+                            <th>Bairro</th>
+                            <th>CEP</th>
+                            <th>Nº</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    window.onload = () => {
+        getRegisters();
+    }
+
+    // FUNCTION PARA PEGAR BORRACHARIAS CADASTRADAS
+    async function getRegisters() {
+        const response = await fetch(URL + 'adm-validate-registration-controller/get-registers', {
+            method: 'POST',
+            Headers: {
+                'Content-type': 'application/json: charset-utf-8',
+            }
+        });
+
+        json = await response.json();
+
+        if (json.cod === 0) {
+            records = json.res;
+            console.log(records)
+
+            buildTable(records);
+        } else {
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-error');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+            }, 5000);
+        }
+    }
+
+    function buildTable(data) {
+        const table = document.querySelector('#table-registers tbody');
+
+        data.forEach(record => {
+            const row = table.insertRow();
+            const establishmentCell = row.insertCell();
+            const roadCell = row.insertCell();
+            const neighborhoodCell = row.insertCell();
+            const zipCodeCell = row.insertCell();
+            const numberCell = row.insertCell();
+            const phoneCell = row.insertCell();
+            const emailCell = row.insertCell();
+            const actionCell = row.insertCell();
+
+            establishmentCell.innerHTML = record.nome;
+            roadCell.innerHTML = record.rua;
+            neighborhoodCell.innerHTML = record.bairro;
+            zipCodeCell.innerHTML = record.cep;
+            numberCell.innerHTML = record.numero;
+            phoneCell.innerHTML = record.telefone;
+            emailCell.innerHTML = record.email;
+
+            const btnRefuse = document.createElement('button');
+            btnRefuse.classList.add('btn', 'btn-sm', 'btn-danger', 'mr-1');
+            btnRefuse.innerHTML = 'Recusar';
+            btnRefuse.onclick = async () => {
+                const id = record.id_borracharia;
+
+                const response = await fetch(URL + 'adm-validate-registration-controller/refuse/' + id, {
+                    method: 'POST',
+                    Headers: {
+                        'Content-type': 'application/json: charset-utf-8',
+                    }
+                });
+
+                json = await response.json();
+
+                if (json.cod === 0) {
+                    const retornoMsg = document.querySelector('.retorno-msg');
+                    retornoMsg.classList.add('retorno-success');
+                    retornoMsg.style.display = "block";
+                    retornoMsg.innerHTML = json.msg;
+
+                    setTimeout(function() {
+                        retornoMsg.style.display = "none";
+                        retornoMsg.classList.remove('retorno-success');
+                        location.reload()
+                    }, 2000);
+
+                } else {
+                    const retornoMsg = document.querySelector('.retorno-msg');
+                    retornoMsg.classList.add('retorno-error');
+                    retornoMsg.style.display = "block";
+                    retornoMsg.innerHTML = json.msg;
+
+                    setTimeout(function() {
+                        retornoMsg.style.display = "none";
+                    }, 5000);
+                }
+
+            };
+            actionCell.appendChild(btnRefuse);
+
+            const btnAccept = document.createElement('button');
+            btnAccept.classList.add('btn', 'btn-sm', 'btn-success', 'mr-1');
+            btnAccept.innerHTML = 'Aceitar';
+            btnAccept.onclick = async () => {
+                const id = record.id_borracharia;
+
+                const response = await fetch(URL + 'adm-validate-registration-controller/accept/' + id, {
+                    method: 'POST',
+                    Headers: {
+                        'Content-type': 'application/json: charset-utf-8',
+                    }
+                });
+
+                json = await response.json();
+
+                if (json.cod === 0) {
+                    const retornoMsg = document.querySelector('.retorno-msg');
+                    retornoMsg.classList.add('retorno-success');
+                    retornoMsg.style.display = "block";
+                    retornoMsg.innerHTML = json.msg;
+
+                    setTimeout(function() {
+                        retornoMsg.style.display = "none";
+                        retornoMsg.classList.remove('retorno-success');
+                        location.reload()
+                    }, 2000);
+
+                } else {
+                    const retornoMsg = document.querySelector('.retorno-msg');
+                    retornoMsg.classList.add('retorno-error');
+                    retornoMsg.style.display = "block";
+                    retornoMsg.innerHTML = json.msg;
+
+                    setTimeout(function() {
+                        retornoMsg.style.display = "none";
+                    }, 5000);
+                }
+            };
+            actionCell.appendChild(btnAccept);
+        });
+    }
+</script>

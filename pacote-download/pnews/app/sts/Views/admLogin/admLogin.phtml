@@ -1,0 +1,82 @@
+<main>
+    <div class="container">
+        <div class="row justify-content-center align-items-center vh-100">
+
+            <!-- LOGIN -->
+            <div class="col col-lg-8">
+                <div class="container cor-fundo">
+                    <div class="row justify-content-center vh-100">
+                        <div class="col-10 col-sm-8 text-center align-self-center">
+                            <h2 class="mb-5"><strong>Login Administrativo</strong></h2>
+
+                            <form id="form-send-login" class="mb-5">
+                                <input class="form-control mt-2 borda" id="email" type="text" name="email" placeholder="E-mail">
+
+                                <div class="container-password">
+                                    <input class="form-control mt-4 borda" id="senha" type="password" name="senha" placeholder="Senha">
+
+                                    <i class="fa-solid fa-eye" id="icon-password"></i>
+                                </div>
+
+                                <div class="row my-2">
+                                    <a href="#" class="link-secondary"><u>Esqueceu a senha?</u></a>
+                                </div>
+                        
+                                <button id="btn-send-login" class="my-2 btn btn-outline-danger btn-lg borda mt-4" type="submit">Entrar</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+    // FUNCTION PARA ENVIAR O FORMULÁRIO
+    document.querySelector('#btn-send-login').onclick = function(e) {
+        document.querySelector('#btn-send-login').disabled = true;
+        e.preventDefault();
+
+        validate = validateLogin();
+
+        if(validate){
+            sendLogin();
+        } else {
+            document.querySelector('#btn-send-login').disabled = false;
+        }
+    };
+
+    async function sendLogin() {
+        const form = new FormData(document.querySelector('#form-send-login'));
+    
+        const response = await fetch(URL + 'adm-login-controller/validate-login', {
+            method: 'POST',
+            Headers: {
+                'Content-type': 'application/json: charset-utf-8',
+            },
+            body: form
+        });
+
+        json = await response.json();
+
+        if (json.cod === 0) {
+            document.querySelector('#btn-send-login').disabled = false;
+            window.location.assign(URL + "adm-home-Controller/index");
+
+        } else {
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-error');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+                retornoMsg.classList.remove('retorno-error');
+                document.querySelector('#btn-send-login').disabled = false;
+            }, 3000);
+        }
+    }
+</script>

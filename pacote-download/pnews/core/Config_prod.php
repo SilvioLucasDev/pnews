@@ -4,8 +4,8 @@
     ob_start();
 
     // DEFINE URL's
-    define('URL', 'http://localhost/pnews/');
-    define('URL_ASSETS', 'http://localhost/pnews/assets/');
+    define('URL', 'https://www.pnews.store/');
+    define('URL_ASSETS', 'https://www.pnews.store/assets/');
 
     define('CONTROLLER', 'StartMapController');
     define('METHOD', 'index');
@@ -15,12 +15,11 @@
     define('ERROR_METHOD', 'error');
 
     // KEY GOOGLE MAPS
-    define('KEY_MAPS', '#');
+    define('KEY_MAPS', 'AIzaSyB9IWlEU_CZQqtyGqSr-lvN25n43fW6f2g');
 
     // CREDENCIAIS BANCO
     define('DB', 'mysql');                      // TIPO DE BANCO
     define('HOST', 'ns1012.hostgator.com.br');  // HOST DB
-    define('DBPORT', '3306');                   // PORTA DB
     define('DBNAME', 'pnewss45_sts_pnews');     // NOME DB
     define('USER', 'pnewss45_sts_pnews');       // USUÁRIO DB
     define('PASS', '0%dg%&JyYBeF');             // SENHA DB

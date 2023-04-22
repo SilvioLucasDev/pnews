@@ -8,6 +8,7 @@
     ],
     "autoload": {
         "psr-4": {
+            "Adm\\": "app/adm",
             "Sts\\": "app/sts",
             "Core\\": "core",
             "Helper\\": "app/sts/Models/helper"
