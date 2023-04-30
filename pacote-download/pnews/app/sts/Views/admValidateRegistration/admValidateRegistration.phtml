@@ -7,10 +7,11 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>Estabelecimento</th>
-                            <th>Rua</th>
+                            <th>Tipo</th>
+                            <!-- <th>Rua</th>
                             <th>Bairro</th>
                             <th>CEP</th>
-                            <th>Nº</th>
+                            <th>Nº</th> -->
                             <th>Telefone</th>
                             <th>Email</th>
                             <th>Ação</th>
@@ -62,19 +63,28 @@
         data.forEach(record => {
             const row = table.insertRow();
             const establishmentCell = row.insertCell();
-            const roadCell = row.insertCell();
-            const neighborhoodCell = row.insertCell();
-            const zipCodeCell = row.insertCell();
-            const numberCell = row.insertCell();
+            const establishmentType = row.insertCell();
+            // const roadCell = row.insertCell();
+            // const neighborhoodCell = row.insertCell();
+            // const zipCodeCell = row.insertCell();
+            // const numberCell = row.insertCell();
             const phoneCell = row.insertCell();
             const emailCell = row.insertCell();
             const actionCell = row.insertCell();
 
+            console.log(record)
+
+            if (record.type == 1) {
+                establishmentType.innerHTML = "Borracharia";
+            } else {
+                establishmentType.innerHTML = "Oficina";
+            }
+
             establishmentCell.innerHTML = record.nome;
-            roadCell.innerHTML = record.rua;
-            neighborhoodCell.innerHTML = record.bairro;
-            zipCodeCell.innerHTML = record.cep;
-            numberCell.innerHTML = record.numero;
+            // roadCell.innerHTML = record.rua;
+            // neighborhoodCell.innerHTML = record.bairro;
+            // zipCodeCell.innerHTML = record.cep;
+            // numberCell.innerHTML = record.numero;
             phoneCell.innerHTML = record.telefone;
             emailCell.innerHTML = record.email;
 

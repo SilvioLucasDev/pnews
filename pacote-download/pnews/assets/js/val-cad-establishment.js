@@ -1,7 +1,7 @@
 // ********************************************************************
-// VALIDA FORM PARA CADASTRAR BORRACHARIA
+// VALIDA FORM PARA CADASTRAR ESTABELECIMENTOS
 
-function validateCadBorracharia() {
+function validateCadEstablishment() {
     var nome = $('#nome').val();
     var telefone = $('#telefone').val();
     var email = $('#email').val();

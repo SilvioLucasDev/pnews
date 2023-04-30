@@ -7,7 +7,7 @@ if (!defined('URL')) {
     exit();
 }
 
-class MapsController
+class MapsBorrachariaController
 {
     private array $data;
 
@@ -19,20 +19,20 @@ class MapsController
 
     public function index()
     {
-        $loadView = new \Core\ConfigView("sts/Views/maps/maps");
+        $loadView = new \Core\ConfigView("sts/Views/maps-borracharia/maps-borracharia");
         $loadView->renderAll();
     }
 
     public function getBorracharias()
     {
         $sendApp = new \Sts\Models\StsMaps();
-        $sendApp->getBorracharias();
+        $sendApp->getEstablishment(1);
     }
 
     public function cadBorracharia()
     {
         $this->data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         $sendApp = new \Sts\Models\StsMaps($this->data);
-        $sendApp->cadBorracharia();
+        $sendApp->cadEstablishment();
     }
 }

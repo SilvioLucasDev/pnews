@@ -13,7 +13,7 @@ class AdmLoginController
 
     public function index()
     {
-        $loadView = new \Core\ConfigView("sts/Views/admLogin/admLogin");
+        $loadView = new \Core\ConfigView("sts/Views/adm-login/adm-login");
         $loadView->render();
     }
 

@@ -2,12 +2,14 @@
 
 namespace Helper;
 
+use PDOException;
+
 if (!defined('URL')) {
     header("Location: /");
     exit();
 }
 
-class Update extends conn
+class Update extends Conn
 {
     private object $update;
     private string $table;

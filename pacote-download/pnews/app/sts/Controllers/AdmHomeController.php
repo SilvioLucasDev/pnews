@@ -17,7 +17,7 @@ class AdmHomeController
 
     public function index()
     {
-        $loadView = new \Core\ConfigView("sts/Views/admHome/admHome");
+        $loadView = new \Core\ConfigView("sts/Views/adm-home/adm-home");
         $loadView->admRenderAll();
     }
 }

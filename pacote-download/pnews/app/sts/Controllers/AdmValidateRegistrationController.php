@@ -17,7 +17,7 @@ class AdmValidateRegistrationController
     
     public function index()
     {
-        $loadView = new \Core\ConfigView("sts/Views/admValidateRegistration/admValidateRegistration");
+        $loadView = new \Core\ConfigView("sts/Views/adm-validate-registration/adm-validate-registration");
         $loadView->admRenderAll();
     }
 

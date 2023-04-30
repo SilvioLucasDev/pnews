@@ -18,7 +18,7 @@ class StsMaps
 
     // ********************************************************************
     // FUNÇÃO PARA PEGAR BORRACHARIAS CADASTRADAS
-    public function getBorracharias()
+    public function getEstablishment($type)
     {
         $pdoSelect = new \Helper\Read();
         $pdoSelect->fullRead(
@@ -28,8 +28,8 @@ class StsMaps
             FROM sts_borracharia AS borracharia 
             LEFT JOIN sts_telefone_borracharia AS telefone ON telefone.fk_telefone_borracharia = borracharia.id_borracharia 
             LEFT JOIN sts_endereco_borracharia AS endereco ON endereco.fk_endereco_borracharia = borracharia.id_borracharia
-            WHERE fk_borracharia_status = :status",
-            "status=2"
+            WHERE fk_borracharia_status = :status AND type = :type",
+            "status=2&type={$type}"
         );
 
         $this->data['result'] = $pdoSelect->getResult();
@@ -62,7 +62,7 @@ class StsMaps
 
     // ********************************************************************
     // VALIDA SE O E-MAIL, TELEFONE OU COORDENADAS JÁ EXISTE NA BASE
-    public function cadBorracharia()
+    public function cadEstablishment()
     {
         $u = new \Helper\Utils;
         if ($u->valStringTwo($this->data['nome'], 60)) {
@@ -92,7 +92,7 @@ class StsMaps
                 $this->data['result'] = $pdoSelect->getResult();
 
                 if (!isset($this->data['result'][0]) or empty($this->data['result'][0])) {
-                    $this->setBorracharia();
+                    $this->setEstablishment();
                 } else {
 
                     foreach ($this->data['result'] as $index) {
@@ -107,7 +107,7 @@ class StsMaps
                         } else if ($this->data['coords'][0] = $coords_lat or $this->data['coords'][1] = $coords_lng) {
 
                             if ($this->data['coords'][0] !== $coords_lat or $this->data['coords'][1] !== $coords_lng) {
-                                $this->setBorracharia();
+                                $this->setEstablishment();
                                 break;
                             }
 
@@ -156,11 +156,12 @@ class StsMaps
 
     // ********************************************************************
     // INSERT DADOS USUÁRIO
-    public function setBorracharia()
+    public function setEstablishment()
     {
         $this->data['insert_borracharia'] = [
             "nome" => $this->data['nome'],
             "email" => $this->data['email'],
+            "type" => $this->data['type'],
             "fk_borracharia_status" => 1,
             "dt_created" => date("Y-m-d H:i:s")
         ];

@@ -11,7 +11,7 @@ class StartMapController
 {
     public function index()
     {
-        $loadView = new \Core\ConfigView("sts/Views/startMap/startMap");
+        $loadView = new \Core\ConfigView("sts/Views/start-map/start-map");
         $loadView->renderStartMap();
     }
 

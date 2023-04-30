@@ -22,7 +22,7 @@ class AdmValidateRegistration
     {
         $pdoSelect = new \Helper\Read();
         $pdoSelect->fullRead(
-            "SELECT borracharia.id_borracharia, borracharia.nome, borracharia.cnpj, borracharia.email,
+            "SELECT borracharia.id_borracharia, borracharia.nome, borracharia.cnpj, borracharia.email, borracharia.type,
                     telefone.telefone,
                     endereco.coords_lat, endereco.coords_lat, endereco.coords_lng, endereco.cep, endereco.cidade, endereco.estado, endereco.bairro, endereco.rua, endereco.numero, endereco.complemento
             FROM sts_borracharia AS borracharia 
@@ -52,7 +52,7 @@ class AdmValidateRegistration
         } else {
             $return = array(
                 "cod" => 500,
-                "msg" => 'Erro S500: Falha ao carregar borracharias. Se o erro persistir entre em contato com nosso atendimento.',
+                "msg" => 'Erro S500: Falha ao carregar os estabelecimentos. Se o erro persistir entre em contato com nosso atendimento.',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -82,7 +82,7 @@ class AdmValidateRegistration
 
             $return = array(
                 "cod" => 0,
-                "msg" => 'Borracharia recusada com sucesso!'
+                "msg" => 'Estabelecimento recusado com sucesso!'
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -95,7 +95,7 @@ class AdmValidateRegistration
     public function acceptRegister($id)
     {
         $this->data['update'] = [
-            "fk_borracharia_status" => 3,
+            "fk_borracharia_status" => 2,
         ];
 
         $pdoUpdate = new \Helper\Update();
@@ -112,7 +112,7 @@ class AdmValidateRegistration
 
             $return = array(
                 "cod" => 0,
-                "msg" => 'Borracharia recusada com sucesso!'
+                "msg" => 'Estabelecimento aprovado com sucesso!'
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);

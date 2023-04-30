@@ -28,8 +28,8 @@ class StsStartMap
             FROM sts_borracharia AS borracharia 
             LEFT JOIN sts_telefone_borracharia AS telefone ON telefone.fk_telefone_borracharia = borracharia.id_borracharia 
             LEFT JOIN sts_endereco_borracharia AS endereco ON endereco.fk_endereco_borracharia = borracharia.id_borracharia
-            WHERE fk_borracharia_status = :status",
-            "status=2"
+            WHERE fk_borracharia_status = :status AND type = :type",
+            "status=2&type=1"
         );
 
         $this->data['result'] = $pdoSelect->getResult();

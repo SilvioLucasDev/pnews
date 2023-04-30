@@ -23,7 +23,7 @@
         <div class="modal-content">
 
             <div class="modal-header text-center">
-                <h5 class="modal-title">Cadastro de borracharia</h5>
+                <h5 class="modal-title">Cadastro de Oficina</h5>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -36,12 +36,14 @@
                     <div class="row justify-content-and">
                         <div class="col-12 text-center align-self-center">
 
-                            <form id="form-cad-borracharia" style="margin: 10px 20px 10px 20px;">
-                                <input class="form-control mt-2 borda" type="text" name="nome" id="nome" placeholder="Nome da borracharia">
+                            <form id="form-cad-oficina" style="margin: 10px 20px 10px 20px;">
+                                <input type="hidden" name="type" id="type" value="2">
 
-                                <input class="form-control mt-2 borda phone" type="text" name="telefone" id="telefone" placeholder="Telefone borracharia">
+                                <input class="form-control mt-2 borda" type="text" name="nome" id="nome" placeholder="Nome da oficina">
 
-                                <input class="form-control mt-2 borda" type="text" name="email" id="email" placeholder="E-mail borracharia">
+                                <input class="form-control mt-2 borda phone" type="text" name="telefone" id="telefone" placeholder="Telefone oficina">
+
+                                <input class="form-control mt-2 borda" type="text" name="email" id="email" placeholder="E-mail oficina">
 
                                 <input type="text" name="coords" id="coords" hidden>
                             </form>
@@ -51,7 +53,7 @@
 
                     <div class="row">
                         <div class="col text-center borda-form p-0">
-                            <button id="btn-cad-borracharia" class="btn btn-secondary btn-block rounded-0 m-0 btn-custom"> Enviar</button>
+                            <button id="btn-cad-oficina" class="btn btn-secondary btn-block rounded-0 m-0 btn-custom"> Enviar</button>
                         </div>
                     </div>
 
@@ -65,12 +67,12 @@
 
 <script>
     window.onload = () => {
-        getBorracharia();
+        getOficinas();
     }
 
-    // FUNCTION PARA PEGAR BORRACHARIAS CADASTRADAS
-    async function getBorracharia() {
-        const response = await fetch(URL + 'maps-controller/get-borracharias', {
+    // FUNCTION PARA PEGAR OFICINAS CADASTRADAS
+    async function getOficinas() {
+        const response = await fetch(URL + 'maps-oficina-controller/get-oficinas', {
             method: 'POST',
             Headers: {
                 'Content-type': 'application/json: charset-utf-8',
@@ -81,8 +83,8 @@
 
         if (json.cod === 0) {
 
-            borracharia = json.res;
-            initMap(borracharia);
+            oficina = json.res;
+            initMap(oficina);
 
         } else {
             const retornoMsg = document.querySelector('.retorno-msg');
@@ -99,23 +101,23 @@
     }
 
     // FUNCTION PARA ENVIAR O FORMULÁRIO 
-    document.querySelector('#btn-cad-borracharia').onclick = function(e) {
-        document.querySelector('#btn-cad-borracharia').disabled = true;
+    document.querySelector('#btn-cad-oficina').onclick = function(e) {
+        document.querySelector('#btn-cad-oficina').disabled = true;
         e.preventDefault();
 
-        validate = validateCadBorracharia();
+        validate = validateCadEstablishment();
 
         if(validate){
-            cadBorracharia();
+            cadOficina();
         } else {
-            document.querySelector('#btn-cad-borracharia').disabled = false;
+            document.querySelector('#btn-cad-oficina').disabled = false;
         }
     };
 
-    async function cadBorracharia() {
-        const form = new FormData(document.querySelector('#form-cad-borracharia'));
+    async function cadOficina() {
+        const form = new FormData(document.querySelector('#form-cad-oficina'));
 
-        const response = await fetch(URL + 'maps-controller/cad-borracharia', {
+        const response = await fetch(URL + 'maps-oficina-controller/cad-oficina', {
             method: 'POST',
             Headers: {
                 'Content-type': 'application/json: charset-utf-8',
@@ -134,7 +136,7 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-success');
-                document.querySelector('#btn-cad-borracharia').disabled = false;
+                document.querySelector('#btn-cad-oficina').disabled = false;
             }, 10000);
 
         } else {
@@ -146,7 +148,7 @@
             setTimeout(function() {
                 retornoMsg.style.display = "none";
                 retornoMsg.classList.remove('retorno-error');
-                document.querySelector('#btn-cad-borracharia').disabled = false;
+                document.querySelector('#btn-cad-oficina').disabled = false;
             }, 10000);
         }
     }
@@ -213,7 +215,7 @@
                 setTimeout(function() {
                     retornoMsg.style.display = "none";
                     retornoMsg.classList.remove('retorno-error');
-                    document.querySelector('#btn-cad-borracharia').disabled = false;
+                    document.querySelector('#btn-cad-oficina').disabled = false;
                 }, 5000);
             }
         }
@@ -232,29 +234,29 @@
         }
 
         // CRIA MARCADORES ALEATÓRIOS DE FORMA DINÂMICA (REMOVER ESSE LOOP PHP E FAZER EM JS)
-        borracharia.map((borracharia) => {
+        oficina.map((oficina) => {
             var markers = [{
                 coords: {
-                    lat: parseFloat(borracharia.coords_lat),
-                    lng: parseFloat(borracharia.coords_lng)
+                    lat: parseFloat(oficina.coords_lat),
+                    lng: parseFloat(oficina.coords_lng)
                 },
                 content: `<div dir="ltr" jstcache="0">` +
                     `<div jstcache="34" class="poi-info-window gm-style">` +
 
                     `<div jstcache="2">` +
-                    `<div jstcache="3" class="title full-width" jsan="7.title,7.full-width">${borracharia.nome}</div>` +
+                    `<div jstcache="3" class="title full-width" jsan="7.title,7.full-width">${oficina.nome}</div>` +
 
                     `<div class="address">` +
-                    `<div jstcache="4" jsinstance="0" class="address-line full-width" jsan="7.address-line,7.full-width"> R: ${borracharia.rua} , ${borracharia.numero} - ${borracharia.complemento} ${borracharia.bairro} </div>` +
-                    `<div jstcache="4" jsinstance="1" class="address-line full-width" jsan="7.address-line,7.full-width"> ${borracharia.cidade}  - ${borracharia.estado} </div>` +
-                    `<div jstcache="4" jsinstance="2" class="address-line full-width" jsan="7.address-line,7.full-width"> ${borracharia.nome} </div>` +
+                    `<div jstcache="4" jsinstance="0" class="address-line full-width" jsan="7.address-line,7.full-width"> R: ${oficina.rua} , ${oficina.numero} - ${oficina.complemento} ${oficina.bairro} </div>` +
+                    `<div jstcache="4" jsinstance="1" class="address-line full-width" jsan="7.address-line,7.full-width"> ${oficina.cidade}  - ${oficina.estado} </div>` +
+                    `<div jstcache="4" jsinstance="2" class="address-line full-width" jsan="7.address-line,7.full-width"> ${oficina.nome} </div>` +
                     `</div>` +
                     `</div>` +
 
                     `<div jstcache="5" style="display:none"></div>` +
 
                     `<div>` +
-                    `<a jstcache="6" href="tel:+55 ${borracharia.telefone}" tabindex="0"><span>Ligar para: +55 ${borracharia.telefone} </span></a>` +
+                    `<a jstcache="6" href="tel:+55 ${oficina.telefone}" tabindex="0"><span>Ligar para: +55 ${oficina.telefone} </span></a>` +
                     `</div>` +
 
                     `</div>` +
@@ -284,7 +286,7 @@
             }
         }
 
-        // ABRE MODAL PARA ADICIONAR NOVA BORRACHARIA
+        // ABRE MODAL PARA ADICIONAR NOVA OFICINA
         google.maps.event.addListener(map, 'click', function(event) {
             const inputCoords = document.querySelector("#coords");
             inputCoords.value = event.latLng;
