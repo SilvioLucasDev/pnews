@@ -18,12 +18,12 @@
     define('KEY_MAPS', '#');
 
     // CREDENCIAIS BANCO
-    define('DB', 'mysql');                      // TIPO DE BANCO
-    define('HOST', 'ns1012.hostgator.com.br');  // HOST DB
-    define('DBPORT', '3306');                   // PORTA DB
-    define('DBNAME', 'pnewss45_sts_pnews');     // NOME DB
-    define('USER', 'pnewss45_sts_pnews');       // USUÁRIO DB
-    define('PASS', '0%dg%&JyYBeF');             // SENHA DB
+    define('DB', '');                      // TIPO DE BANCO
+    define('HOST', '');  // HOST DB
+    define('DBPORT', '');                   // PORTA DB
+    define('DBNAME', '');     // NOME DB
+    define('USER', '');       // USUÁRIO DB
+    define('PASS', '');             // SENHA DB
 
     // pr_  -> print_r($)
     // pr_t -> print_r($this->[''])
