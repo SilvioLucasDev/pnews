@@ -52,7 +52,7 @@ class StsMaps
         } else {
             $return = array(
                 "cod" => 500,
-                "msg" => 'Erro S500: Falha ao carregar borracharias. Se o erro persistir entre em contato com nosso atendimento.',
+                "msg" => 'Erro S500: Falha ao carregar estabelecimentos. Se o erro persistir entre em contato com nosso atendimento.',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -146,7 +146,7 @@ class StsMaps
         } else {
             $return = array(
                 "cod" => 550,
-                "msg" => 'Erro S550: Preencha o campo nome sem caracateres especiais e ate 60 dígitos.',
+                "msg" => 'Erro S550: Preencha o campo nome sem caracteres especiais e ate 60 dígitos.',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -229,7 +229,7 @@ class StsMaps
         if ($pdoCreate->getResult() != NULL) {
             $return = array(
                 "cod" => 0,
-                "msg" => 'Cadastro realizado com sucesso! A borracharia cadastrada passará por um processo de aprovação que irá durar até 72h úteis.',
+                "msg" => 'Cadastro realizado com sucesso! O estabelecimento cadastrado passará por um processo de aprovação que irá durar até 72h úteis.',
             );
 
             echo json_encode($return, JSON_UNESCAPED_UNICODE);

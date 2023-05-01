@@ -20,6 +20,17 @@ class Utils
     }
 
     // ********************************************************************
+    // VALIDA SE O USUÁRIO ADM ESTÁ LOGADO
+    public function valSessionAdm()
+    {
+        if (!isset($_SESSION['id_usuario_adm'])) {
+            header("location: " . URL . "error-controller/error/404");
+            exit;
+        }
+    }
+
+
+    // ********************************************************************
     // REDIRECIONA PARA A PÁGINA DE ERRO DEFAULT
     public function errorDefault($msgError, $status, $nameButton, $redirect, $sessionDestroy)
     {

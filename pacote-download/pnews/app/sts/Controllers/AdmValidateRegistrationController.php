@@ -12,7 +12,7 @@ class AdmValidateRegistrationController
     public function __construct()
     {
         $u = new \Helper\Utils;
-        $u->valSession();
+        $u->valSessionAdm();
     }
     
     public function index()

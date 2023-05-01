@@ -39,7 +39,7 @@ class AdmLogin
                     extract($pdoSelect->getResult()[0]);
 
                     if (password_verify($this->data['senha'], $senha)) {
-                        $_SESSION['id_usuario'] = $id_usuario;
+                        $_SESSION['id_usuario_adm'] = $id_usuario;
 
                         $return = array(
                             "cod" => 0,

@@ -37,9 +37,11 @@ class AdmValidateRegistration
         if (isset($this->data['result']) or !empty($this->data['result'])) {
 
             $f = new \Helper\Format;
-            $this->data['result'][0]['cnpj'] = $f->maskAllData($this->data['result'][0]['cnpj'], 'cnpj');
-            $this->data['result'][0]['telefone'] = $f->maskAllData($this->data['result'][0]['telefone'], 'tel');
-            $this->data['result'][0]['cep'] = $f->maskAllData($this->data['result'][0]['cep'], 'cep');
+            foreach ($this->data['result'] as $key => $value) {
+                $this->data['result'][$key]['cnpj'] = $f->maskAllData($value['cnpj'], 'cnpj');
+                $this->data['result'][$key]['telefone'] = $f->maskAllData($value['telefone'], 'tel');
+                $this->data['result'][$key]['cep'] = $f->maskAllData($value['cep'], 'cep');
+            }
 
             $return = array(
                 "cod" => 0,

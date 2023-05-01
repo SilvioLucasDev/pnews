@@ -21,20 +21,18 @@ class ConfigController extends FormatConfig
             $this->url = $this->clearUrl(filter_input(INPUT_GET, 'url', FILTER_DEFAULT));
             $this->urlArray = explode("/", $this->url);
 
+
             //VERIFICA SE O USUÁRIO SETOU A CONTROLLER, MÉTODO E/OU PARÂMETRO
             if (isset($this->urlArray[0]) && isset($this->urlArray[1])) {
                 $this->urlController = $this->formatController($this->urlArray[0]);
                 $this->urlMethod = $this->formatMethod($this->urlArray[1]);
                 $this->urlParameter = isset($this->urlArray[2]) ? $this->urlArray[2] : "";
-
             } else {
                 $this->urlController = $this->formatController(ERROR_CONTROLLER);
                 $this->urlMethod = $this->formatMethod(ERROR_METHOD);
                 $this->urlParameter = "";
             }
-
         } else {
-
             $this->urlController = $this->formatController(CONTROLLER);
             $this->urlMethod = $this->formatMethod(METHOD);
             $this->urlParameter = "";
@@ -66,7 +64,6 @@ class ConfigController extends FormatConfig
         if (method_exists($loadClass, $this->urlMethod)) {
 
             if ($this->urlParameter != "") {
-
                 $loadClass->{$this->urlMethod}($this->urlParameter);
             } else {
                 $loadClass->{$this->urlMethod}();
